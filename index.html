@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>HaiAu Tourist</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<meta name="description" content=""/>
+		<script src="https://kit.fontawesome.com/bbc8bd235c.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="style.css">
+		<meta http-equiv="refresh" content="900">
+
+		<script>
+			function loadHeader() {
+				fetch('header.html') 
+				.then (Response => Response.text())
+				.then (data =>
+					{ document.getElementById('header').innerHTML = data
+				});
+			}
+			window.onload = loadHeader;
+		</script>
+	</head>
+	
+	<body>
+		<script type='module' src="main.js"></script>
+		<div id=header></div>
+		<main class="container">
+<!---------------------------------- TIM KIEM --------------------------------------->
+			<div class="banner">
+				<img src="img\home\banner.webp" alt="Banner">
+			</div>
+			
+			<div class="timkiem shadow-xl">
+				<h6>Bạn muốn đi đâu?</h6>
+				<form action="">
+					<select name="Địa điểm" id = diadiem>
+						<option value="default">Chọn địa điểm</option>
+						<option value="cantho">Cần Thơ</option>
+					</select>
+					<input type="number" placeholder="Số lượng">
+					<input type="date" placeholder = "Ngày khởi hành">
+					<button>
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+				</form>
+			</div>
+<!---------------------------------- TOUR NOI BAT --------------------------------------->
+			<div class="tour-noi-bat">
+				<h1>TORUR NỔI BẬT</h1>
+				<div id="tour-item"></div>
+				<script>
+					fetch('http://localhost:3000/tour')
+						.then(response => response.json())
+						.then(data => {
+							const toursContainer = document.getElementById('tour-item');
+							data.forEach(tour => {
+								const tourCard = document.createElement('div');
+								tourItem.className = 'tour';
+								tourItem.innerHTML = `
+									<h2>${tour.title}</h2>
+									<img src="${tour.img}" alt="${tour.title}">
+									<p>Giá: ${tour.price} VNĐ</p>
+									<p>Ngày: ${new Date(tour.date).toLocaleDateString('vi-VN')}</p>
+									<p>Người tham gia: ${tour.participators}</p>
+								`;
+								toursContainer.appendChild(tourDiv);
+							});
+						})
+						.catch(error => {
+							console.error('Lỗi khi lấy dữ liệu:', error);
+						});
+				</script>
+			</div>
+		</main>
+	</body>
+</html>
