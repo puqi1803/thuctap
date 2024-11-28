@@ -35,7 +35,7 @@
         <div class="container flex flex-col py-5 text-center row-gap-4">
             <p class="opacity-50">Văn phòng HCM: 159 Trần Trọng Cung, KDC Nam Long, P. Tân Thuận Đông, Quận 7, TP. HCM, Việt Nam</p>
             <p class="opacity-50">Văn phòng CT: 5A Hoàng Văn Thụ, P. Tân An, Quận Ninh Kiều, TP. Cần Thơ, Việt Nam</p>
-            <h6>Copyright © 2024 Công ty TNHH Nhà hàng Khách sạn và Du lịch Hải Âu Cần Thơ. All rights reserved</h6>
+            <p class="accent">Copyright © 2024 Công ty TNHH Nhà hàng Khách sạn và Du lịch Hải Âu Cần Thơ. All rights reserved</p>
         </div>
     </footer>
 
