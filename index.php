@@ -36,45 +36,47 @@ include 'partical/db_connect.php';
             </form>
         </div>
         <!---------------------------------- TOUR NOI BAT --------------------------------------->
-		<div class="title-page container pt-8 pb-0 text-center">
-			<h2>TOUR NỔI BẬT</h2>
-		</div>
-		<div class="container pt-2 text-center">
-			<h6>Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
-		</div>
-        <?php
-		// Truy vấn
-		$sql = "SELECT * FROM tour ORDER BY  `id-tour` DESC LIMIT 4";
-		$result = $conn->query($sql);
-        if ($result) {
-            if ($result->num_rows > 0) {
-				echo '<div class="container flex flex-row my-5 column-gap-4">';
-					while ($row = $result->fetch_assoc()) {
-						echo '<div class="tour-item w-25 pb-2 border-normal">';
-							echo '<img class="tour-img w-full" src="' . htmlspecialchars($row["img-tour"]) . '">';
-							echo '<div class="tour item flex flex-col row-gap-4 mx-2">';
-								echo '<div class="flex flex-col flex-grow row-gap-3">';
-									echo '<h6 class="tour-title">' . htmlspecialchars($row["title-tour"]) . '</h6>';
-									echo '<span class="flex column-gap-2 w-full">
-										<i class="icon fa-solid fa-location-dot"></i> <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p></span>';
-									echo '<span class="flex column-gap-2">
-										<i class="icon fa-solid fa-calendar-days"></i> <p> Ngày khởi hành: '. htmlspecialchars($row["date-tour"]) . '</p></span>';
-									echo '<div class="highlight">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
-								echo '</div>';	
-								echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
-							echo '</div>';
-						echo '</div>';
-					}
-				} else {
-					echo "Không có kết quả nào.";
-				}
-				echo '</div>';
-			} else {
-				echo "Lỗi truy vấn: " . $conn->error;
-			}
-        ?>
-
+        <div class="container text-center">
+            <h2 class="title-page pt-8">TOUR NỔI BẬT</h2>
+            <h6 class="pt-2">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
+            <?php
+            // Truy vấn
+            $sql = "SELECT * FROM tour ORDER BY  `id-tour` DESC LIMIT 4";
+            $result = $conn->query($sql);
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    echo '<div class="flex flex-row my-5 column-gap-4">';
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<div class="tour-item w-25 pb-2 border-normal">';
+                                echo '<img class="tour-img w-full" src="' . htmlspecialchars($row["img-tour"]) . '">';
+                                echo '<div class="tour item flex flex-col row-gap-4 mt-2 mx-2">';
+                                    echo '<div class="flex flex-col flex-grow row-gap-3">';
+                                        echo '<h6 class="tour-title">' . htmlspecialchars($row["title-tour"]) . '</h6>';
+                                        echo '<span class="flex column-gap-2 w-full">
+                                            <i class="icon fa-solid fa-location-dot"></i> <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p></span>';
+                                        echo '<span class="flex column-gap-2">
+                                            <i class="icon fa-solid fa-calendar-days"></i> <p> Ngày khởi hành: '. htmlspecialchars($row["date-tour"]) . '</p></span>';
+                                        echo '<div class="highlight">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
+                                    echo '</div>';	
+                                    echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
+                                echo '</div>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo "Không có kết quả nào.";
+                    }
+                    echo '</div>';
+                } else {
+                    echo "Lỗi truy vấn: " . $conn->error;
+                }
+            ?>
+        </div>
         <!---------------------------------- BAI VIET MOI NHAT --------------------------------------->
+
+        <!---------------------------------- NHUNG TRAI NGHIEM THU VI --------------------------------------->
+        <div class="container text-center">
+                <h2>NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
+        </div>
     </main>
 
     <?php include 'footer.php' ?> 

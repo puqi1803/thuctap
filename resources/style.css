@@ -46,7 +46,14 @@ h6 {
     font-weight: 700;
     font-size: 1.05rem;
 }
-*, p, body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito", "Roboto", sans-serif;
+    font-size: 16px;
+}
+p, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -995,7 +1002,7 @@ a {
 footer {
     background-color: var(--bg-dark);
 }
-footer *, a, p {
+footer *{
     color: white;
 }
 footer a {
@@ -1014,10 +1021,11 @@ footer a {
     width: 20%;
 }
 
-/*TOUR NOI BAT*/
+/*CHUNG*/
 .title-page {
     color: var(--primary);
 }
+/*TOUR NOI BAT*/
 .tour-img {
     object-fit: cover;
     height: 200px;
