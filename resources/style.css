@@ -140,6 +140,9 @@ a {
 .justify-content-end {
     justify-content: end;
 }
+.justify-content-center {
+    justify-content: center;
+}
 .table {
     display: table;
 }
@@ -187,6 +190,18 @@ a {
 }
 .row-gap-4 {
     row-gap: 1rem;
+}
+.row-gap-5 {
+    row-gap: 2rem;
+}
+.row-gap-6 {
+    row-gap: 3rem;
+}
+.row-gap-7 {
+    row-gap: 4rem;
+}
+.row-gap-8 {
+    row-gap: 5rem;
 }
 
 /*Hien thi*/
@@ -1063,6 +1078,11 @@ footer a {
     background-color: var(--primary);
     color: var(--border);
 }
+/*BAI VIET NOI BAT
+.highlight-post.flex.flex-col.column-gap-2 {
+    background-image: url('resources/img/home/haiau-tourist-bat-mood-tat-nien.jpg');
+    height: 300px;
+}*/
 /*TRAI NGHIEM THU VI*/
 .post-column-1 .post-img {
     height: 400px;
@@ -1074,4 +1094,8 @@ footer a {
 }
 .date-post icon, .date-post p {
     color: var(--note);
+}
+/*BANNER FOOTER*/
+.img-banner-footer {
+    height: 480px;
 }

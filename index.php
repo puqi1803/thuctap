@@ -37,8 +37,8 @@ include 'functions.php';
             </form>
         </div>
         <!---------------------------------- TOUR NOI BAT --------------------------------------->
-        <div class="container text-center">
-            <h2 class="title-page mt-8">TOUR NỔI BẬT</h2>
+        <div class="container flex flex-col mt-8 text-center">
+            <h2 class="title-page">TOUR NỔI BẬT</h2>
             <h6 class="mt-2">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
             $sql = "SELECT * FROM tour ORDER BY  `id-tour` DESC LIMIT 4";
@@ -72,12 +72,23 @@ include 'functions.php';
                 }
             ?>
         </div>
-        <!---------------------------------- BAI VIET MOI NHAT --------------------------------------->
+        <!---------------------------------- BAI VIET MOI NHAT 
+        <div class="flex flex-row w-full">
+            <div class="highlight-post flex flex-col column-gap-2">
+                <h2>Tin tức</h2>
+                <h3>BẠN ĐÃ SẴN SÀNG MỞ KHÓA CUỘC VUI CHƯA?</h3>
+                <p>
+                    Cuối năm đến gần, cũng là lúc các công ty tất bật chuẩn bị tổ chức tiệc Tất niên (Year End Party - YEP) để tổng kết một năm đầy nỗ lực và thành công.
+                    Nhưng nếu bạn cảm thấy hoang mang, không biết bắt đầu từ đâu giữa hàng loạt công việc phải lo, thì đừng lo!
+                    HaiAu Tourist chính là "vị cứu tinh" giúp bạn tổ chức một buổi tiệc hoành tráng, mang đậm dấu ấn riêng của công ty mình.
+                </p>
+            </div>
+        </div>--------------------------------------->
 
         <!---------------------------------- NHUNG TRAI NGHIEM THU VI --------------------------------------->
-        <div class="container text-center">
-            <h2 class="title-page mt-8">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
-            <div class="flex flex-row column-gap-4 mt-5">
+        <div class="container flex flex-col row-gap-5 mt-8 text-center">
+            <h2 class="title-page">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
+            <div class="flex flex-row column-gap-4">
             <?php
             //Post column 1
             $sql = "SELECT * FROM post ORDER BY `id-post` DESC LIMIT 1";
@@ -115,7 +126,7 @@ include 'functions.php';
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="flex flex-row column-gap-2 border-normal shadow-md">';
                             echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">';
-                            echo '<div class="flex flex-col row-gap-2 px-2 py-2 text-left w-full">';
+                            echo '<div class="flex flex-col row-gap-2 px-4 py-4 text-left w-full">';
                                 echo '<h6>' . htmlspecialchars($row["title-post"]) . '</h6>';
                                 $expert = htmlspecialchars($row["expert-post"]);
                                 $shortExpert = truncateExpert($expert);
@@ -133,6 +144,23 @@ include 'functions.php';
             ?>
             </div>
         </div>
+
+        <!---------------------------------- BANNER FOOTER --------------------------------------->
+        <img class="img-banner-footer mt-8 w-full object-fit-cover" src="resources/img/home/banner-footer-home.webp">
+
+        <!---------------------------------- KHACH HANG --------------------------------------->
+        <div class="container flex flex-col row-gap-5 mt-8 text-center">
+            <h2 class="title-page">ĐƯỢC TIN TƯỞNG BỞI</h2>
+            <div class="flex flex-row column-gap-8 justify-content-center">
+                <img class="h-8 object-fit-cover" src="resources/img/home/logo-apc.webp">
+                <img class="h-8 object-fit-cover" src="resources/img/home/logo-apc.webp">
+                <img class="h-8 object-fit-cover" src="resources/img/home/logo-apc.webp">
+                <img class="h-8 object-fit-cover" src="resources/img/home/logo-apc.webp">
+                <img class="h-8 object-fit-cover" src="resources/img/home/logo-apc.webp">
+                <img class="h-8 object-fit-cover" src="resources/img/home/logo-apc.webp">
+            </div>
+        </div>
+        
     </main>
 
     <?php include 'footer.php' ?> 
