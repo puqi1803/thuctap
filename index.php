@@ -18,7 +18,7 @@ include 'partical/db_connect.php';
     <?php include 'header.php'; ?>
     <main>
         <div class="banner">
-            <img src="resources/img/home/banner.webp" alt="Banner">
+            <img class="size-full object-fit-cover" src="resources/img/home/banner.webp" alt="Banner">
         </div>
         <!---------------------------------- TIM KIEM --------------------------------------->
         <div class="timkiem container block mt-8 mb-5 px-5 py-5 border-normal shadow-xl">
@@ -37,10 +37,9 @@ include 'partical/db_connect.php';
         </div>
         <!---------------------------------- TOUR NOI BAT --------------------------------------->
         <div class="container text-center">
-            <h2 class="title-page pt-8">TOUR NỔI BẬT</h2>
-            <h6 class="pt-2">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
+            <h2 class="title-page mt-8">TOUR NỔI BẬT</h2>
+            <h6 class="mt-2">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
-            // Truy vấn
             $sql = "SELECT * FROM tour ORDER BY  `id-tour` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
@@ -48,7 +47,7 @@ include 'partical/db_connect.php';
                     echo '<div class="flex flex-row my-5 column-gap-4">';
                         while ($row = $result->fetch_assoc()) {
                             echo '<div class="tour-item w-25 pb-2 border-normal">';
-                                echo '<img class="tour-img w-full" src="' . htmlspecialchars($row["img-tour"]) . '">';
+                                echo '<img class="tour-img w-full object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
                                 echo '<div class="tour item flex flex-col row-gap-4 mt-2 mx-2">';
                                     echo '<div class="flex flex-col flex-grow row-gap-3">';
                                         echo '<h6 class="tour-title">' . htmlspecialchars($row["title-tour"]) . '</h6>';
@@ -75,7 +74,20 @@ include 'partical/db_connect.php';
 
         <!---------------------------------- NHUNG TRAI NGHIEM THU VI --------------------------------------->
         <div class="container text-center">
-                <h2>NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
+            <h2 class="title-page mt-8">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
+            <div class="flex flex-row column-gap-8">
+            <?php
+            $sql = "SELECT * FROM post ORDER BY `id-tour` DESC LIMIT 1";
+            $result = $conn->query($sql);
+            if ($result) {
+                if ($result->num_rows > 0) {
+                    
+                }
+            }
+                
+            
+            ?>
+            </div>
         </div>
     </main>
 
