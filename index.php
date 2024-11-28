@@ -77,6 +77,8 @@ include 'partical/db_connect.php';
         <!---------------------------------- BAI VIET MOI NHAT --------------------------------------->
     </main>
 
+    <?php include 'footer.php' ?> 
+
     <?php
     // Đóng kết nối
     $conn->close();

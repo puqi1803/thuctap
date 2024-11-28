@@ -939,15 +939,6 @@ a {
     background-color: var(--primary);
 }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    padding: 10px 0px;
-    margin: 0 auto;
-    width: 1440px;
-}
 .banner {
     height: 100vh;
     width: 100vw;
@@ -963,6 +954,8 @@ header {
     object-fit: cover;
     position: sticky;
 }
+
+/*Header*/
 .nav-menu {
     display: flex;
     align-items: center;
@@ -976,7 +969,19 @@ header {
     font-weight: bold;
     color: var(--text);
 }
-
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 10px 0px;
+    margin: 0 auto;
+    width: 1440px;
+}
+/*Footer*/
+footer {
+    background-color: var(--primary);
+}
 /*TIM KIEM*/
 .timkiem {
     align-items: center;
