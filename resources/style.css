@@ -7,13 +7,7 @@
     --accent: #e10000;
     --background: #FFFFFF;
     --border-radius: 10px;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Nunito", "Roboto", sans-serif;
-    font-size: 18px;
+    --bg-dark: #1C2930;
 }
 
 h1 {
@@ -52,9 +46,11 @@ h6 {
     font-weight: 700;
     font-size: 1.05rem;
 }
-p, body {
+*, p, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: "Nunito", "Roboto", sans-serif;
-    font-style: normal;
     font-size: 16px;
     color: var(--text);
 }
@@ -126,6 +122,9 @@ a {
 .inline-flex {
     display: inline-flex;
 }
+.justify-content-space-between {
+    justify-content: space-between;
+}
 .table {
     display: table;
 }
@@ -134,6 +133,9 @@ a {
 }
 .hidden {
     display: none;
+}
+.align-items-center {
+    align-items: center;
 }
 .column-gap-1 {
     column-gap: .25rem;
@@ -146,6 +148,18 @@ a {
 }
 .column-gap-4 {
     column-gap: 1rem;
+}
+.column-gap-5 {
+    column-gap: 2rem;
+}
+.column-gap-6 {
+    column-gap: 3rem;
+}
+.column-gap-7 {
+    column-gap: 4rem;
+}
+.column-gap-8 {
+    column-gap: 5rem;
 }
 .row-gap-1 {
     row-gap: .25rem;
@@ -831,6 +845,9 @@ a {
     height: 5rem;
 }
 /*Height*/
+.h-fit {
+    height: fit-content;
+}
 .h-full {
     height: 100%;
 }
@@ -866,6 +883,9 @@ a {
 }
 
 /*Width*/
+.w-fit {
+    width: fit-content;
+}
 .w-full {
     width: 100%;
 }
@@ -902,9 +922,19 @@ a {
 .w-25{
     width: 25%;
 }
+.w-20 {
+    width: 20%;
+}
+.w-35 {
+    width: 35%;
+}
 
 .text-center {
     text-align: center;
+}
+
+.opacity-50 {
+    opacity: .50;
 }
 
 /*Decor*/
@@ -956,32 +986,22 @@ a {
 }
 
 /*Header*/
-.nav-menu {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.nav-menu li {
-    padding: 0px 20px;
-}
 .nav-menu li a {
     font-size: 18px;
     font-weight: bold;
     color: var(--text);
 }
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    padding: 10px 0px;
-    margin: 0 auto;
-    width: 1440px;
-}
 /*Footer*/
 footer {
-    background-color: var(--primary);
+    background-color: var(--bg-dark);
 }
+footer *, a, p {
+    color: white;
+}
+footer a {
+    opacity: .50;
+}
+
 /*TIM KIEM*/
 .timkiem {
     align-items: center;
