@@ -18,9 +18,12 @@ include 'functions.php';
 <body>
     <?php include 'header.php'; ?>
     <main>
+        <!---------------------------------- 
         <div class="banner">
             <img class="size-full object-fit-cover" src="resources/img/home/banner.webp" alt="Banner">
         </div>
+        --------------------------------------->
+        
         <!---------------------------------- TIM KIEM --------------------------------------->
         <div class="timkiem container block mt-8 mb-5 px-5 py-5 border-normal shadow-xl">
             <h6>Bạn muốn đi đâu?</h6>
@@ -50,14 +53,14 @@ include 'functions.php';
                         while ($row = $result->fetch_assoc()) {
                             echo '<div class="tour-item w-25 pb-2 border-normal shadow-md">';
                                 echo '<img class="tour-img w-full object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
-                                echo '<div class="tour content flex flex-col row-gap-4 mt-2 mx-2 px-2">';
+                                echo '<div class="tour content flex flex-col row-gap-4 mt-2 mx-2 px-2 text-left">';
                                     echo '<div class="flex flex-col flex-grow row-gap-3">';
                                         echo '<h6>' . htmlspecialchars($row["title-tour"]) . '</h6>';
                                         echo '<span class="flex column-gap-2 w-full">
                                             <i class="icon fa-solid fa-location-dot"></i> <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p></span>';
                                         echo '<span class="flex column-gap-2">
                                             <i class="icon fa-solid fa-calendar-days"></i> <p> Ngày khởi hành: '. htmlspecialchars($row["date-tour"]) . '</p></span>';
-                                        echo '<div class="highlight">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
+                                        echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
                                     echo '</div>';	
                                     echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
                                 echo '</div>';

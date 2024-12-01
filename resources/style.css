@@ -1078,6 +1078,9 @@ footer a {
     background-color: var(--primary);
     color: var(--border);
 }
+.tour-price {
+    color: var(--accent);
+}
 /*BAI VIET NOI BAT
 .highlight-post.flex.flex-col.column-gap-2 {
     background-image: url('resources/img/home/haiau-tourist-bat-mood-tat-nien.jpg');

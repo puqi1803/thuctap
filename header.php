@@ -8,5 +8,8 @@
 			<li><a href="">Liên hệ</a></li>
 		</nav>
 	</header>
+	<div class="banner">
+            <img class="size-full object-fit-cover" src="resources/img/home/banner.webp" alt="Banner">
+    </div>
 
 </html>
