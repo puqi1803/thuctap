@@ -1,21 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 :root {
-    --primary: #4C86C4;
+    --primary: #2F6CB4;
     --secondary: #FDDC00;
     --text: #020817;
     --border: #DDDDFF;
     --accent: #e10000;
-    --background: #FFFFFF;
+    --background-white: #FFFFFF;
+    --background-gray:#F8F8F8;
     --border-radius: 10px;
     --bg-dark: #1C2930;
-    --note: #64748b;
+    --note: #64748B;
+    --light-blue: #DBF0FF;
 }
 
 h1 {
     font-family: "Playfair Display", "Roboto", sans-serif;
     font-style: normal;
     font-weight: 300;
-    font-size: 5rem;
+    font-size: 3.5rem;
 }
 h2 {
     font-family: "Playfair Display", "Roboto", sans-serif;
@@ -36,10 +38,10 @@ h4 {
     font-size: 1.75rem;
 }
 h5 {
-    font-family: "Playfair Display", "Roboto", sans-serif;
+    font-family: "Nunito", "Roboto", sans-serif;
     font-style: normal;
-    font-weight: 300;
-    font-size: 1.5rem;
+    font-weight: 700;
+    font-size: 1.4rem;
 }
 h6 {
     font-family: "Nunito", "Roboto", sans-serif;
@@ -72,6 +74,9 @@ li {
 
 a {
     text-decoration: none;
+}
+hr {
+    color: var(--border);
 }
 .icon {
     color: var(--primary);
@@ -119,9 +124,6 @@ a {
 .flex-col {
     flex-direction: column;
 }
-.flex-col {
-    flex-direction: column;
-}
 .flex-row {
     flex-direction: row;
 }
@@ -130,6 +132,9 @@ a {
 }
 .flex-large {
     flex-grow: 2;
+}
+.flex-wrap {
+    flex-wrap: wrap;
 }
 .inline-flex {
     display: inline-flex;
@@ -148,6 +153,9 @@ a {
 }
 .grid {
     display: grid;
+}
+.inline-grid {
+    display: inline-grid;
 }
 .hidden {
     display: none;
@@ -949,17 +957,14 @@ a {
 .w-8 {
     width: 5rem;
 }
+.w-20{
+    width: 20%;
+}
 .w-25{
     width: 25%;
 }
-.w-20 {
-    width: 20%;
-}
-.w-30 {
+.w-30{
     width: 30%;
-}
-.w-35 {
-    width: 35%;
 }
 .w-40 {
     width: 40%;
@@ -967,7 +972,9 @@ a {
 .w-50 {
     width: 50%;
 }
-
+.w-70 {
+    width: 70%;
+}
 .text-center {
     text-align: center;
 }
@@ -986,6 +993,11 @@ a {
 .border-normal {
     border: 1px solid var(--border);
     border-radius: 10px;
+    outline: none;
+}
+.border-accent {
+    border: 1px solid var(--primary);
+    border-radius: 10px;
 }
 .outline-none {
     outline: none;
@@ -993,7 +1005,12 @@ a {
 .object-fit-cover {
     object-fit: cover;
 }
-
+.background-white {
+    background-color: var(--background-white);
+}
+.background-gray {
+    background-color: var(--background-gray);
+}
 /*Shadow*/
 .shadow-xl {
     box-shadow: 
@@ -1014,6 +1031,11 @@ a {
     transition: all .3s ease;
     font-weight: 700;
 }
+.button-primary:hover {
+    color: var(--primary);
+    background-color: var(--light-blue);
+    border: 1px solid;
+}
 .button-secondary {
     border-radius: var(--border-radius);
     color: white;
@@ -1022,13 +1044,25 @@ a {
     transition: all .3s ease;
     font-weight: 700;
 }
-.button-primary:hover {
-    background-color: var(--secondary);
-}
 .button-secondary:hover {
     background-color: var(--primary);
 }
-
+.button-light-background {
+    border-radius: var(--border-radius);
+    color: var(--primary);
+    background-color: var(--light-blue);
+    border: 1px solid;
+    transition: all .3s ease;
+    font-weight: 700;
+}
+.button-light-background:hover {
+    border-radius: var(--border-radius);
+    color: white;
+    background-color: var(--primary);
+    border: 0px;
+    transition: all .3s ease;
+    font-weight: 700;
+}
 .banner {
     height: 100vh;
 }
@@ -1053,18 +1087,6 @@ footer a {
     opacity: .50;
 }
 
-/*TIM KIEM*/
-.timkiem {
-    align-items: center;
-    background-color: var(--background);
-}
-.timkiem form {
-    justify-content: space-between;
-}
-.timkiem form button {
-    width: 20%;
-}
-
 /*CHUNG*/
 .title-page {
     color: var(--primary);
@@ -1072,13 +1094,14 @@ footer a {
 /*TOUR NOI BAT*/
 .tour-img {
     height: 200px;
+    min-width: 200px;
     border-radius: var(--border-radius);
 }
 .tour-item button:hover {
     background-color: var(--primary);
     color: var(--border);
 }
-.tour-price {
+.pricetour-price {
     color: var(--accent);
 }
 /*BAI VIET NOI BAT
@@ -1092,7 +1115,10 @@ footer a {
     border-radius: var(--border-radius);
 }
 .post-column-2 .post-img {
-    width: 250px;
+    width: 300px;
+    min-width: 300px;
+    height: 200px;
+    min-height: 200px;
     border-radius: var(--border-radius);
 }
 .date-post icon, .date-post p {
@@ -1101,4 +1127,46 @@ footer a {
 /*BANNER FOOTER*/
 .img-banner-footer {
     height: 480px;
+}
+/*BREADCRUMB*/
+.breadcrumb {
+    color: var(--text);
+    
+}
+.breadcrumb a {
+    color: var(--text);
+}
+.breadcrumb a:hover {
+    color: var(--primary);
+}
+.breadcrumb li + li::before{
+    content: "/";
+    margin-right: 0.5rem;
+}
+.breadcrumb .current {
+    color: var(--primary);
+}
+/*BO LOC*/
+.tieu-chi-loc .options {
+    grid-template-columns: auto auto;
+}
+.ket-qua-loc .tour-img {
+    height: unset;
+    min-height: 300px;
+    height: 300px;
+    min-width: 500px;
+    width: 500px;
+}
+.ket-qua-loc .highlight {
+    font-size: 2rem;
+    color: var(--accent);
+}
+.pagination .number, .pagination .accent {
+    color: var(--text);
+}
+.pagination a {
+    color: var(--text);
+}
+.pagination a:hover {
+    color: var(--primary);
 }

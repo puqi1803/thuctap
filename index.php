@@ -4,7 +4,7 @@ include 'functions.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <title>HaiAu Tourist</title>
     <meta charset="utf-8" />
@@ -16,7 +16,7 @@ include 'functions.php';
 </head>
 
 <body>
-    <?php include 'header.php'; ?>
+    <?php include 'header-banner.php'; ?>
     <main>
         <!---------------------------------- 
         <div class="banner">
@@ -25,16 +25,17 @@ include 'functions.php';
         --------------------------------------->
         
         <!---------------------------------- TIM KIEM --------------------------------------->
-        <div class="timkiem container block mt-8 mb-5 px-5 py-5 border-normal shadow-xl">
+        <div class="timkiem container block mt-8 mb-5 px-5 py-5 border-normal align-items-center shadow-xl background-white">
             <h6>Bạn muốn đi đâu?</h6>
-            <form action="" class="flex pt-3">
+            <form action="" class="flex pt-3 justify-content-space-between">
                 <select class="px-4 py-4 mr-4 w-full border-normal outline-none" name="Địa điểm" id="diadiem">
                     <option value="default">Chọn địa điểm</option>
                     <option value="cantho">Cần Thơ</option>
                 </select>
                 <input class="px-4 py-4 mr-4 w-full border-normal outline-none" type="number" placeholder="Số lượng" min="1">
-                <input class="px-4 py-4 mr-4 w-full border-normal outline-none" type="date" placeholder="Ngày khởi hành">
-                <button class="button-secondary px-4 py-4 mr-4 outline-none" type="submit">
+                <?php $today = date('Y-d-m');?>
+                <input class="px-4 py-4 mr-4 w-full border-normal outline-none" type="date" value="<?php echo $today;?>">
+                <button class="button-secondary px-4 py-4 mr-4 w-20 outline-none" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
@@ -99,14 +100,14 @@ include 'functions.php';
             if ($result) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                            echo '<div class="post-column-1 flex flex-col w-50 border-normal shadow-md">';
+                            echo '<div class="post-column-1 flex flex-col w-40 border-normal shadow-md">';
                                 echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">'; 
                                 echo '<div class="flex flex-col row-gap-2 my-2 px-4 text-left">';
                                     echo '<h6>' . htmlspecialchars($row["title-post"]) . '</h6>'; 
                                     echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
-                                echo '</div>';
-                                echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
-                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
+                                    echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
+                                        echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
+                                    echo '</div>';
                                 echo '</div>';
                             echo '</div>';
                         }
@@ -134,6 +135,9 @@ include 'functions.php';
                                 $expert = htmlspecialchars($row["expert-post"]);
                                 $shortExpert = truncateExpert($expert);
                                 echo '<p>' . $shortExpert . '</p>';
+                                echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
+                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
+                                echo '</div>';
                             echo '</div>';
                             echo '</div>';
                     }
@@ -173,3 +177,4 @@ include 'functions.php';
     $conn->close();
     ?>
 </body>
+</html>
