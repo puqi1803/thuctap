@@ -11,10 +11,10 @@
             </div>
             <div class="flex flex-col row-gap-2 w-20">
                 <h6 class="mb-2" >Về HaiAu Tourist</h6>
-                <a href="">Về chúng tôi</a>
-                <a href="">Tour du lịch</a>
-                <a href="">Tin tức</a>
-                <a href="">Liên hệ</a>
+                <a href="/nienluan.com/">Về chúng tôi</a>
+                <a href="/nienluan.com/tour">Tour du lịch</a>
+                <a href="/nienluan.com/tin-tuc">Tin tức</a>
+                <a href="/nienluan.com/lien-he">Liên hệ</a>
             </div>
             <div class="flex flex-col row-gap-2 w-20">
                 <h6 class="mb-2" >Sản phẩm</h6>
