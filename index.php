@@ -100,17 +100,17 @@ include 'functions.php';
             if ($result) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                            echo '<div class="post-column-1 flex flex-col w-40 border-normal shadow-md">';
-                                echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">'; 
-                                echo '<div class="flex flex-col row-gap-2 my-2 px-4 text-left">';
-                                    echo '<h6>' . htmlspecialchars($row["title-post"]) . '</h6>'; 
-                                    echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
-                                    echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
-                                        echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
-                                    echo '</div>';
+                        echo '<div class="post-column-1 flex flex-col w-40 border-normal shadow-md">';
+                            echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">'; 
+                            echo '<div class="flex flex-col row-gap-2 my-2 px-4 text-left">';
+                                echo '<h6>' . htmlspecialchars($row["title-post"]) . '</h6>'; 
+                                echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
+                                echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
+                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
                                 echo '</div>';
                             echo '</div>';
-                        }
+                        echo '</div>';
+                    }
                 } else {
                     echo 'Không tìm thấy bài viết phù hợp.';
                 }
@@ -171,10 +171,11 @@ include 'functions.php';
     </main>
 
     <?php include 'footer.php' ?> 
+</body>
 
-    <?php
+<?php
     // Đóng kết nối
     $conn->close();
-    ?>
-</body>
+?>
+
 </html>

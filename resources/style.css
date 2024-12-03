@@ -136,6 +136,9 @@ hr {
 .flex-wrap {
     flex-wrap: wrap;
 }
+.flex-nowrap {
+    flex-wrap: nowrap;
+}
 .inline-flex {
     display: inline-flex;
 }
@@ -969,12 +972,24 @@ hr {
 .w-40 {
     width: 40%;
 }
+.w-49 {
+    width: 49%;
+}
 .w-50 {
     width: 50%;
 }
 .w-70 {
     width: 70%;
 }
+.w-80 {
+    width: 80%;
+}
+
+/*Calc width*/
+.calc-width-3-col {
+    width: calc(100%/3 - (0.3rem*2));
+}
+
 .text-center {
     text-align: center;
 }
@@ -1112,6 +1127,7 @@ footer a {
 /*TRAI NGHIEM THU VI*/
 .post-column-1 .post-img {
     height: 400px;
+    min-height: 400px;
     border-radius: var(--border-radius);
 }
 .post-column-2 .post-img {
@@ -1161,12 +1177,17 @@ footer a {
     font-size: 2rem;
     color: var(--accent);
 }
-.pagination .number, .pagination .accent {
+/*PHAN TRANG */
+.pagination a, .pagination .number {
     color: var(--text);
 }
-.pagination a {
-    color: var(--text);
-}
-.pagination a:hover {
+.pagination .accent, .pagination a:hover {
     color: var(--primary);
+    font-size: 1.25rem;
+}
+/*BAI-VIET*/
+.post .post-img {
+    min-height: 300px;
+    height: 300px;
+    border-radius: var(--border-radius);
 }
