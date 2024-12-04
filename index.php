@@ -1,6 +1,6 @@
 <?php
 include 'partical/db_connect.php';
-include 'functions.php';
+include 'includes/functions.php';
 ?>
 
 <!DOCTYPE html>

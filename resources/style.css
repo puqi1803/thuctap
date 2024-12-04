@@ -989,6 +989,9 @@ hr {
 .calc-width-3-col {
     width: calc(100%/3 - (0.3rem*2));
 }
+.calc-width-4-col {
+    width: calc(100%/4 - (0.4rem*3));
+}
 
 .text-center {
     text-align: center;
@@ -1163,17 +1166,18 @@ footer a {
     color: var(--primary);
 }
 /*BO LOC*/
-.tieu-chi-loc .options {
+.tour .tieu-chi-loc .options {
     grid-template-columns: auto auto;
 }
-.ket-qua-loc .tour-img {
+.tour .ket-qua-loc .tour-img {
     height: unset;
     min-height: 300px;
     height: 300px;
     min-width: 500px;
     width: 500px;
+    border-radius: var(--border-radius);
 }
-.ket-qua-loc .highlight {
+.tour .ket-qua-loc .highlight {
     font-size: 2rem;
     color: var(--accent);
 }
@@ -1185,9 +1189,28 @@ footer a {
     color: var(--primary);
     font-size: 1.25rem;
 }
-/*BAI-VIET*/
-.post .post-img {
+/*TIN TUC*/
+.tin-tuc .post .post-img {
     min-height: 300px;
     height: 300px;
+    border-radius: var(--border-radius);
+}
+/*BAI VIET*/
+.single-post .expert-post {
+    font-style: italic;
+}
+.single-post .date-post {
+    color: var(--primary);
+    font-style: italic;
+    font-weight: 700;
+}
+.single-post .img-post {
+    height: 700px;
+    min-height: 700px;
+    border-radius: var(--border-radius);
+}
+.single-post .other-posts .post-img {
+    height: 200px;
+    min-height: 200px;
     border-radius: var(--border-radius);
 }
