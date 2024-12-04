@@ -56,11 +56,16 @@ include 'includes/functions.php';
                                 echo '<img class="tour-img w-full object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
                                 echo '<div class="tour content flex flex-col row-gap-4 mt-2 mx-2 px-2 text-left">';
                                     echo '<div class="flex flex-col flex-grow row-gap-3">';
-                                        echo '<h6>' . htmlspecialchars($row["title-tour"]) . '</h6>';
-                                        echo '<span class="flex column-gap-2 w-full">
-                                            <i class="icon fa-solid fa-location-dot"></i> <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p></span>';
-                                        echo '<span class="flex column-gap-2">
-                                            <i class="icon fa-solid fa-calendar-days"></i> <p> Ngày khởi hành: '. htmlspecialchars($row["date-tour"]) . '</p></span>';
+                                        echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
+                                        <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
+                                        echo '<div class="flex column-gap-2 w-full">
+                                                <i class="icon fa-solid fa-location-dot"></i>
+                                                <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p>
+                                            </div>';
+                                        echo '<div class="flex column-gap-2">
+                                                <i class="icon fa-solid fa-calendar-days"></i>
+                                                <p> Ngày khởi hành: '. formatDate($row["date-tour"]) . '</p>
+                                            </div>';
                                         echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
                                     echo '</div>';	
                                     echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
@@ -103,10 +108,11 @@ include 'includes/functions.php';
                         echo '<div class="post-column-1 flex flex-col w-40 border-normal shadow-md">';
                             echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">'; 
                             echo '<div class="flex flex-col row-gap-2 my-2 px-4 text-left">';
-                                echo '<h6>' . htmlspecialchars($row["title-post"]) . '</h6>'; 
+                                echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
+                                <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
                                 echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
                                 echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
-                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
+                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . formatDate($row["date-post"]) . '</p>';
                                 echo '</div>';
                             echo '</div>';
                         echo '</div>';
@@ -131,12 +137,13 @@ include 'includes/functions.php';
                         echo '<div class="flex flex-row column-gap-2 border-normal shadow-md">';
                             echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">';
                             echo '<div class="flex flex-col row-gap-2 px-4 py-4 text-left w-full">';
-                                echo '<h6>' . htmlspecialchars($row["title-post"]) . '</h6>';
+                                echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
+                                <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
                                 $expert = htmlspecialchars($row["expert-post"]);
                                 $shortExpert = truncateExpert($expert);
                                 echo '<p>' . $shortExpert . '</p>';
                                 echo '<div class="date-post flex flex-row column-gap-2 align-items-center justify-content-end">';
-                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . htmlspecialchars($row["date-post"]) . '</p>';
+                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . formatDate($row["date-post"]) . '</p>';
                                 echo '</div>';
                             echo '</div>';
                             echo '</div>';

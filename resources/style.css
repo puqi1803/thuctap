@@ -74,6 +74,7 @@ li {
 
 a {
     text-decoration: none;
+    color: var(--text);
 }
 hr {
     color: var(--border);
@@ -99,6 +100,12 @@ hr {
     font-size: 14px;
     font-style: italic;
     font-weight: normal;
+}
+.text-light {
+    color: var(--note);
+}
+.danger {
+    color: var(--accent);
 }
 @media (min-width: 1320px) {
 .container {
@@ -165,6 +172,12 @@ hr {
 }
 .align-items-center {
     align-items: center;
+}
+.align-items-start {
+    align-items: start;
+}
+.align-items-end {
+    align-items: end;
 }
 .column-gap-1 {
     column-gap: .25rem;
@@ -960,6 +973,9 @@ hr {
 .w-8 {
     width: 5rem;
 }
+.w-15{
+    width: 15%;
+}
 .w-20{
     width: 20%;
 }
@@ -978,8 +994,14 @@ hr {
 .w-50 {
     width: 50%;
 }
+.w-60 {
+    width: 60%;
+}
 .w-70 {
     width: 70%;
+}
+.w-75 {
+    width: 75%;
 }
 .w-80 {
     width: 80%;
@@ -1081,6 +1103,17 @@ hr {
     transition: all .3s ease;
     font-weight: 700;
 }
+.button-destructive {
+    border-radius: var(--border-radius);
+    color: white;
+    background-color: var(--accent);
+    border: 0px;
+    transition: all .3s ease;
+    font-weight: 700;
+}
+.button-destructive:hover {
+    color: var(--border);
+}
 .banner {
     height: 100vh;
 }
@@ -1165,21 +1198,24 @@ footer a {
 .breadcrumb .current {
     color: var(--primary);
 }
-/*BO LOC*/
+/*BO LOC TOUR*/
 .tour .tieu-chi-loc .options {
     grid-template-columns: auto auto;
 }
 .tour .ket-qua-loc .tour-img {
     height: unset;
-    min-height: 300px;
-    height: 300px;
-    min-width: 500px;
-    width: 500px;
+    min-height: 250px;
+    height: 250px;
+    min-width: 450px;
+    width: 450px;
     border-radius: var(--border-radius);
 }
 .tour .ket-qua-loc .highlight {
     font-size: 2rem;
     color: var(--accent);
+}
+.id-tour {
+    text-transform: uppercase;
 }
 /*PHAN TRANG */
 .pagination a, .pagination .number {
@@ -1205,12 +1241,39 @@ footer a {
     font-weight: 700;
 }
 .single-post .img-post {
-    height: 700px;
-    min-height: 700px;
     border-radius: var(--border-radius);
 }
 .single-post .other-posts .post-img {
     height: 200px;
     min-height: 200px;
     border-radius: var(--border-radius);
+}
+/*TOUR*/
+.single-tour .gallery-img-tour {
+    border-radius: var(--border-radius);
+    height: 150px;
+    min-height: 150px;
+}
+.single-tour .img-tour {
+    border-radius: var(--border-radius);
+    height: 500px;
+    min-height: 500px;
+}
+.single-tour .price-tour {
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+.single-tour .dvt {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.single-tour .price-other-tour {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+.single-tour .icon {
+    width: 20px;
+    text-align: center;
 }
