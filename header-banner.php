@@ -9,7 +9,7 @@
 		</nav>
 	</header>
 	<div class="banner">
-            <img class="w-100 h-100" src="resources/img/home/banner.webp" alt="Banner">
+            <img class="w-100 h-100 object-fit-cover" src="resources/img/home/banner.webp" alt="Banner">
     </div>
 
 </html>
