@@ -5,6 +5,8 @@ if(!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit;
 }
+
+$page = isset($_GET['page']) ? $_GET['page'] : 'admin';
 ?>
 
 <!DOCTYPE html>
@@ -20,8 +22,38 @@ if(!isset($_SESSION['username'])) {
 </head>
 
 <body>
-    <main class="container">
-        <p> Hello </p>
+    <main class="admin">
+        <div class="flex flex-row column-gap-6 mt-8">
+            <div class="slidebar flex flex-col w-20 row-gap-4 px-4 py-4 border-normal background-gray">
+                <a href="?page=admin">Quản lý</a>
+                <hr></hr>
+                <a href="?page=admin-post">Bài viết</a>
+                <hr></hr>
+                <a href="?page=admin-tour">Tour</a>
+                <hr></hr>
+                <a href="?page=admin-customer">Khách hàng</a>
+                <hr></hr>
+                <a href="logout.php">Đăng xuất</a>
+            </div>
+            <div>
+                <?php
+                switch ($page) {
+                    case 'admin-post':
+                        include 'admin-post.php';
+                        break;
+                    case 'admin-tour':
+                        include 'admin-tour.php';
+                        break;
+                    case 'admin-customer':
+                        include 'admin-customer.php';
+                        break;
+                    default:
+                        include 'dashboard.php';
+                        break;
+                }
+                ?>
+            </div>
+        </div>
     </main>
 </body>
 </html>

@@ -51,7 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <main class="container login flex flex-col my-8 align-items-center">
+    <main class="container register flex flex-col my-8 align-items-center">
         <h2 class="title-page text-center">Đăng ký</h2>
         <form class="flex flex-col mt-4 row-gap-4 border-normal px-8 py-8" action="register.php" method="post">
             <div class="flex flex-row column-gap-2 align-items-center">
@@ -73,7 +73,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p class="accent"><?php echo $success_message; ?></p>
             <?php endif; ?>
             <div class="text-center mt-4">
-                <button class="button-primary w-full px-2 py-2"type="submit">Đăng nhập</button>
+                <button class="button-primary w-full px-2 py-2"type="submit">Đăng ký</button>
+            </div>
+            <div class="note mt-2">
+                <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
             </div>
         </form>
     </main>
