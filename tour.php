@@ -13,70 +13,71 @@
             echo htmlspecialchars($pageTitle);
         ?>
     </title>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
-    <script src="https://kit.fontawesome.com/bbc8bd235c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="resources/style.css">
     <meta http-equiv="refresh" content="900">
 </head>
 
 <body>
     <?php include "header-main.php" ?>
     <main class="tour container">
-        <div class="breadcrumb accent flex flex-row mt-4 column-gap-2">
-            <li><a href="/nienluan.com/">Trang Chủ</a>
-            <li class="current"><?php echo htmlspecialchars($pageTitle); ?></li>
-        </div>
-        <div class="title-page flex flex-col mt-6 text-center">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb accent">
+                <li class="breadcrumb-item"><a href="/nienluan.com/">Trang Chủ</a>
+                <li class="breadcrumb-item active" breadcrumb-item active="page"><?php echo htmlspecialchars($pageTitle); ?></li>
+            </ol>
+        </nav>
+        <div class="title-page mt-5 text-center">
             <h1><?php echo htmlspecialchars($pageTitle); ?></h1>
         </div>
-        <div class="flex flex-row pt-8 column-gap-6 justify-content-space-between">
+        <div class="tour-container row mt-4 gx-5 justify-content-between flex-nowrap">
         <!---------------------------------- BO LOC --------------------------------------->
-        <div class="flex flex-col w-30">
+        <div class="filter col-3">
             <h5>BỘ LỌC TÌM KIẾM</h5>
-            <div class="flex flex-col border-normal mt-4 px-4 py-4 row-gap-5 background-gray">
-                <div class="tieu-chi-loc flex flex-col row-gap-2">
+            <div class="filter-content d-flex flex-column mt-4 p-4 row-gap-4 border-round background-gray">
+                <div class="filter-criteria">
                     <h6>Địa điểm</h6>
-                    <select id="location" class="px-2 py-2 border-normal background-white">
+                    <select id="location" class="px-2 py-2 w-100 border-round background-white">
                         <option value="default">Chọn địa điểm</option>
                         <option value="cantho">Cần Thơ</option>
                     </select>
                 </div>   
-                <div class="tieu-chi-loc flex flex-col row-gap-2">
+                <div class="filter-criteria">
                     <h6>Ngân sách</h6>
-                    <div class="options inline-grid row-gap-2 column-gap-2">
-                        <div class="px-2 py-2 text-center border-normal background-white">
+                    <div class="options d-flex flex-row column-gap-2">
+                        <div class="p-1 w-50 text-center border-round background-white">
                             <p>Từ 5 triệu</p>
                         </div>
-                        <div class="px-2 py-2 text-center border-normal background-white">
+                        <div class="p-1 w-50 text-center border-round background-white">
                             <p>Từ 5 - 10 triệu</p>
                         </div>
-                        <div class="px-2 py-2 text-center border-normal background-white">
+                    </div> 
+                    <div class="options d-flex flex-row mt-2 column-gap-2">
+                        <div class="p-1 w-50 text-center border-round background-white">
                             <p>Từ 10 - 15 triệu</p>
                         </div>
-                        <div class=" px-2 py-2 text-center border-normal background-white">
+                        <div class="p-1  w-50 text-center border-round background-white">
                             <p>Trên 20 triệu</p>
                         </div>
                     </div>
                 </div> 
-                <div class="tieu-chi-loc flex flex-col row-gap-2">
+                <div class="filter-criteria">
                     <h6>Ngày khởi hành</h6>
                     <?php $today = date('Y-d-m');?>
-                    <input class="px-2 py-2 border-normal background-white" type="date" value="<?php echo $today;?>">
+                    <input class="p-2 w-100 border-round background-white" type="date" value="<?php echo $today;?>">
                 </div>
-                <div class="flex flex-col row-gap-2">
-                    <button class="button-light-background px-2 py-2">Làm mới</button>
-                    <button class="button-primary px-3 py-3">Áp dụng</button>
+                <div>
+                    <button class="button-light-background w-100 p-2">Làm mới</button>
+                    <button class="button-primary w-100 p-2 mt-2">Áp dụng</button>
+                </div>
                 </div>
             </div>
-        </div>
         <!---------------------------------- KET QUA --------------------------------------->
-        <div class="ket-qua-loc flex flex-col w-full">
-            <div class="flex flex-row justify-content-space-between align-items-center">
+        <div class="result col">
+            <div class="d-flex flex-row justify-content-between align-items-center">
                 <p class="accent">Chúng tôi tìm thấy XXX chương trình tour cho Quý khách</p>
-                <div class="flex flex-row align-items-center column-gap-2">
+                <div class="d-flex flex-row align-items-center column-gap-2">
                     <p class="accent">Sắp xếp theo</p>
                     <select id="bo-loc" class="px-2 py-2 border-accent">
                      <option value="tat-ca">Tất cả</option>
@@ -86,7 +87,7 @@
                 </div>
             </div>
             <hr class="mt-4"></hr>
-            <div class="flex flex-col row-gap-4 mt-4">
+            <div class="d-flex flex-column row-gap-4 mt-4">
                 <?php
                     $results_per_page = 3;
 
@@ -105,39 +106,39 @@
                     if($result) {
                         if($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
-                                echo '<div class="flex flex-row border-normal">';
+                                echo '<div class="result-content d-flex flex-row border-round">';
                                     echo '<img class="tour-img object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
-                                    echo '<div class="flex flex-col w-full row-gap-2 px-4 py-4">';
+                                    echo '<div class="tour-content d-flex flex-column row-gap-2 p-4">';
                                         echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
                                             <h5>' . htmlspecialchars($row["title-tour"]) . '</h5></a>';
-                                            echo '<div class="flex flex-row column-gap-4 justify-content-space-between">';
-                                            echo '<div class="flex flex-row column-gap-2 align-items-center">
-                                                <i class="icon fa-classic fa-solid fa-circle-info fa-fw"></i>
-                                                <p>Mã chương trình: </p>
-                                                <p class="id-tour accent">' . htmlspecialchars($row["id-tour"]) . '</p>
-                                            </div>';
-                                            echo '<div class="flex flex-row column-gap-2 align-items-center">
+                                            echo '<div class="d-flex flex-wrap column-gap-4 justify-content-between">';
+                                                echo '<div class="d-flex flex-row column-gap-2 align-items-center">
+                                                    <i class="icon fa-classic fa-solid fa-circle-info fa-fw"></i>
+                                                    <p>Mã chương trình: </p>
+                                                    <p class="id-tour accent">' . htmlspecialchars($row["id-tour"]) . '</p>
+                                                </div>';
+                                            echo '<div class="d-flex flex-row column-gap-2 align-items-center">
                                                 <i class="icon fa-solid fa-location-dot"></i>
                                                 <p>Khởi hành: </p>
                                                 <p class="accent">' . htmlspecialchars($row["starting-gate"]) . '</p>
                                             </div>';
                                         echo '</div>';
                                         
-                                        echo '<div class="flex flex-row column-gap-4 justify-content-space-between">';
-                                            echo '<div class="flex flex-row column-gap-2 align-items-center">
+                                        echo '<div class="d-flex flex-wrap column-gap-4 justify-content-between">';
+                                            echo '<div class="d-flex flex-row column-gap-2 align-items-center">
                                                 <i class="icon fa-regular fa-clock"></i>
                                                 <p>Thời gian: </p>
                                                 <p class="accent">' . htmlspecialchars($row["duration-tour"]) . '</p>
                                             </div>';
-                                            echo '<div class="flex flex-row column-gap-2">
+                                            echo '<div class="d-flex flex-row column-gap-2">
                                                 <i class="icon fa-solid fa-calendar-days"></i>
                                                 <p>Ngày khởi hành: </p>
                                                 <p class="accent">' . formatDate($row["date-tour"]) . '</p>
                                             </div>';
                                         echo '</div>';
 
-                                        echo '<div class="flex flex-row column-gap-4 mt-6 justify-content-space-between align-items-center">';
-                                            echo '<div class="flex flex-col">
+                                        echo '<div class="d-flex flex-row column-gap-4 mt-6 justify-content-between align-items-center">';
+                                            echo '<div class="d-flex flex-column">
                                                 <p>Giá chỉ từ: </p>
                                                 <p class="highlight">' . number_format($row["price-tour"]) . '</p>
                                             </div>';

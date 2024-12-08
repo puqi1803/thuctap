@@ -275,16 +275,20 @@ footer .subscribe button {
 }
 
 /*CHUNG*/
-.index .title-page {
+.title-page {
     color: var(--primary);
 }
-.index .container {
+.container {
     max-width: 1300px;
 }
-/*Home*/
-.index .tour-noi-bat .tour-container {
-    flex-wrap: nowrap;
+.pagination a, .pagination .number {
+    color: var(--text);
 }
+.pagination .accent, .pagination a:hover {
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+/*Home*/
 .index .tour-noi-bat .tour-container .tour-item {
     padding: 0px;
 }
@@ -294,14 +298,11 @@ footer .subscribe button {
     border-radius: var(--border-radius);
 }
 
-.index .post .post-content {
-    flex-wrap: nowrap;
-}
 .index .post .post-content .post-column-1 {
     padding: 0px;
 }
 .index .post .post-content .post-column-1 .post-img {
-        height: 400px;
+    height: 400px;
     min-height: 400px;
     border-radius: var(--border-radius);
 }
@@ -311,8 +312,21 @@ footer .subscribe button {
     border-radius: var(--border-radius);
 }
 
-.our-customer .logo-customer img {
+.index .our-customer .logo-customer img {
     height: 100px;
     width: auto;
     object-fit: cover;
 }
+
+/*Tour*/
+.tour .result .result-content .tour-img {
+    min-height: fit-content;
+    min-width: 400px;
+    width: 400px;
+    border-radius: var(--border-radius);
+}
+.tour .result .result-content .tour-content .highlight {
+    font-size: 2rem;
+    color: var(--accent);
+}
+

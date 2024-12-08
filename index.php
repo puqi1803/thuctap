@@ -10,9 +10,6 @@ include 'includes/functions.php';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
-    <script src="https://kit.fontawesome.com/bbc8bd235c.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="resources/style.css">
     <meta http-equiv="refresh" content="900">
 </head>
 
@@ -26,17 +23,17 @@ include 'includes/functions.php';
         --------------------------------------->
         
         <!---------------------------------- TIM KIEM --------------------------------------->
-        <div class="timkiem container mt-5 mb-3 px-5 py-5 border-round shadow-sm background-white">
+        <div class="search container mt-5 mb-3 p-5 border-round shadow-sm background-white">
             <h6>Bạn muốn đi đâu?</h6>
-            <form action="" class="row pt-1 justify-content-between column-gap-2">
-                <select class="col px-3 py-3 w-100 border-round" name="Địa điểm" id="diadiem">
+            <form action="" class="row column-gap-2 flex-nowrap">
+                <select class="col-5 p-3 border-round" name="Địa điểm" id="diadiem">
                     <option value="default">Chọn địa điểm</option>
                     <option value="cantho">Cần Thơ</option>
                 </select>
-                <input class="col px-3 py-3 w-100 border-round" type="number" placeholder="Số lượng" min="1" id="soluong">
+                <input class="col p-3 border-round" type="number" placeholder="Số lượng" min="1" id="soluong">
                 <?php $today = date('Y-d-m');?>
-                <input class="col px-3 py-3 w-100 border-round" type="date" value="<?php echo $today;?>" id="ngaydi">
-                <button class="col-2 px button-secondary px-4 py-4 mr-4 w-20 outline-none" type="submit">
+                <input class="col p-3 border-round" type="date" value="<?php echo $today;?>" id="ngaydi">
+                <button class="col-1 px button-secondary p-3 outline-none" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
@@ -50,7 +47,7 @@ include 'includes/functions.php';
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
-                    echo '<div class="tour-container row mt-4 column-gap-4 justify-content-between">';
+                    echo '<div class="tour-container row mt-4 column-gap-4 justify-content-between flex-nowrap">';
                         //Tour item
                         while ($row = $result->fetch_assoc()) {
                             echo '<div class="tour-item col-3 d-flex flex-column pb-2 border-round shadow-sm">';
@@ -96,7 +93,7 @@ include 'includes/functions.php';
         <!---------------------------------- NHUNG TRAI NGHIEM THU VI --------------------------------------->
         <div class="container post mt-5 mb-3 text-center">
             <h2 class="title-page">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
-            <div class="post-content row mt-4 column-gap-2">
+            <div class="post-content row mt-4 column-gap-2 flex-nowrap">
             <?php
             //Post column 1
             $sql = "SELECT * FROM post ORDER BY `id-post` DESC LIMIT 1";
