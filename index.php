@@ -23,7 +23,7 @@ include 'includes/functions.php';
         --------------------------------------->
         
         <!---------------------------------- TIM KIEM --------------------------------------->
-        <div class="search container mt-5 mb-3 p-5 border-round shadow-sm background-white">
+        <div class="search container mx-auto my-5 p-5 border-round shadow-sm background-white">
             <h6>Bạn muốn đi đâu?</h6>
             <form action="" class="row column-gap-2 flex-nowrap">
                 <select class="col-5 p-3 border-round" name="Địa điểm" id="diadiem">
@@ -39,32 +39,34 @@ include 'includes/functions.php';
             </form>
         </div>
         <!---------------------------------- TOUR NOI BAT --------------------------------------->
-        <div class="tour-noi-bat container mt-5 mb-3 text-center">
-            <h2 class="title-page">TOUR NỔI BẬT</h2>
-            <h6 class="mt-2">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
+        <div class="tour-noi-bat container mx-auto py-5">
+            <h2 class="title-page text-center">TOUR NỔI BẬT</h2>
+            <h6 class="mt-2 text-center">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
             $sql = "SELECT * FROM tour ORDER BY  `id-tour` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
-                    echo '<div class="tour-container row mt-4 column-gap-4 justify-content-between flex-nowrap">';
+                    echo '<div class="tour-container row mt-4 justify-content-between">';
                         //Tour item
                         while ($row = $result->fetch_assoc()) {
-                            echo '<div class="tour-item col-3 d-flex flex-column pb-2 border-round shadow-sm">';
-                                echo '<img class="tour-img object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
-                                echo '<div class="tour-content d-flex flex-column p-4 row-gap-3 text-left">';
-                                    echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
-                                    <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
-                                    echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
-                                        <i class="icon fa-solid fa-location-dot"></i>
-                                        <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p>
-                                        </div>';
-                                    echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
-                                        <i class="icon fa-solid fa-calendar-days"></i>
-                                        <p> Ngày khởi hành: '. formatDate($row["date-tour"]) . '</p>
-                                        </div>';
-                                    echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
-                                    echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
+                            echo '<div class="col-3">';
+                                echo '<div class="tour-item d-flex flex-column pb-2 text-left border-round shadow-sm">';
+                                    echo '<img class="tour-img w-100 object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
+                                    echo '<div class="tour-content d-flex flex-column p-3 row-gap-3 text-left">';
+                                        echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
+                                        <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
+                                        echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
+                                            <i class="icon fa-solid fa-location-dot"></i>
+                                            <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p>
+                                            </div>';
+                                        echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
+                                            <i class="icon fa-solid fa-calendar-days"></i>
+                                            <p> Ngày khởi hành: '. formatDate($row["date-tour"]) . '</p>
+                                            </div>';
+                                        echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
+                                        echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
+                                    echo '</div>';
                                 echo '</div>';
                             echo '</div>';
                         }
@@ -91,9 +93,9 @@ include 'includes/functions.php';
         </div>--------------------------------------->
 
         <!---------------------------------- NHUNG TRAI NGHIEM THU VI --------------------------------------->
-        <div class="container post mt-5 mb-3 text-center">
+        <div class="container mx-auto post py-5 text-center">
             <h2 class="title-page">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
-            <div class="post-content row mt-4 column-gap-2 flex-nowrap">
+            <div class="post-content row mt-4">
             <?php
             //Post column 1
             $sql = "SELECT * FROM post ORDER BY `id-post` DESC LIMIT 1";
@@ -101,14 +103,16 @@ include 'includes/functions.php';
             if ($result) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="post-column-1 col-5 d-flex flex-column border-round shadow-sm">';
-                            echo '<img class="post-img" src="' . htmlspecialchars($row["img-post"]) . '">'; 
-                            echo '<div class="post-content d-flex flex-column p-4 row-gap-1 text-start">';
-                                echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
-                                <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
-                                echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
-                                echo '<div class="date-post d-flex flex-row column-gap-2 align-items-center justify-content-end">';
-                                    echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . formatDate($row["date-post"]) . '</p>';
+                        echo '<div class="post-column-1 col-5">';
+                            echo '<div class="d-flex flex-column border-round shadow-sm">';
+                                echo '<img class="post-img" src="' . htmlspecialchars($row["img-post"]) . '">'; 
+                                echo '<div class="post-content d-flex flex-column p-4 row-gap-1 text-start">';
+                                    echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
+                                    <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
+                                    echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
+                                    echo '<div class="date-post d-flex flex-row column-gap-2 align-items-center justify-content-end">';
+                                        echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . formatDate($row["date-post"]) . '</p>';
+                                    echo '</div>';
                                 echo '</div>';
                             echo '</div>';
                         echo '</div>';
@@ -130,7 +134,7 @@ include 'includes/functions.php';
                 if ($result->num_rows > 0) {
                     echo '<div class="post-column-2 col d-flex flex-column row-gap-2">';
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="d-flex flex-row border-normal shadow-sm">';
+                        echo '<div class="d-flex flex-row border-round shadow-sm">';
                             echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">';
                             echo '<div class="post-content d-flex flex-column row-gap-2 p-4 text-start">';
                                 echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
@@ -156,10 +160,10 @@ include 'includes/functions.php';
         </div>
 
         <!---------------------------------- BANNER FOOTER --------------------------------------->
-        <img class="img-banner-footer mt-5 mb-3 w-100 object-fit-cover" src="resources/img/home/banner-footer-home.webp">
+        <img class="img-banner-footer py-5 w-100 object-fit-cover" src="resources/img/home/banner-footer-home.webp">
 
         <!---------------------------------- KHACH HANG --------------------------------------->
-        <div class="our-customer container mt-5 mb-3 text-center">
+        <div class="our-customer container mx-auto py-5 text-center">
             <h2 class="title-page">ĐƯỢC TIN TƯỞNG BỞI</h2>
             <div class="logo-customer d-flex flex-row mt-4 column-gap-8 justify-content-center">
                 <img src="resources/img/home/logo-apc.webp">

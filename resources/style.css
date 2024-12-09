@@ -292,10 +292,13 @@ footer .subscribe button {
 .index .tour-noi-bat .tour-container .tour-item {
     padding: 0px;
 }
-.index .tour-noi-bat .tour-container .tour-item .tour-img {
+.index .tour-noi-bat .tour-container .tour-container .tour-item img, img.tour-img.w-100.object-fit-cover {
     height: 200px;
     min-height: 200px;
     border-radius: var(--border-radius);
+}
+.index .tour-noi-bat .tour-container .tour-container .tour-item .pricetour-price {
+    color: var(--accent);
 }
 
 .index .post .post-content .post-column-1 {
@@ -330,3 +333,9 @@ footer .subscribe button {
     color: var(--accent);
 }
 
+/*Tin tuc*/
+.tin-tuc .post .post-img {
+    min-height: 300px;
+    height: 300px;
+    border-radius: var(--border-radius);
+}
