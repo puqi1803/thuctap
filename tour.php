@@ -69,10 +69,7 @@
                 </div>
                 <div>
                     <button class="button-light-background w-100 p-2">Làm mới</button>
-                    <button class="button-primary w-100 p-2 mt-2
-                    
-                    
-                    ">Áp dụng</button>
+                    <button class="button-primary w-100 p-2 mt-2">Áp dụng</button>
                 </div>
                 </div>
             </div>

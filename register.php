@@ -41,30 +41,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Đăng nhập</title>
+    <title>Đăng ký</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <script src="https://kit.fontawesome.com/bbc8bd235c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="resources/style.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="resources/style.css">
     <meta http-equiv="refresh" content="900">
 </head>
 
 <body>
-    <main class="container register flex flex-col my-8 align-items-center">
+    <main class="container register d-flex flex-column my-5 align-items-center">
         <h2 class="title-page text-center">Đăng ký</h2>
-        <form class="flex flex-col mt-4 row-gap-4 border-normal px-8 py-8" action="register.php" method="post">
-            <div class="flex flex-row column-gap-2 align-items-center">
-                <label class="accent w-50" for="username">Tên đăng nhập:</label>
-                <input class="px-2 py-2 border-normal" type="text" id="username" name="username" required>
+        <form class="register-content d-flex flex-column mt-4 row-gap-4 border-round p-5" action="register.php" method="post">
+            <div class="d-flex flex-row align-items-cente">
+                <label class="col-5 accent" for="username">Tên đăng nhập:</label>
+                <input class="col p-2 border-round" type="text" id="username" name="username" required>
             </div>
-            <div class="flex flex-row column-gap-2 align-items-center">
-                <label class="accent w-50" for="password">Mật khẩu:</label>
-                <input class="px-2 py-2 border-normal" type="password" id="password" name="password" required>
+            <div class="d-flex flex-row align-items-center">
+                <label class="col-5 accent" for="password">Mật khẩu:</label>
+                <input class="col p-2 border-round" type="password" id="password" name="password" required>
             </div>
-            <div class="flex flex-row column-gap-2 align-items-center">
-                <label class="accent w-50" for="confirm_password">Xác nhận mật khẩu:</label>
-                <input class="px-2 py-2 border-normal" type="password" id="confirm_password" name="confirm_password" required>
+            <div class="d-flex flex-row align-items-center">
+                <label class="col-5 accent" for="confirm_password">Xác nhận mật khẩu:</label>
+                <input class="col p-2 border-round" type="password" id="confirm_password" name="confirm_password" required>
             </div>
             <?php if (!empty($error_message)) : ?>
                 <p class="danger"><?php echo $error_message; ?></p>
@@ -72,10 +73,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if (!empty($success_message)) : ?>
                 <p class="accent"><?php echo $success_message; ?></p>
             <?php endif; ?>
-            <div class="text-center mt-4">
-                <button class="button-primary w-full px-2 py-2"type="submit">Đăng ký</button>
+            <div class="text-center">
+                <button class="button-primary w-100 p-2"type="submit">Đăng ký</button>
             </div>
-            <div class="note mt-2">
+            <div class="note">
                 <p>Bạn đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
             </div>
         </form>

@@ -104,11 +104,14 @@ hr {
     font-style: italic;
     font-weight: normal;
 }
-.text-light {
+.note-light {
     color: var(--note);
 }
 .danger {
     color: var(--accent);
+}
+.link {
+    color: var(--primary);
 }
 
 /*Gap*/
@@ -338,4 +341,56 @@ footer .subscribe button {
     min-height: 300px;
     height: 300px;
     border-radius: var(--border-radius);
+}
+
+/*Bai viet*/
+.single-post .other-posts .post-img {
+    height: 200px;
+    min-height: 200px;
+    border-radius: var(--border-radius);
+}
+
+/*Single tour*/
+.single-tour .gallery-img-tour {
+    border-radius: var(--border-radius);
+    height: 150px;
+    min-height: 150px;
+}
+.single-tour .img-tour {
+    border-radius: var(--border-radius);
+    height: 500px;
+    min-height: 500px;
+}
+.single-tour .price-tour {
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+.single-tour .dvt {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.single-tour .price-other-tour {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/*Login - Register*/
+.login .login-content, .register .register-content {
+    width: 500px;
+}
+.login .login-content .note a, .register .register-content .note a {
+    color: var(--primary);
+}
+
+/*Admin*/
+.admin .sidebar {
+    height: 100vh;
+}
+.admin .sidebar .sub-menu .list-group-item {
+    margin: 10px 0px 0px 20px;
+}
+.admin .sidebar .menu-toggle {
+    text-transform: uppercase;
 }
