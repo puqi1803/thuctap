@@ -25,4 +25,12 @@ function formatDate ($date) {
     }
 }
 
+function truncateTitle($title, $maxWords = 15) {
+    $words = explode(' ', $title);
+    if (count($words) > $maxWords) {
+        $truncated = array_slice($words, 0, $maxWords);
+        return implode(' ', $truncated) . '...';
+    }
+    return $title;
+}
 ?>

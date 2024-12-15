@@ -48,7 +48,7 @@ $stmt->close();
                     <i class="icon fa-regular fa-clock"></i>
                     <p class="date-post accent"><?php echo formatDate($post["date-post"]); ?></p>
                 </div>
-                <img class="img-post mt-4 w-100 object-fit-cover" src="<?php echo htmlspecialchars($post['img-post']); ?>">
+                <img class="img-post mt-4 w-100 object-fit-cover" src="resources/uploads/<?php echo htmlspecialchars($post['img-post']); ?>">
                 <p class="mt-5"><?php echo nl2br(htmlspecialchars($post['content-post'])); ?></p>
             <?php else : ?>
                 <p>Bài viết không tồn tại.</p>
@@ -66,7 +66,7 @@ $stmt->close();
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="col-3 ">';
                         echo '<div class="d-flex flex-column border-round shadow-sm">';
-                            echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">'; 
+                            echo '<img class="post-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">'; 
                             echo '<div class="post-content flex flex-col row-gap-2 p-4 text-left">';
                                 echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
                                 <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 

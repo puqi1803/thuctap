@@ -53,7 +53,7 @@
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="col-4">';
                             echo '<div class="d-flex flex-column border-round shadow-sm">';
-                                echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">'; 
+                                echo '<img class="post-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">'; 
                                 echo '<div class="post-content flex flex-col row-gap-2 p-4 text-left">';
                                     echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
                                     <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
@@ -82,7 +82,7 @@
                 }
                 for ($i = 1; $i <= $total_pages; $i++) {
                     if ($i == $page) {
-                        echo '<p class="accent">' . $i . '</p>';
+                        echo '<span class="accent">' . $i . '</span>';
                     } else {
                         echo '<a  class="number" href="?page=' . $i . '">' . $i . '</a>';
                     }

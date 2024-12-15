@@ -89,9 +89,6 @@ hr {
     font-weight: 700;
 }
 .accent {
-    font-family: "Nunito", "Roboto", sans-serif;
-    font-style: normal;
-    font-size: 16px;
     font-weight: 700;
 }
 .note {
@@ -100,6 +97,9 @@ hr {
     font-size: 14px;
     font-style: italic;
     font-weight: normal;
+}
+.link {
+    color: (--primary);
 }
 .text-light {
     color: var(--note);

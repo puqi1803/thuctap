@@ -3,7 +3,7 @@
     --primary: #2F6CB4;
     --secondary: #FDDC00;
     --text: #020817;
-    --border: #DDDDFF;
+    --border: #c4c4c4;
     --accent: #e10000;
     --background-white: #FFFFFF;
     --background-gray:#F8F8F8;
@@ -11,6 +11,7 @@
     --bg-dark: #1C2930;
     --note: #64748B;
     --light-blue: #DBF0FF;
+    --white: #FFFFFF;
 }
 
 h1 {
@@ -92,9 +93,6 @@ hr {
     font-weight: 700;
 }
 .accent {
-    font-family: "Nunito", "Roboto", sans-serif;
-    font-style: normal;
-    font-size: 16px;
     font-weight: 700;
 }
 .note {
@@ -224,6 +222,10 @@ hr {
 .button-destructive:hover {
     color: var(--border);
 }
+.button-none {
+    border: 0px;
+    background-color: unset;
+}
 
 /*Border*/
 .border-round {
@@ -291,6 +293,15 @@ footer .subscribe button {
     color: var(--primary);
     font-size: 1.25rem;
 }
+.pagination-admin .accent {
+    font-weight: 700;
+}
+.taskbar {
+    background-color: var(--primary);
+}
+.taskbar .icon, .taskbar a {
+    color: var(--white);
+}
 /*Home*/
 .index .tour-noi-bat .tour-container .tour-item {
     padding: 0px;
@@ -326,8 +337,8 @@ footer .subscribe button {
 
 /*Tour*/
 .tour .result .result-content .tour-img {
-    min-height: fit-content;
-    min-width: 400px;
+    min-height: 300px;
+    height: 300px;
     width: 400px;
     border-radius: var(--border-radius);
 }
@@ -340,6 +351,7 @@ footer .subscribe button {
 .tin-tuc .post .post-img {
     min-height: 300px;
     height: 300px;
+    width: 400px;
     border-radius: var(--border-radius);
 }
 
@@ -358,8 +370,8 @@ footer .subscribe button {
 }
 .single-tour .img-tour {
     border-radius: var(--border-radius);
-    height: 500px;
-    min-height: 500px;
+    height: 400px;
+    min-height: 400px;
 }
 .single-tour .price-tour {
     font-size: 1.8rem;
@@ -386,11 +398,52 @@ footer .subscribe button {
 
 /*Admin*/
 .admin .sidebar {
-    height: 100vh;
+    min-height: 100vh;
 }
 .admin .sidebar .sub-menu .list-group-item {
     margin: 10px 0px 0px 20px;
 }
 .admin .sidebar .menu-toggle {
     text-transform: uppercase;
+}
+.admin-tour td, .admin-tour a.accent.link {
+    font-size: 0.9rem;
+}
+.admin-new-tour .new-tour-content input, .admin-edit-tour .edit-tour-content input {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    outline: none;
+    padding: 0.5rem;
+    width: 100%;
+}
+.admin-new-tour .new-tour-content .icon, .admin-edit-tour .edit-tour-content .icon {
+    color: var(--white);
+}
+.admin-new-tour .new-tour-content .icon :hover, .admin-edit-tour .edit-tour-content .icon :hover{
+    color: var(--primary);
+}
+.admin-new-tour .new-tour-content label, .admin-edit-tour .edit-tour-content label {
+    font-weight: 700;
+}
+.admin-new-tour .new-tour-content textarea, .admin-edit-tour .edit-tour-content textarea {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    outline: none;
+    padding: 0.5rem;
+    width: 100%;
+    overflow-y: auto;
+}
+.admin-new-tour .taskbar .button-none, .admin-edit-tour .taskbar .button-none {
+    color: var(--white);
+}
+.admin-new-tour .new-tour-content .title-post input .admin-edit-tour .edit-tour-content .title-post input {
+    overflow-y: auto;
+}
+.admin-edit-tour .edit-tour-content button.delete-img:hover {
+    color: var(--note);
+}
+.admin-edit-tour .edit-tour-content #old-image {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: cover;
 }

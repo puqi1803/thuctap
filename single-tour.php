@@ -43,17 +43,17 @@ $stmt->close();
                     <h3><?php echo htmlspecialchars($tour['title-tour']); ?></h3>
                 </div>
                 <div class="row mt-5">
-                    <div class="col-9 d-flex flex-column row-gap-2">
+                    <div class="col-8 d-flex flex-column row-gap-2">
                         <div class="d-flex flex-row column-gap-4">
                             <div class="d-flex flex-column w-25 row-gap-2">
-                                <img class="gallery-img-tour object-fit-cover" src="<?php echo htmlspecialchars($tour['img-tour']); ?>">
+                                <img class="gallery-img-tour object-fit-cover" src="resources/uploads/<?php echo htmlspecialchars($tour['img-tour']); ?>">
                             </div>
                             <div class="d-flex flex-column w-75 row-gap-2">
-                                <img class="img-tour object-fit-cover" src="<?php echo htmlspecialchars($tour['img-tour']); ?>">
+                                <img class="img-tour object-fit-cover" src="resources/uploads/<?php echo htmlspecialchars($tour['img-tour']); ?>">
                             </div>
                         </div> 
                         <div class="mt-5">
-                            <?php echo htmlspecialchars($tour['description-tour']); ?>
+                            <?php echo html_entity_decode($tour['description-tour']); ?>
                         </div>
                     </div>    
                     <div class="col info-tour relative">
@@ -68,7 +68,7 @@ $stmt->close();
                                     </div>   
                                 </div>
                             </div> 
-                            <?php if (!is_null($tour['price-children-tour'])) : ?>
+                            <?php if (!is_null($tour['price-children-tour'])): ?>
                                 <div class="d-flex flex-row mt-2 justify-content-between align-items-center">
                                     <div class="d-flex flex-column">
                                         <p class="accent">Trẻ em:</p>

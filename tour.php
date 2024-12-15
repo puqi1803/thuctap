@@ -100,14 +100,14 @@
                     $total_results = $row_account['total'];
                     $total_pages = ceil($total_results/$results_per_page);
 
-                    $sql = "SELECT * FROM tour ORDER BY `id-tour` DESC LIMIT $start_from, $results_per_page";
+                    $sql = "SELECT * FROM tour ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
                     $result = $conn->query($sql);
 
                     if($result) {
                         if($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo '<div class="result-content d-flex flex-row border-round">';
-                                    echo '<img class="tour-img object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
+                                    echo '<img class="tour-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
                                     echo '<div class="tour-content d-flex flex-column row-gap-2 p-4">';
                                         echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
                                             <h5>' . htmlspecialchars($row["title-tour"]) . '</h5></a>';
@@ -167,7 +167,7 @@
                     }
                     for ($i = 1; $i <= $total_pages; $i++) {
                         if ($i == $page) {
-                            echo '<p class="accent">' . $i . '</p>';
+                            echo '<span class="accent">' . $i . '</span>';
                         } else {
                             echo '<a  class="number" href="?page=' . $i . '">' . $i . '</a>';
                         }

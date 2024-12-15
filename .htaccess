@@ -1,14 +1,15 @@
 RewriteEngine On
 
+# Chuyển hướng từ /admin đến admin.php
+RewriteRule ^admin/?$ admin/admin.php [L]
+
 # Bỏ đuôi .php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/single-post.php
 RewriteRule ^(.+)$ $1.php [L]
 
-#URL single post
+# URL single post
 RewriteRule ^tin-tuc/([a-zA-Z0-9-]+)$ single-post.php?slug-post=$1 [L,QSA]
 
-#URL single tour
+# URL single tour
 RewriteRule ^tour/([a-zA-Z0-9-]+)$ single-tour.php?id-tour=$1 [L,QSA]
-

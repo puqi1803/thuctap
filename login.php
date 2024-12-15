@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         if ($password === $row['password-user']) {
             $_SESSION['username-user'] = $username;
-            header("Location: admin.php");
+            header("Location: admin/admin.php");
             exit;
         } else {
             $error_message = 'Mật khẩu không chính xác.';

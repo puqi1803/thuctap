@@ -43,7 +43,7 @@ include 'includes/functions.php';
             <h2 class="title-page text-center">TOUR NỔI BẬT</h2>
             <h6 class="mt-2 text-center">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
-            $sql = "SELECT * FROM tour ORDER BY  `id-tour` DESC LIMIT 4";
+            $sql = "SELECT * FROM tour ORDER BY  `created-at` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
@@ -105,11 +105,13 @@ include 'includes/functions.php';
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="post-column-1 col-5">';
                             echo '<div class="d-flex flex-column border-round shadow-sm">';
-                                echo '<img class="post-img" src="' . htmlspecialchars($row["img-post"]) . '">'; 
+                                echo '<img class="post-img" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">'; 
                                 echo '<div class="post-content d-flex flex-column p-4 row-gap-1 text-start">';
                                     echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
                                     <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
-                                    echo '<p>' . htmlspecialchars($row["expert-post"]) . '</p>';
+                                    $expert = htmlspecialchars($row["expert-post"]);
+                                    $shortExpert = truncateExpert($expert);
+                                    echo '<p>' . $shortExpert . '</p>';
                                     echo '<div class="date-post d-flex flex-row column-gap-2 align-items-center justify-content-end">';
                                         echo '<i class="icon fa-regular fa-clock"></i> <p class="note">' . formatDate($row["date-post"]) . '</p>';
                                     echo '</div>';
@@ -135,7 +137,7 @@ include 'includes/functions.php';
                     echo '<div class="post-column-2 col d-flex flex-column row-gap-2">';
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="d-flex flex-row border-round shadow-sm">';
-                            echo '<img class="post-img object-fit-cover" src="' . htmlspecialchars($row["img-post"]) . '">';
+                            echo '<img class="post-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">';
                             echo '<div class="post-content d-flex flex-column row-gap-2 p-4 text-start">';
                                 echo '<a href="single-post?slug-post=' . htmlspecialchars($row["slug-post"]) . '">
                                 <h6>' . htmlspecialchars($row["title-post"]) . '</h6></a>'; 
