@@ -49,7 +49,7 @@ $stmt->close();
                     <p class="date-post accent"><?php echo formatDate($post["date-post"]); ?></p>
                 </div>
                 <img class="img-post mt-4 w-100 object-fit-cover" src="resources/uploads/<?php echo htmlspecialchars($post['img-post']); ?>">
-                <p class="mt-5"><?php echo nl2br(htmlspecialchars($post['content-post'])); ?></p>
+                <p class="mt-5"><?php echo nl2br(html_entity_decode($post['content-post'])); ?></p>
             <?php else : ?>
                 <p>Bài viết không tồn tại.</p>
             <?php endif; ?>
