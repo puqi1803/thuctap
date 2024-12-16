@@ -13,6 +13,7 @@
 			<li><a class="text-uppercase" href="/nienluan.com/tour">Tour du lịch</a></li>
 			<li><a class="text-uppercase" href="/nienluan.com/tin-tuc">Tin tức</a></li>
 			<li><a class="text-uppercase" href="/nienluan.com/lien-he">Liên hệ</a></li>
+			<li><a href="/nienluan.com/login"><i class="icon fa-solid fa-user"></i></a></li>
 		</nav>
 	</header>
 	<div class="banner">

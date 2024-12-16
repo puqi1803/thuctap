@@ -100,7 +100,7 @@
                     $total_results = $row_account['total'];
                     $total_pages = ceil($total_results/$results_per_page);
 
-                    $sql = "SELECT * FROM tour ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+                    $sql = "SELECT * FROM tour WHERE `status-tour` = 'published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
                     $result = $conn->query($sql);
 
                     if($result) {

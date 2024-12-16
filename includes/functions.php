@@ -7,6 +7,14 @@ function truncateExpert ($expert, $maxWords = 40) {
     }
     return $expert;
 }
+function truncateExpertShort ($expert, $maxWords = 20) {
+    $words = explode(' ', $expert);
+    if (count($words) > $maxWords) {
+        $truncated = array_slice($words, 0, $maxWords);
+        return implode (' ', $truncated) . '...';
+    }
+    return $expert;
+}
 
 function convertToSlug($string) {
     $string = mb_strtolower($string, 'UTF-8');

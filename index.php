@@ -43,7 +43,7 @@ include 'includes/functions.php';
             <h2 class="title-page text-center">TOUR NỔI BẬT</h2>
             <h6 class="mt-2 text-center">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
-            $sql = "SELECT * FROM tour ORDER BY  `created-at` DESC LIMIT 4";
+            $sql = "SELECT * FROM tour WHERE `status-tour`='published' ORDER BY  `created-at` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {

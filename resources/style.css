@@ -174,13 +174,18 @@ hr {
     background-color: var(--primary);
     border: 0px;
     transition: all .3s ease;
-    font-weight: 700;
     outline: none;
+}
+.button-primary i.icon {
+    color: var(--white);
 }
 .button-primary:hover {
     color: var(--primary);
     background-color: var(--light-blue);
     border: 1px solid;
+}
+.button-primary:hover i.icon {
+    color: var(--primary);
 }
 .button-secondary {
     border-radius: var(--border-radius);
@@ -188,7 +193,6 @@ hr {
     background-color: var(--secondary);
     border: 0px;
     transition: all .3s ease;
-    font-weight: 700;
     outline: none;
 }
 .button-secondary:hover {
@@ -200,8 +204,10 @@ hr {
     background-color: var(--light-blue);
     border: 1px solid;
     transition: all .3s ease;
-    font-weight: 700;
     outline: none;
+}
+.button-light-background i.icon {
+    color: var(--primary);
 }
 .button-light-background:hover {
     border-radius: var(--border-radius);
@@ -209,7 +215,9 @@ hr {
     background-color: var(--primary);
     border: 0px;
     transition: all .3s ease;
-    font-weight: 700;
+}
+.button-light-background:hover i.icon {
+    color: var(--white);
 }
 .button-destructive {
     border-radius: var(--border-radius);
@@ -217,7 +225,6 @@ hr {
     background-color: var(--accent);
     border: 0px;
     transition: all .3s ease;
-    font-weight: 700;
 }
 .button-destructive:hover {
     color: var(--border);
@@ -406,7 +413,7 @@ footer .subscribe button {
 .admin .sidebar .menu-toggle {
     text-transform: uppercase;
 }
-.admin-tour td, .admin-tour a.accent.link {
+.admin-tour td, .admin-tour a.accent.link, .admin-post td, .admin-post a.accent.link {
     font-size: 0.9rem;
 }
 .admin-new-tour .new-tour-content input, .admin-edit-tour .edit-tour-content input {
@@ -415,12 +422,6 @@ footer .subscribe button {
     outline: none;
     padding: 0.5rem;
     width: 100%;
-}
-.admin-new-tour .new-tour-content .icon, .admin-edit-tour .edit-tour-content .icon {
-    color: var(--white);
-}
-.admin-new-tour .new-tour-content .icon :hover, .admin-edit-tour .edit-tour-content .icon :hover{
-    color: var(--primary);
 }
 .admin-new-tour .new-tour-content label, .admin-edit-tour .edit-tour-content label {
     font-weight: 700;
