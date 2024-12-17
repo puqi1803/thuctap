@@ -309,17 +309,23 @@ footer .subscribe button {
 .taskbar .icon, .taskbar a {
     color: var(--white);
 }
+.taskbar .button-none {
+    color: var(--white);
+}
 /*Home*/
 .index .tour-noi-bat .tour-container .tour-item {
     padding: 0px;
 }
-.index .tour-noi-bat .tour-container .tour-container .tour-item img, img.tour-img.w-100.object-fit-cover {
+.index .tour-noi-bat .tour-container .tour-item img, img.tour-img.w-100.object-fit-cover {
     height: 200px;
     min-height: 200px;
     border-radius: var(--border-radius);
 }
-.index .tour-noi-bat .tour-container .tour-container .tour-item .pricetour-price {
+.index .tour-noi-bat .tour-container .tour-item .tour-price {
     color: var(--accent);
+}
+.index .tour-noi-bat .tour-container .tour-item .tour-content {
+    min-height: 300px;
 }
 
 .index .post .post-content .post-column-1 {
@@ -337,7 +343,7 @@ footer .subscribe button {
 }
 
 .index .our-customer .logo-customer img {
-    height: 100px;
+    height: 80px;
     width: auto;
     object-fit: cover;
 }
@@ -349,7 +355,7 @@ footer .subscribe button {
     width: 400px;
     border-radius: var(--border-radius);
 }
-.tour .result .result-content .tour-content .highlight {
+.tour .result .result-content .tour-content .tour-price {
     font-size: 2rem;
     color: var(--accent);
 }
@@ -358,8 +364,11 @@ footer .subscribe button {
 .tin-tuc .post .post-img {
     min-height: 300px;
     height: 300px;
-    width: 400px;
+    width: 100%;
     border-radius: var(--border-radius);
+}
+.tin-tuc .post .post-content {
+    min-height: 240px;
 }
 
 /*Bai viet*/
@@ -368,7 +377,9 @@ footer .subscribe button {
     min-height: 200px;
     border-radius: var(--border-radius);
 }
-
+.single-post .single-post-content .post-img {
+    border-radius: var(--border-radius);
+}
 /*Single tour*/
 .single-tour .gallery-img-tour {
     border-radius: var(--border-radius);
@@ -379,6 +390,7 @@ footer .subscribe button {
     border-radius: var(--border-radius);
     height: 400px;
     min-height: 400px;
+    width: 100%;
 }
 .single-tour .price-tour {
     font-size: 1.8rem;
@@ -416,17 +428,17 @@ footer .subscribe button {
 .admin-tour td, .admin-tour a.accent.link, .admin-post td, .admin-post a.accent.link {
     font-size: 0.9rem;
 }
-.admin-new-tour .new-tour-content input, .admin-edit-tour .edit-tour-content input {
+.admin-new-tour input, .admin-edit-tour input, .admin-new-post input, .admin-edit-post input  {
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;
     padding: 0.5rem;
     width: 100%;
 }
-.admin-new-tour .new-tour-content label, .admin-edit-tour .edit-tour-content label {
+.admin-new-tour label, .admin-edit-tour label, .admin-new-tour label, .admin-edit-tour input {
     font-weight: 700;
 }
-.admin-new-tour .new-tour-content textarea, .admin-edit-tour .edit-tour-content textarea {
+.admin-new-tour textarea, .admin-edit-tour textarea, .admin-new-post textarea, .admin-edit-post textarea  {
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;
@@ -434,16 +446,13 @@ footer .subscribe button {
     width: 100%;
     overflow-y: auto;
 }
-.admin-new-tour .taskbar .button-none, .admin-edit-tour .taskbar .button-none {
-    color: var(--white);
-}
-.admin-new-tour .new-tour-content .title-post input .admin-edit-tour .edit-tour-content .title-post input {
+.admin-new-tour .title-tour input, .admin-edit-tour .title-tour input, .admin-new-post .title-post input, .admin-edit-post .title-post input {
     overflow-y: auto;
 }
-.admin-edit-tour .edit-tour-content button.delete-img:hover {
+.admin-edit-tour button.delete-img:hover, .admin-edit-post button.delete-img:hover  {
     color: var(--note);
 }
-.admin-edit-tour .edit-tour-content #old-image {
+.admin-edit-tour #old-image, .admin-edit-post #old-image {
     max-width: 200px;
     max-height: 150px;
     object-fit: cover;

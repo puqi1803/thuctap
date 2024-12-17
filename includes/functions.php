@@ -41,4 +41,11 @@ function truncateTitle($title, $maxWords = 15) {
     }
     return $title;
 }
+
+function createSlug($title) {
+    $slug = strtolower($title);
+    $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
+    $slug = preg_replace('/[\s-]+/', '-', $slug);
+    return trim($slug, '-');
+}
 ?>

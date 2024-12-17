@@ -9,7 +9,6 @@
 			<img class="logo w-75" src="resources/img/logo-hat-yellow.png" alt="Logo">	
 		</a>
 		<nav class="nav menu col d-flex flex-row column-gap-5 justify-content-end accent">
-			<li><a class="text-uppercase" href="/nienluan.com/">Trang chủ</a></li>
 			<li><a class="text-uppercase" href="/nienluan.com/tour">Tour du lịch</a></li>
 			<li><a class="text-uppercase" href="/nienluan.com/tin-tuc">Tin tức</a></li>
 			<li><a class="text-uppercase" href="/nienluan.com/lien-he">Liên hệ</a></li>

@@ -21,7 +21,22 @@
 </head>
 
 <body>
-    <?php include "header-main.php" ?>
+    <?php 
+        include "header-main.php";
+        $results_per_page = 6;
+
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $start_from = ($page-1) * $results_per_page;
+
+        $sql_count = "SELECT COUNT(*) AS total FROM post WHERE `status-post` = 'Published'";
+        $result_count = $conn->query($sql_count);
+        $row_account = $result_count->fetch_assoc();
+        $total_results = $row_account['total'];
+        $total_pages = ceil($total_results/$results_per_page);
+
+        $sql = "SELECT * FROM post WHERE `status-post` = 'Published' ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
+        $result = $conn->query($sql);
+    ?>
     <main class="tin-tuc container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb accent">
@@ -35,23 +50,10 @@
         <!---------------------------------- BAI VIET --------------------------------------->
         <div class="post row mt-4">
             <?php
-            $results_per_page = 3;
-
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-            $start_from = ($page-1) * $results_per_page;
-
-            $sql_count = "SELECT COUNT(*) AS total FROM post";
-            $result_count = $conn->query($sql_count);
-            $row_account = $result_count->fetch_assoc();
-            $total_results = $row_account['total'];
-            $total_pages = ceil($total_results/$results_per_page);
-
-            $sql = "SELECT * FROM post ORDER BY `id-post` ASC LIMIT $start_from, $results_per_page";
-            $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="col-4">';
+                        echo '<div class="col-4 mb-4">';
                             echo '<div class="d-flex flex-column border-round shadow-sm">';
                                 echo '<img class="post-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">'; 
                                 echo '<div class="post-content flex flex-col row-gap-2 p-4 text-left">';

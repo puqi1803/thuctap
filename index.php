@@ -31,19 +31,18 @@ include 'includes/functions.php';
                     <option value="cantho">Cần Thơ</option>
                 </select>
                 <input class="col p-3 border-round" type="number" placeholder="Số lượng" min="1" id="soluong">
-                <?php $today = date('Y-d-m');?>
-                <input class="col p-3 border-round" type="date" value="<?php echo $today;?>" id="ngaydi">
-                <button class="col-1 px button-secondary p-3 outline-none" type="submit">
+                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="ngaydi">
+                <button class="col-1 px button-primary p-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </form>
         </div>
         <!---------------------------------- TOUR NOI BAT --------------------------------------->
         <div class="tour-noi-bat container mx-auto py-5">
-            <h2 class="title-page text-center">TOUR NỔI BẬT</h2>
+            <a href="tour"><h2 class="title-page text-center">TOUR NỔI BẬT</h2></a>
             <h6 class="mt-2 text-center">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
-            $sql = "SELECT * FROM tour WHERE `status-tour`='published' ORDER BY  `created-at` DESC LIMIT 4";
+            $sql = "SELECT * FROM tour WHERE `status-tour`='Published' ORDER BY  `created-at` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
@@ -52,7 +51,7 @@ include 'includes/functions.php';
                         while ($row = $result->fetch_assoc()) {
                             echo '<div class="col-3">';
                                 echo '<div class="tour-item d-flex flex-column pb-2 text-left border-round shadow-sm">';
-                                    echo '<img class="tour-img w-100 object-fit-cover" src="' . htmlspecialchars($row["img-tour"]) . '">';
+                                    echo '<img class="tour-img w-100 object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
                                     echo '<div class="tour-content d-flex flex-column p-3 row-gap-3 text-left">';
                                         echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
                                         <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
@@ -70,6 +69,10 @@ include 'includes/functions.php';
                                 echo '</div>';
                             echo '</div>';
                         }
+                    echo '</div>';
+                    echo '<div class="d-flex justify-content-center mt-4">';
+                        echo '<a href="tour"><button class="button-light-background py-2 px-4">Tất cả tour</button></a>';
+                    echo '</div>';
                     } else {
                         echo 'Không tìm thấy tour phù hợp';
                     }
@@ -94,11 +97,11 @@ include 'includes/functions.php';
 
         <!---------------------------------- NHUNG TRAI NGHIEM THU VI --------------------------------------->
         <div class="container mx-auto post py-5 text-center">
-            <h2 class="title-page">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2>
+            <a href="tin-tuc"><h2 class="title-page">NHỮNG TRẢI NGHIỆM THÚ VỊ</h2></a>
             <div class="post-content row mt-4">
             <?php
             //Post column 1
-            $sql = "SELECT * FROM post ORDER BY `id-post` DESC LIMIT 1";
+            $sql = "SELECT * FROM post WHERE `status-post` = 'Published' ORDER BY `id-post` DESC LIMIT 1";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
@@ -129,7 +132,7 @@ include 'includes/functions.php';
             <?php
             //Post column 2
             $sql = "SELECT * FROM `post`
-            WHERE `id-post` <> (SELECT `id-post` FROM `post` ORDER BY `id-post` DESC LIMIT 1)
+            WHERE `status-post` = 'Published' AND `id-post` <> (SELECT `id-post` FROM `post` ORDER BY `id-post` DESC LIMIT 1)
             ORDER BY `id-post` DESC LIMIT 3";
             $result = $conn->query($sql);
             if ($result) {
@@ -169,11 +172,10 @@ include 'includes/functions.php';
             <h2 class="title-page">ĐƯỢC TIN TƯỞNG BỞI</h2>
             <div class="logo-customer d-flex flex-row mt-4 column-gap-8 justify-content-center">
                 <img src="resources/img/home/logo-apc.webp">
-                <img src="resources/img/home/logo-apc.webp">
-                <img src="resources/img/home/logo-apc.webp">
-                <img src="resources/img/home/logo-apc.webp">
-                <img src="resources/img/home/logo-apc.webp">
-                <img src="resources/img/home/logo-apc.webp">
+                <img src="resources/img/home/logo-vas.svg">
+                <img src="resources/img/home/logo-ctu.png">
+                <img src="resources/img/home/logo-huflit.webp">
+                <img src="resources/img/home/logo-fpt.png">
             </div>
         </div>
     </main>

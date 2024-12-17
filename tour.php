@@ -20,7 +20,22 @@
 </head>
 
 <body>
-    <?php include "header-main.php" ?>
+    <?php 
+        include "header-main.php";
+        $results_per_page = 5;
+
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $start_from = ($page-1) * $results_per_page;
+
+        $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE `status-tour`='Published'";
+        $result_count = $conn->query($sql_count);
+        $row_account = $result_count->fetch_assoc();
+        $total_results = $row_account['total'];
+        $total_pages = ceil($total_results/$results_per_page);
+
+        $sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+        $result = $conn->query($sql);
+    ?>
     <main class="tour container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb accent">
@@ -64,8 +79,7 @@
                 </div> 
                 <div class="filter-criteria">
                     <h6>Ngày khởi hành</h6>
-                    <?php $today = date('Y-d-m');?>
-                    <input class="p-2 w-100 border-round background-white" type="date" value="<?php echo $today;?>">
+                    <input class="p-2 w-100 border-round background-white" type="date" value="<?php echo date('Y-m-d'); ?>">
                 </div>
                 <div>
                     <button class="button-light-background w-100 p-2">Làm mới</button>
@@ -76,7 +90,7 @@
         <!---------------------------------- KET QUA --------------------------------------->
         <div class="result col">
             <div class="d-flex flex-row justify-content-between align-items-center">
-                <p class="accent">Chúng tôi tìm thấy XXX chương trình tour cho Quý khách</p>
+                <p class="accent">Chúng tôi tìm thấy <?php echo htmlspecialchars($total_results); ?> chương trình tour cho Quý khách</p>
                 <div class="d-flex flex-row align-items-center column-gap-2">
                     <p class="accent">Sắp xếp theo</p>
                     <select id="bo-loc" class="px-2 py-2 border-accent">
@@ -86,23 +100,9 @@
                     </select>
                 </div>
             </div>
-            <hr class="mt-4"></hr>
+            <hr class="mt-4">
             <div class="d-flex flex-column row-gap-4 mt-4">
                 <?php
-                    $results_per_page = 3;
-
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                    $start_from = ($page-1) * $results_per_page;
-                    
-                    $sql_count = "SELECT COUNT(*) AS total FROM tour";
-                    $result_count = $conn->query($sql_count);
-                    $row_account = $result_count->fetch_assoc();
-                    $total_results = $row_account['total'];
-                    $total_pages = ceil($total_results/$results_per_page);
-
-                    $sql = "SELECT * FROM tour WHERE `status-tour` = 'published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
-                    $result = $conn->query($sql);
-
                     if($result) {
                         if($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
@@ -140,7 +140,7 @@
                                         echo '<div class="d-flex flex-row column-gap-4 mt-6 justify-content-between align-items-center">';
                                             echo '<div class="d-flex flex-column">
                                                 <p>Giá chỉ từ: </p>
-                                                <p class="highlight">' . number_format($row["price-tour"]) . '</p>
+                                                <p class="highlight tour-price">' . number_format($row["price-tour"]) . '</p>
                                             </div>';
                                             echo '<div>
                                                 <button class="button-primary px-2 py-2">Xem chi tiết</button>
