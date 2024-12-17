@@ -1,0 +1,30 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-tour'])) {
+    if (isset($_POST['tours'])) {
+        $tours_to_delete = $_POST['tours'];
+        $tour_ids = implode(',', array_map('intval', $tours_to_delete));
+        $sql_delete = "DELETE FROM tour WHERE `id-tour` IN  ($tour_ids)";
+        if ($conn->query($sql_delete) === TRUE) {
+            echo '<script>
+                alert("Xóa thành công");</script>';
+        } else {
+            echo 'Lỗi' . $conn->error;
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-post'])) {
+    if (isset($_POST['posts'])) {
+        $posts_to_delete = $_POST['posts'];
+        $post_ids = implode(',', array_map('intval', $posts_to_delete));
+        $sql_delete = "DELETE FROM post WHERE `id-post` IN ($post_ids)";
+        if ($conn->query($sql_delete) === TRUE) {
+            echo '<script>
+                alert("Xóa thành công");</script>';
+        } else {
+            echo 'Lỗi' . $conn->error;
+        }
+    }
+}
+
+?>
