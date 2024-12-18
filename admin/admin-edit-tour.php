@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
             </div>
             <div class="d-flex flex-row column-gap-4"> 
-                <a href="../single-tour?id-tour=<?php echo htmlspecialchars($tour['id-tour']);?>"><i class="icon fa-solid fa-eye"></i>  Xem</a>
+                <a href="../single-tour?id-tour=<?php echo htmlspecialchars($tour['id-tour']);?>" target="_blank"><i class="icon fa-solid fa-eye"></i>  Xem</a>
             </div>
         </div>
     </div>           

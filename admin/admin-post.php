@@ -96,12 +96,12 @@ include '../includes/delete.php';
                         while ($post = $result->fetch_assoc()) {
                             echo '<tr class="text-center">';
                                 echo '<td><input type="checkbox" name="posts[]" value="' . htmlspecialchars($post['id-post']) . '" class="post-select"></td>';
-                                $title = htmlspecialchars($post['title-post']);
-                                $shortTitle = truncateTitle($title);
-                                echo '<td class="text-start">
-                                    <a class="accent link" href="admin-edit-post?id-post=' . htmlspecialchars($post['id-post']) . '">'
-                                    . $shortTitle . '</a></td>';
-                                
+                                echo '<td><div class="text-start">';
+                                    $title = htmlspecialchars($post['title-post']);
+                                    $shortTitle = truncateTitle($title);
+                                    echo '<a class="accent link" href="admin-edit-post?id-post=' . htmlspecialchars($post['id-post']) . '">' . $shortTitle . '  </a>';
+                                    echo '<a href="../single-post?slug-post=' . htmlspecialchars($post['slug-post']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
+                                echo '</td></div>'; 
                                 echo '<td>' . htmlspecialchars($post['category-post']) . '</td>';
                                 echo '<td>' . formatDate($post['date-post']) . '</td>';
                                 $expert = htmlspecialchars($post['expert-post']);

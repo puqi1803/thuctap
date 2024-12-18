@@ -332,8 +332,8 @@ footer .subscribe button {
     padding: 0px;
 }
 .index .post .post-content .post-column-1 .post-img {
-    height: 400px;
-    min-height: 400px;
+    height: 520px;
+    min-height: 520px;
     border-radius: var(--border-radius);
 }
 .index .post .post-content .post-column-2 .post-img {
@@ -380,6 +380,15 @@ footer .subscribe button {
 .single-post .single-post-content .post-img {
     border-radius: var(--border-radius);
 }
+
+/*Lien-he*/
+.lien-he .post-img {
+    height: 400px;
+    min-height: 400px;
+    object-position: left;
+    border-radius: var(--border-radius);
+}
+
 /*Single tour*/
 .single-tour .gallery-img-tour {
     border-radius: var(--border-radius);
@@ -428,14 +437,16 @@ footer .subscribe button {
 .admin-tour td, .admin-tour a.accent.link, .admin-post td, .admin-post a.accent.link {
     font-size: 0.9rem;
 }
-.admin-new-tour input, .admin-edit-tour input, .admin-new-post input, .admin-edit-post input  {
+.admin-new-tour input, .admin-edit-tour input,
+.admin-new-tour select, .admin-edit-tour select,
+.admin-new-post input, .admin-edit-post input  {
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;
     padding: 0.5rem;
     width: 100%;
 }
-.admin-new-tour label, .admin-edit-tour label, .admin-new-tour label, .admin-edit-tour input {
+.admin-new-tour label, .admin-edit-tour label, .admin-new-tour label, .admin-edit-tour label {
     font-weight: 700;
 }
 .admin-new-tour textarea, .admin-edit-tour textarea, .admin-new-post textarea, .admin-edit-post textarea  {

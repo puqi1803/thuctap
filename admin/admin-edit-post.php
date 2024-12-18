@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
             </div>
             <div class="d-flex flex-row column-gap-4"> 
-                <a href="../single-post?slug-post=<?php echo htmlspecialchars($post['slug-post']);?>"><i class="icon fa-solid fa-eye"></i>  Xem</a>
+                <a href="../single-post?slug-post=<?php echo htmlspecialchars($post['slug-post']);?>" target="_blank"><i class="icon fa-solid fa-eye"></i>  Xem</a>
             </div>
         </div>
     </div>

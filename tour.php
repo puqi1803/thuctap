@@ -107,8 +107,8 @@
                         if($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo '<div class="result-content d-flex flex-row border-round">';
-                                    echo '<img class="tour-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
-                                    echo '<div class="tour-content d-flex flex-column row-gap-2 p-4">';
+                                    echo '<img class="tour-img object-fit-cover w-50" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
+                                    echo '<div class="tour-content d-flex flex-column w-50 row-gap-2 p-4">';
                                         echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
                                             <h5>' . htmlspecialchars($row["title-tour"]) . '</h5></a>';
                                             echo '<div class="d-flex flex-wrap column-gap-4 justify-content-between">';

@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $duration_tour = $_POST['duration-tour'];
     $timeline_tour = $_POST['timeline-tour'];
     $description_tour = $_POST['description-tour'];
+    $location_tour = $_POST['location-tour'];
     $img_tour = null;
 
     include '../includes/check-image.php';
@@ -43,11 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         `duration-tour`, 
         `timeline-tour`, 
         `description-tour`,
-        `status-tour`     
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        `status-tour`,
+        `location-tour`
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssiiisiisssss",
+    $stmt->bind_param("ssssiiisiissssss",
         $id_tour,
         $title_tour, 
         $date_tour, 
@@ -62,7 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $duration_tour, 
         $timeline_tour, 
         $description_tour,
-        $status_tour
+        $status_tour,
+        $location_tour
     );
 
     if ($stmt->execute()) {
@@ -89,6 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php 
         include '../header-blank.php';
         include '../taskbar.php';
+
+        $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
+        $result_location = $conn->query($sql_location);
     ?> 
     <main class="container admin-new-tour">
         <form method="POST" enctype="multipart/form-data">
@@ -143,11 +149,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                         <div class="row justify-content-between">
-                        <div class="col-6">
+                            <div class="col-6">
                                 <label for="participators">Số lượng</label>
                                 <input type="number" id="participators" name="participators">     
                             </div>
-                        </div>             
+                        </div>
                     </div>
                     <div class="d-flex flex-column row-gap-2">
                         <h5>Giá</h5>

@@ -55,6 +55,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                         </div>
                     </div>
                     <hr>
+                    <!------
                     <div>
                         <a class="menu-toggle">Khách hàng</a>
                         <div class="sub-menu" style="display: none;">
@@ -62,6 +63,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                             <a class="list-group-item" href="admin-new-customer">Thêm khách hàng</a>
                         </div>
                     </div>
+                    ----->
             </div>
             <div class="content col p-5">
                 <?php

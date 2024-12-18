@@ -98,11 +98,12 @@ include '../includes/delete.php';
                             while ($tour = $result->fetch_assoc()) {
                                 echo '<tr class="text-center">';
                                     echo '<td><input type="checkbox" name="tours[]" value="' . htmlspecialchars($tour['id-tour']) . '" class="tour-select"></td>';
-                                    $title =  htmlspecialchars($tour['title-tour']);
-                                    $shortTitle = truncateTitle($title);
-                                    echo '<td class="text-start">
-                                        <a class="accent link" href="admin-edit-tour?id-tour=' .htmlspecialchars($tour['id-tour']) . '">'
-                                        . $shortTitle . '</a></td>';
+                                    echo '<td><div class="text-start">';
+                                        $title =  htmlspecialchars($tour['title-tour']);
+                                        $shortTitle = truncateTitle($title);
+                                        echo '<a class="accent link" href="admin-edit-tour?id-tour=' .htmlspecialchars($tour['id-tour']) . '">' . $shortTitle . '  </a>';
+                                        echo '<a href="../single-tour?id-tour=' . htmlspecialchars($tour['id-tour']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
+                                    echo '</td></div>';
                                     echo '<td>' . htmlspecialchars($tour['category-tour']) . '</td>';
                                     echo '<td>' . htmlspecialchars($tour['id-tour']) . '</td>';
                                     echo '<td>' . number_format($tour['price-tour']) . '</td>';
