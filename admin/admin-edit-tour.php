@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $duration_tour = $_POST['duration-tour'];
     $timeline_tour = $_POST['timeline-tour'];
     $description_tour = $_POST['description-tour'];
+    $location_tour = $_POST['location-tour'];
     $img_tour = $tour['img-tour'];
 
     if (isset($_FILES['img-tour']) && $_FILES['img-tour']['error'] == 0) {
@@ -46,24 +47,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status_tour = (isset($_POST['Draft']) && $_POST['Draft'] === 'true') ? 'Draft' : 'Published';
 
     $sql = "UPDATE tour SET
-        `title-tour` = ?, 
-        `date-tour` = ?, 
-        `img-tour` = ?, 
-        `price-tour` = ?,
-        `price-children-tour` = ?, 
-        `price-baby-tour` = ?, 
-        `starting-gate` = ?, 
-        `participators` = ?, 
-        `sale-price-tour` = ?, 
-        `information-tour` = ?, 
-        `duration-tour` = ?, 
-        `timeline-tour` = ?, 
-        `description-tour` = ?,
-        `status-tour`= ?           
+    `title-tour` = ?, 
+    `date-tour` = ?, 
+    `img-tour` = ?, 
+    `price-tour` = ?,
+    `price-children-tour` = ?, 
+    `price-baby-tour` = ?, 
+    `starting-gate` = ?, 
+    `participators` = ?, 
+    `sale-price-tour` = ?, 
+    `information-tour` = ?, 
+    `duration-tour` = ?, 
+    `timeline-tour` = ?, 
+    `description-tour` = ?,
+    `status-tour`= ?,
+    `location-tour`=?       
     WHERE `id-tour` = ?"; 
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssiiisiissssss",
+    $stmt->bind_param("sssiiisiisssssss",
         $title_tour, 
         $date_tour, 
         $img_tour,
@@ -78,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $timeline_tour, 
         $description_tour,
         $status_tour,
+        $location_tour,
         $id_tour
     );
 
@@ -102,7 +105,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php  include '../header-blank.php';?>
+    <?php  
+        include '../header-blank.php';
+
+        $sql_starting_gate = "SELECT `name-starting-gate` FROM `starting-gate`  ORDER BY `name-starting-gate` ASC ";
+        $result_starting_gate = $conn->query($sql_starting_gate);
+
+        $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
+        $result_location = $conn->query($sql_location);
+    ?>
+    
     <div class="container-fluid taskbar">
         <div class="container d-flex flex-row py-2 px-4 justify-content-between">
             <div class="d-flex flex-row column-gap-4">
@@ -165,7 +177,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="row justify-content-between">
                             <div class="col-6">
                                 <label for="starting-gate">Khởi hành</label>
-                                <input type="text" id="starting-gate" name="starting-gate" value="<?php echo htmlspecialchars($tour['starting-gate']);?>">
+                                <select id="starting-gate" name="starting-gate">
+                                    <?php
+                                    if ($result_starting_gate) {
+                                        if ($result_starting_gate->num_rows > 0) {
+                                            while ($starting_gate = $result_starting_gate->fetch_assoc()) {
+                                                echo '<option value="' . htmlspecialchars($starting_gate['name-starting-gate']) . '"';
+                                                if ($starting_gate['name-starting-gate'] == $tour['starting-gate']) {
+                                                    echo ' selected';
+                                                }
+                                                echo '>' . htmlspecialchars($starting_gate['name-starting-gate']) . '</option>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
                             <div class="col-6">
                                 <label for="duration-tour">Thời gian</label>
@@ -176,6 +202,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="col-6">
                                 <label for="participators">Số lượng</label>
                                 <input type="number" id="participators" name="participators" value="<?php echo number_format($tour['participators']);?>">     
+                            </div>
+                            <div class="col-6">
+                                <label for="location-tour">Địa điểm</label>
+                                <select id="location-tour" name="location-tour">
+                                    <?php
+                                    if ($result_location) {
+                                        if($result_location->num_rows > 0) {
+                                            while($location_tour = $result_location->fetch_assoc()) {
+                                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '"';
+                                                if ($location_tour['name-location'] == $tour['location-tour']) {
+                                                    echo ' selected';
+                                                }    
+                                                echo '>' . htmlspecialchars($location_tour['name-location']) . '</option>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>             
                     </div>
@@ -196,12 +240,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="row justify-content-between">
                             <div class="col-6">
                                 <?php $price_childern_tour = isset($tour['price-children-tour']) ? str_replace(',', '', $tour['price-children-tour']) : 0; ?>
-                                <label for="price-children-tour">Giá cho trẻ em</label>
+                                <label for="price-children-tour">Giá cho trẻ em<br>(Từ 2 - 11 tuổi)</label>
                                 <input type="number" id="price-children-tour" name="price-children-tour" value="<?php echo $price_childern_tour ?>" step="0.01">
                             </div>
                             <div class="col-6">
                                 <?php $price_baby_tour = isset($tour['price-baby-tour']) ? str_replace(',', '', $tour['price-baby-tour']) : 0; ?>
-                                <label for="price-baby-tour">Giá cho trẻ sơ sinh</label>
+                                <label for="price-baby-tour">Giá cho trẻ sơ sinh<br>(Dưới 2 tuổi)</label>
                                 <input type="number" id="price-baby-tour" name="price-baby-tour" value="<?php echo $price_baby_tour?>" step="0.01">
                             </div>
                         </div>   

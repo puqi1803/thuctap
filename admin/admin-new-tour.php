@@ -93,6 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         include '../header-blank.php';
         include '../taskbar.php';
 
+        $sql_starting_gate = "SELECT `name-starting-gate` FROM `starting-gate`  ORDER BY `name-starting-gate` ASC ";
+        $result_starting_gate = $conn->query($sql_starting_gate);
+
         $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
         $result_location = $conn->query($sql_location);
     ?> 
@@ -141,7 +144,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="row justify-content-between">
                             <div class="col-6">
                                 <label for="starting-gate">Khởi hành</label>
-                                <input type="text" id="starting-gate" name="starting-gate">
+                                <select id="starting-gate" name="starting-gate">
+                                <?php
+                                    if ($result_starting_gate) {
+                                        if($result_starting_gate->num_rows > 0) {
+                                            while($starting_gate = $result_starting_gate->fetch_assoc()) {
+                                                echo '<option value="' . htmlspecialchars($starting_gate['name-starting-gate']) . '">'
+                                                . htmlspecialchars($starting_gate['name-starting-gate']) . '</option>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
                             <div class="col-6">
                                 <label for="duration-tour">Thời gian</label>
@@ -152,6 +166,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="col-6">
                                 <label for="participators">Số lượng</label>
                                 <input type="number" id="participators" name="participators">     
+                            </div>
+                            <div class="col-6">
+                                <label for="location-tour">Địa điểm</label>
+                                <select id="location-tour" name="location-tour">
+                                    <?php
+                                    if ($result_location) {
+                                        if($result_location->num_rows > 0) {
+                                            while($location_tour = $result_location->fetch_assoc()) {
+                                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '">'
+                                                . htmlspecialchars($location_tour['name-location']) . '</option>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -169,11 +198,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div class="row justify-content-between">
                             <div class="col-6">
-                                <label for="price-children-tour">Giá cho trẻ em</label>
+                                <label for="price-children-tour">Giá cho trẻ em<br>(Từ 2 - 11 tuổi)</label>
                                 <input type="number" id="price-children-tour" name="price-children-tour">
                             </div>
                             <div class="col-6">
-                                <label for="price-baby-tour">Giá cho trẻ sơ sinh</label>
+                                <label for="price-baby-tour">Giá cho trẻ sơ sinh<br>(Dưới 2 tuổi)</label>
                                 <input type="number" id="price-baby-tour" name="price-baby-tour">
                             </div>
                         </div>   

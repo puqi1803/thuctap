@@ -48,7 +48,7 @@
             <h1><?php echo htmlspecialchars($pageTitle); ?></h1>
         </div>
         <!---------------------------------- BAI VIET --------------------------------------->
-        <div class="post row mt-4">
+        <div class="post row mt-5">
             <?php
             if ($result) {
                 if ($result->num_rows > 0) {

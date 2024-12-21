@@ -43,6 +43,7 @@ function truncateTitle($title, $maxWords = 15) {
 }
 
 function createSlug($title) {
+    $title = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $title);
     $slug = strtolower($title);
     $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
     $slug = preg_replace('/[\s-]+/', '-', $slug);

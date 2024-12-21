@@ -59,13 +59,13 @@ $stmt->close();
                         <?php endif ?>
                         <?php if(!empty($tour['timeline-tour'])) : ?> 
                         <div>
-                            <h4 class="title-page text-center">Lịch trình</h4>
+                            <h4 class="title-page text-center mb-4">Lịch trình</h4>
                             <?php echo nl2br(html_entity_decode($tour['timeline-tour'])); ?>
                         </div>
                         <?php endif ?>
                         <?php if(!empty($tour['information-tour'])) : ?> 
                         <div>
-                            <h4 class="title-page text-center">Thông tin khác</h4>
+                            <h4 class="title-page text-cente mb-4">Thông tin khác</h4>
                             <?php echo nl2br(html_entity_decode($tour['information-tour'])); ?>
                         </div>
                         <?php endif ?>
@@ -107,9 +107,14 @@ $stmt->close();
                                 <p class="id-tour accent"><?php echo htmlspecialchars($tour["id-tour"]) ?></p>
                             </div>
                             <div class="d-flex flex-row column-gap-2 align-items-center">
-                                <i class="icon fa-solid fa-location-dot"></i>
+                                <i class="icon fa-solid fa-plane"></i>
                                 <p>Khởi hành:</p>
                                 <p class="id-tour accent"><?php echo htmlspecialchars($tour["starting-gate"]) ?></p>
+                            </div>
+                            <div class="d-flex flex-row column-gap-2 align-items-center">
+                                <i class="icon fa-solid fa-location-dot"></i>
+                                <p>Địa điểm:</p>
+                                <p class="id-tour accent"><?php echo htmlspecialchars($tour["location-tour"]) ?></p>
                             </div>
                             <div class="d-flex flex-row column-gap-2 align-items-center">
                                 <i class="icon fa-solid fa-calendar-days"></i>
@@ -122,7 +127,7 @@ $stmt->close();
                                 <p class="id-tour accent"><?php echo htmlspecialchars($tour["duration-tour"]) ?></p>
                             </div>
                             <hr class="my-4">
-                            <a href="lienhe">
+                            <a href="lien-he" target="_blank">
                                 <button class="button-destructive p-2 w-100">Đặt tour</button>
                             </a>
                         </div>

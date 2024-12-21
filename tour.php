@@ -35,6 +35,9 @@
 
         $sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
         $result = $conn->query($sql);
+
+        $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
+        $result_location = $conn->query($sql_location);
     ?>
     <main class="tour container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -46,16 +49,24 @@
         <div class="title-page mt-5 text-center">
             <h1><?php echo htmlspecialchars($pageTitle); ?></h1>
         </div>
-        <div class="tour-container row mt-4 gx-5 justify-content-between flex-nowrap">
+        <div class="tour-container row mt-5 gx-5 justify-content-between flex-nowrap">
         <!---------------------------------- BO LOC --------------------------------------->
         <div class="filter col-3">
             <h5>BỘ LỌC TÌM KIẾM</h5>
             <div class="filter-content d-flex flex-column mt-4 p-4 row-gap-4 border-round background-gray">
                 <div class="filter-criteria">
                     <h6>Địa điểm</h6>
-                    <select id="location" class="px-2 py-2 w-100 border-round background-white">
-                        <option value="default">Chọn địa điểm</option>
-                        <option value="cantho">Cần Thơ</option>
+                    <select id="location-tour" name="location-tour" class="w-100 p-2 border-round" >
+                    <?php
+                    if ($result_location) {
+                        if($result_location->num_rows > 0) {
+                            while($location_tour = $result_location->fetch_assoc()) {
+                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '">'
+                                . htmlspecialchars($location_tour['name-location']) . '</option>';
+                            }
+                        }
+                    }
+                    ?>
                     </select>
                 </div>   
                 <div class="filter-criteria">
@@ -117,10 +128,18 @@
                                                     <p>Mã chương trình: </p>
                                                     <p class="id-tour accent">' . htmlspecialchars($row["id-tour"]) . '</p>
                                                 </div>';
+                                        echo '</div>';
+
+                                        echo '<div class="d-flex flex-wrap column-gap-4 justify-content-between">';
+                                            echo '<div class="d-flex flex-row column-gap-2 align-items-center">
+                                                <i class="icon fa-solid fa-plane"></i>
+                                                <p>Khởi hành: </p>
+                                                <p class="id-tour accent">' . htmlspecialchars($row["starting-gate"]) . '</p>
+                                            </div>';
                                             echo '<div class="d-flex flex-row column-gap-2 align-items-center">
                                                 <i class="icon fa-solid fa-location-dot"></i>
-                                                <p>Khởi hành: </p>
-                                                <p class="accent">' . htmlspecialchars($row["starting-gate"]) . '</p>
+                                                <p>Địa điểm: </p>
+                                                <p class="accent">' . htmlspecialchars($row["location-tour"]) . '</p>
                                             </div>';
                                         echo '</div>';
                                         

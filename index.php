@@ -14,7 +14,10 @@ include 'includes/functions.php';
 </head>
 
 <body>
-    <?php include 'header-banner.php'; ?>
+    <?php include 'header-banner.php'; 
+    $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
+    $result_location = $conn->query($sql_location);
+    ?>
     <main class="index">
         <!---------------------------------- 
         <div class="banner">
@@ -26,9 +29,17 @@ include 'includes/functions.php';
         <div class="search container mx-auto my-5 p-5 border-round shadow-sm background-white">
             <h6>Bạn muốn đi đâu?</h6>
             <form action="" class="row column-gap-2 flex-nowrap">
-                <select class="col-5 p-3 border-round" name="location" id="location">
-                    <option value="default">Chọn địa điểm</option>
-                    <option value="cantho">Cần Thơ</option>
+                <select id="location-tour" name="location-tour" class="col p-3 border-round" >
+                    <?php
+                    if ($result_location) {
+                        if($result_location->num_rows > 0) {
+                            while($location_tour = $result_location->fetch_assoc()) {
+                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '">'
+                                . htmlspecialchars($location_tour['name-location']) . '</option>';
+                            }
+                        }
+                    }
+                    ?>
                 </select>
                 <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="ngaydi">
                 <button class="col-1 px button-primary p-3" type="submit">
