@@ -59,7 +59,7 @@ $stmt->close();
             <h3 class="title-page">CÁC TIN KHÁC</h3> 
             <div class="row mt-4">
             <?php
-            $sql = "SELECT * FROM post ORDER BY `id-post` ASC LIMIT 4";
+            $sql = "SELECT * FROM post WHERE `status-post`='Published' ORDER BY `id-post` ASC LIMIT 4";
                 $result = $conn->query($sql);
                 if ($result) {
                     if ($result->num_rows > 0) {

@@ -83,7 +83,6 @@ include '../includes/delete.php';
                     <tr class="text-center text-uppercase">
                         <th scope="col" class="col"><input type="checkbox" id="select-all"></th>
                         <th scope="col" class="col-3">Tên bài viết</th>
-                        <th scope="col" class="col">Chuyên mục</th>
                         <th scope="col" class="col">Ngày phát hành</th>
                         <th scope="col" class="col-3">Mô tả</th>
                         <th scope="col" class="col">Trạng thái</th>
@@ -102,7 +101,6 @@ include '../includes/delete.php';
                                     echo '<a class="accent link" href="admin-edit-post?id-post=' . htmlspecialchars($post['id-post']) . '">' . $shortTitle . '  </a>';
                                     echo '<a href="../single-post?slug-post=' . htmlspecialchars($post['slug-post']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
                                 echo '</td></div>'; 
-                                echo '<td>' . htmlspecialchars($post['category-post']) . '</td>';
                                 echo '<td>' . formatDate($post['date-post']) . '</td>';
                                 $expert = htmlspecialchars($post['expert-post']);
                                 $shortExpert = truncateExpertShort($expert);

@@ -83,8 +83,8 @@ include '../includes/delete.php';
                     <tr class="text-center text-uppercase">
                         <th scope="col" class="col"><input type="checkbox" id="select-all"></th>
                         <th scope="col" class="col-3">Tên tour</th>
-                        <th scope="col" class="col">Chuyên mục</th>
                         <th scope="col" class="col">Mã tour</th>
+                        <th scope="col" class="col">Địa điểm</th>
                         <th scope="col" class="col">Giá</th>
                         <th scope="col" class="col">Ngày khởi hành</th>
                         <th scope="col" class="col">Khởi hành</th>
@@ -104,8 +104,8 @@ include '../includes/delete.php';
                                         echo '<a class="accent link" href="admin-edit-tour?id-tour=' .htmlspecialchars($tour['id-tour']) . '">' . $shortTitle . '  </a>';
                                         echo '<a href="../single-tour?id-tour=' . htmlspecialchars($tour['id-tour']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
                                     echo '</td></div>';
-                                    echo '<td>' . htmlspecialchars($tour['category-tour']) . '</td>';
                                     echo '<td>' . htmlspecialchars($tour['id-tour']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($tour['location-tour']) . '</td>';
                                     echo '<td>' . number_format($tour['price-tour']) . '</td>';
                                     echo '<td>' . formatDate($tour['date-tour']) . '</td>';
                                     echo '<td class="text-start">' . htmlspecialchars($tour['starting-gate']) . '</td>';

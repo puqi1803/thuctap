@@ -91,14 +91,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php 
         include '../header-blank.php';
-        include '../taskbar.php';
 
         $sql_starting_gate = "SELECT `name-starting-gate` FROM `starting-gate`  ORDER BY `name-starting-gate` ASC ";
         $result_starting_gate = $conn->query($sql_starting_gate);
 
         $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
         $result_location = $conn->query($sql_location);
-    ?> 
+    ?>
+    <div class="container-fluid taskbar">
+    <div class="container d-flex flex-row py-2 px-4 justify-content-between">
+        <div class="d-flex flex-row column-gap-4">
+            <button class="button-none"
+                onclick= "if(confirm('Bạn sẽ rời khỏi trang này khi bài viết chưa được lưu. Bạn chắc chắn chứ?'))
+                {window.location.href='admin?page=admin-tour';}">
+                <i class="icon fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Trở về
+            </button>
+        </div>
+        <div class="d-flex flex-row column-gap-4"> 
+            <a href="/nienluan.com/" target="_blank"><i class="icon fa-solid fa-house"></i>  Trang chủ</a>
+        </div>
+    </div>
+    </div> 
     <main class="container admin-new-tour">
         <form method="POST" enctype="multipart/form-data">
             <div class="row mt-5 column-gap-4">

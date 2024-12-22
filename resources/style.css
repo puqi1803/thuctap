@@ -324,9 +324,6 @@ footer .subscribe button {
 .index .tour-noi-bat .tour-container .tour-item .tour-price {
     color: var(--accent);
 }
-.index .tour-noi-bat .tour-container .tour-item .tour-content {
-    min-height: 300px;
-}
 
 .index .post .post-content .post-column-1 {
     padding: 0px;
