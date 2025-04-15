@@ -15,7 +15,7 @@ include 'includes/functions.php';
 
 <body>
     <?php include 'header-banner.php'; 
-    $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
+    $sql_location = "SELECT `name-location`, `area-location` FROM `location` ORDER BY `area-location` ASC;";
     $result_location = $conn->query($sql_location);
     ?>
     <main class="index">
@@ -29,19 +29,51 @@ include 'includes/functions.php';
         <div class="search container mx-auto my-5 p-5 border-round shadow-sm background-white">
             <h6>Bạn muốn đi đâu?</h6>
             <form action="" class="row column-gap-2 flex-nowrap">
+                <!-- <input type="text" id="location-tour" name="location-tour" class="col p-3 border-round" placeholder="Nhập địa điểm..." list="location-list" autocomplete="off">
+                <datalist id="location-list">
+                </datalist> 
                 <select id="location-tour" name="location-tour" class="col p-3 border-round" >
                     <?php
-                    if ($result_location) {
+                    /*if ($result_location) {
                         if($result_location->num_rows > 0) {
                             while($location_tour = $result_location->fetch_assoc()) {
                                 echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '">'
                                 . htmlspecialchars($location_tour['name-location']) . '</option>';
                             }
                         }
-                    }
+                    }*/
                     ?>
+                </select>-->
+                <?php
+                $location_by_area=[];
+
+                //Nhóm địa điểm theo khu vực
+                if($result_location) {
+                    while($location_tour = $result_location->fetch_assoc()) {
+                        $area_location = $location_tour['area-location'];
+                        $name_location = htmlspecialchars($location_tour['name-location']);
+                        
+                        if(!isset($location_by_area[$area_location])) {
+                            $location_by_area[$area_location] = [];
+                        }
+                        $location_by_area[$area_location][] = $name_location;
+                    }
+                }
+                //Hiển thị địa điểm theo khu vực
+                echo '<select id="location-tour" name="location-tour" class="col p-3 border-round" >';
+                foreach ($location_by_area as $area => $locations) {
+                    echo '<optgroup label="' . htmlspecialchars($area) . '">';
+                    foreach ($locations as $location ) {
+                        echo '<option value="' . $location . '">' . $location . '</option>';
+                    }
+                    echo '</optgroup>';
+                }
+                echo '</select>';
+                ?>
+                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="start-date">
+                <select class="col p-3 border-round" id="budget">
+                
                 </select>
-                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="ngaydi">
                 <button class="col-1 px button-primary p-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
