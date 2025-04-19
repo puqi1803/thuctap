@@ -299,11 +299,10 @@ footer .subscribe button {
 .pagination a, .pagination .number {
     color: var(--text);
 }
-.pagination .accent, .pagination a:hover {
+.pagination a:hover {
     color: var(--primary);
-    font-size: 1.25rem;
 }
-.pagination-admin .accent {
+.pagination-admin .accent .pagination .accent {
     font-weight: 700;
 }
 .taskbar {

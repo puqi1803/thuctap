@@ -3,10 +3,11 @@ include 'partical/db_connect.php';
 include 'includes/functions.php';
 
 $slug = isset($_GET['slug-post']) ? $_GET['slug-post'] : '';
+$status_post = 'Published';
 
-$sql = "SELECT * FROM post WHERE `slug-post` = ?"; 
+$sql = "SELECT * FROM post WHERE `slug-post` = ? AND `status-post` = ?"; 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $slug);
+$stmt->bind_param("ss", $slug, $status_post);
 $stmt->execute();
 $result = $stmt->get_result();
 $post = $result->fetch_assoc();
@@ -59,11 +60,19 @@ $stmt->close();
             <h3 class="title-page">CÁC TIN KHÁC</h3> 
             <div class="row mt-4">
             <?php
-            $sql = "SELECT * FROM post WHERE `status-post`='Published' ORDER BY `id-post` ASC LIMIT 4";
-                $result = $conn->query($sql);
-                if ($result) {
-                    if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
+            $sql_posts = "SELECT * FROM post WHERE `status-post`=? AND `slug-post`!=? ORDER BY `id-post` ASC LIMIT 4";
+                $stmt_post = $conn->prepare($sql_posts);
+
+                if($stmt_post) {
+                    $stmt_post->bind_param("ss", $status_post, $slug);
+                    $stmt_post->execute();
+                }
+
+                $result_posts = $stmt_post->get_result();
+
+                if ($result_posts) {
+                    if ($result_posts->num_rows > 0) {
+                    while ($row = $result_posts->fetch_assoc()) {
                         echo '<div class="col-3 ">';
                         echo '<div class="d-flex flex-column border-round shadow-sm">';
                             echo '<img class="post-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">'; 

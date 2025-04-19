@@ -22,6 +22,10 @@
 <body>
     <?php 
         include "header-main.php";
+        
+        //Khoi tao bien mac dinh
+        $order_by = 'ORDER BY `created-at` DESC';
+        $status_tour = 'Published';
 
         //Phan trang
         $results_per_page = 5;
@@ -34,7 +38,7 @@
         $rq_budget = $_GET['budget'] ?? '';
 
         //Xay dung truy van
-        $sql = "SELECT * FROM tour WHERE `status-tour` = 'Published'";
+        $sql = "SELECT * FROM tour WHERE `status-tour`=?";
         if ($rq_location) {
             $sql .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
         }
@@ -58,11 +62,23 @@
             }
         }
 
+        //Sap xep theo gia
+        if (isset($_GET['sort'])) {
+            switch($_GET['sort']) {
+                case 'gia-thap-den-cao':
+                    $order_by = 'ORDER BY `price-tour` ASC';
+                    break;
+                case 'gia-cao-den-thap':
+                    $order_by = 'ORDER BY `price-tour` DESC';
+                    break;
+            }
+        }
+
         //Phan trang
-        $sql .= " ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+        $sql .= " " . $order_by . " LIMIT $start_from, $results_per_page";
 
         //Dem ket qua phan trang
-        $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE `status-tour`='Published'";
+        $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE `status-tour`=?";
         if ($rq_location) {
             $sql_count .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
         }
@@ -86,14 +102,23 @@
             }
         }
 
-        $result_count = $conn->query($sql_count);
+        $stmt_count = $conn->prepare($sql_count);
+        $stmt_count->bind_param("s", $status_tour);
+        $stmt_count->execute();
+        $result_count = $stmt_count->get_result();
         $row_account = $result_count->fetch_assoc();
         $total_results = $row_account['total'];
         $total_pages = ceil($total_results/$results_per_page);
-        //$sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+        $stmt_count->close();
+        
 
         //Thuc thi truy van
-        $result = $conn->query($sql);
+        //$sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $status_tour);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
 
         //Lay danh sach dia diem cho bo loc
         $sql_location = "SELECT `name-location`, `area-location` FROM `location` ORDER BY `area-location` ASC ";
@@ -134,7 +159,7 @@
                             }
                         }
                         //Hien thi dia diem theo khu vuc
-                        echo '<option value="all-tour">Tất cả</option>';
+                        echo '<option value="">Tất cả</option>';
                         foreach ($location_by_area as $area_location => $locations) {
                             echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
                             foreach ($locations as $location) {
@@ -159,7 +184,7 @@
                 </div>   
                 <div class="filter-criteria">
                     <h6>Ngân sách</h6>
-                    <div class="options d-flex flex-row column-gap-2">
+                    <!---- <div class="options d-flex flex-row column-gap-2">
                         <button class="p-1 w-50 text-center border-round background-white" data-value="duoi-5-trieu">
                             <p>Từ 5 triệu</p>
                         </button>
@@ -174,14 +199,23 @@
                         <button class="p-1  w-50 text-center border-round background-white" data-value="tren-20-trieu">
                             <p>Trên 20 triệu</p>
                         </button>
-                    </div>
+                    </div> ---->
+                    
+                    <select class="col w-100 p-2 border-round" id="budget" name="budget">
+                        <option value="">Tất cả</option>
+                        <option value="duoi-5-trieu" <?php echo ($rq_budget === 'duoi-5-trieu') ? 'selected' : ''; ?>>Dưới 5 triệu</option>
+                        <option value="5-10-trieu" <?php echo ($rq_budget === '5-10-trieu') ? 'selected' : ''; ?>>Từ 5 triệu - 10 triệu</option>
+                        <option value="10-20-trieu" <?php echo ($rq_budget === '10-20-trieu') ? 'selected' : ''; ?>>Từ 10 triệu - 20 triệu</option>
+                        <option value="tren-20-trieu" <?php echo ($rq_budget === 'tren-20-trieu') ? 'selected' : ''; ?>>Trên 20 triệu</option>
+                    </select>
+
                 </div> 
                 <div class="filter-criteria">
                     <h6>Ngày khởi hành</h6>
                     <input class="p-2 w-100 border-round background-white" type="date" value="<?php echo htmlspecialchars($rq_start_date); ?>" name="start-date">
                 </div>
                 <div>
-                    <button class="button-light-background w-100 p-2">Làm mới</button>
+                    <!---- <button class="button-light-background w-100 p-2">Làm mới</button> --->
                     <button class="button-primary w-100 p-2 mt-2" type=submit>Áp dụng</button>
                 </div>
                 </div>
@@ -193,11 +227,19 @@
                 <p class="accent">Chúng tôi tìm thấy <?php echo htmlspecialchars($total_results); ?> chương trình tour cho Quý khách</p>
                 <div class="d-flex flex-row align-items-center column-gap-2">
                     <p class="accent">Sắp xếp theo</p>
-                    <select id="bo-loc" class="px-2 py-2 border-accent">
-                     <option value="tat-ca">Tất cả</option>
-                        <option value="gia-thap-den-cao">Giá từ thấp đến cao</option>
-                        <option value="gia-cao-den-thap">Giá từ cao đếnn thấp</option>    
-                    </select>
+                    <form action="tour.php" method="GET">
+                           <input type="hidden" name="location-tour" value="<?php echo htmlspecialchars($rq_location);?>"> 
+                           <input type="hidden" name="budget" value=" <?php echo htmlspecialchars($rq_budget);?>"> 
+                        <select id="sort" name="sort" class="px-2 py-2 border-accent" onchange="this.form.submit()">
+                            <option value="">Tất cả</option>
+                            <option value="gia-thap-den-cao"
+                                <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-thap-den-cao') ? 'selected' : ''; ?>>Giá từ thấp đến cao
+                            </option>
+                            <option value="gia-cao-den-thap"
+                                <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-cao-den-thap') ? 'selected' : ''; ?>>Giá từ cao đến thấp
+                            </option>    
+                        </select>
+                    </form>
                 </div>
             </div>
             <hr class="mt-4">
@@ -253,9 +295,7 @@
                                             echo '<div>
                                                 <button class="button-primary px-2 py-2">Xem chi tiết</button>
                                             </div>';
-                                        echo '</div>';
-
-                                        
+                                        echo '</div>';                         
                                     echo '</div>';
                                 echo '</div>';    
                             }
@@ -270,21 +310,26 @@
                     echo '<div class="pagination flex flex-row mt-8 column-gap-4 justify-content-center align-items-center">';
                     if ($page > 1) {
                         echo '<a href="?page=' . ($page - 1) . '">« Trang trước</a>';
-                    } else {
-                        //echo '<span class="disable">« Trang trước</span>';
+                    } /*else {
+                        echo '<span class="disable">« Trang trước</span>';
+                    }*/
+                    if ($total_pages==1) {
+                        echo '<span>1</span>';
                     }
-                    for ($i = 1; $i <= $total_pages; $i++) {
-                        if ($i == $page) {
-                            echo '<span class="accent">' . $i . '</span>';
-                        } else {
-                            echo '<a  class="number" href="?page=' . $i . '">' . $i . '</a>';
+                    else {
+                        for ($i = 1; $i <= $total_pages; $i++) {
+                            if ($i == $page) {
+                                echo '<span class="accent">' . $i . '</span>';
+                            } else {
+                                echo '<a  class="number" href="?page=' . $i . '">' . $i . '</a>';
+                            }
                         }
                     }
                     if ($page < $total_pages) {
                         echo '<a href="?page=' . ($page + 1) . '">Trang sau »</a>';
-                    } else {
-                        //echo '<span class="disable">« Trang sau</span>';
-                    }
+                    } /*else {
+                        echo '<span class="disable">« Trang sau</span>';
+                    }*/
                     echo '</div>';
                 ?>
             </div>

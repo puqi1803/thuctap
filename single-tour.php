@@ -3,10 +3,11 @@ include 'partical/db_connect.php';
 include 'includes/functions.php';
 
 $slug = isset($_GET['id-tour']) ? $_GET['id-tour'] : '';
+$status_tour = "Published";
 
-$sql = "SELECT * FROM tour WHERE `id-tour` = ?";
+$sql = "SELECT * FROM tour WHERE `id-tour` = ? AND `status-tour`=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $slug);
+$stmt->bind_param("ss", $slug, $status_tour);
 $stmt->execute();
 $result = $stmt->get_result();
 $tour = $result->fetch_assoc();

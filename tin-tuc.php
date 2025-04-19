@@ -28,13 +28,18 @@
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $start_from = ($page-1) * $results_per_page;
 
-        $sql_count = "SELECT COUNT(*) AS total FROM post WHERE `status-post` = 'Published'";
-        $result_count = $conn->query($sql_count);
+        $status_post = "Published";
+        $sql_count = "SELECT COUNT(*) AS total FROM post WHERE `status-post`=?";
+        $stmt_count = $conn->prepare($sql_count);
+        $stmt_count->bind_param("s", $status_post);
+        $stmt_count->execute();
+        $result_count = $stmt_count->get_results();
         $row_account = $result_count->fetch_assoc();
         $total_results = $row_account['total'];
         $total_pages = ceil($total_results/$results_per_page);
+        $stmt_count->close();
 
-        $sql = "SELECT * FROM post WHERE `status-post` = 'Published' ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
+        $sql = "SELECT * FROM post WHERE `status-post` = '$status_post' ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
         $result = $conn->query($sql);
     ?>
     <main class="tin-tuc container">
@@ -79,9 +84,9 @@
             echo '<div class="pagination d-flex flex-row mt-5 column-gap-4 justify-content-center align-items-center">';
                 if ($page > 1) {
                     echo '<a href="?page=' . ($page - 1) . '">« Trang trước</a>';
-                } else {
+                } /*else {
                     echo '<span class="disable">« Trang trước</span>';
-                }
+                }*/
                 for ($i = 1; $i <= $total_pages; $i++) {
                     if ($i == $page) {
                         echo '<span class="accent">' . $i . '</span>';
@@ -91,9 +96,9 @@
                 }
                 if ($page < $total_pages) {
                     echo '<a href="?page=' . ($page + 1) . '">Trang sau »</a>';
-                } else {
-                    echo '<span class="disable">« Trang trước</span>';
-                }
+                } /*else {
+                    echo '<span class="disable">« Trang sau</span>';
+                }*/
             echo '</div>';
                 ?>
         </div>

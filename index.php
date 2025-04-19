@@ -71,7 +71,7 @@ include 'includes/functions.php';
                 }
                 echo '</select>';
                 ?>
-                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="date-tour" name="date-tour" placeholder="Ngày khởi hành">
+                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="date-tour" name="date-tour">
                 <select class="col p-3 border-round" id="budget" name="budget">
                     <option value="" disable selected>Ngân sách chuyến đi</option>
                     <option value="duoi-5-trieu">Dưới 5 triệu</option>

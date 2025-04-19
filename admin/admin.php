@@ -1,8 +1,30 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username-user'])) {
+include '../partical/db_connect.php';
+
+if (!isset($_SESSION['username-customer'])) {
     header('Location: ../login.php');
+    exit;
+}
+
+$username_customer = $_SESSION['username-customer'];
+
+$sql_customer = "SELECT `role-customer` FROM customer WHERE `username-customer` = ?";
+$stmt_customer = $conn->prepare($sql_customer);
+$stmt_customer->bind_param("s", $username_customer);
+$stmt_customer->execute();
+$result_customer = $stmt_customer->get_result();
+
+if($result_customer->num_rows>0) {
+    $row_customer = $result_customer->fetch_assoc();
+    $_SESSION['role-customer'] = $row_customer['role-customer'];
+}
+
+$stmt_customer->close();
+
+if ($_SESSION['role-customer'] !== 0) {
+    header ('Location: ../customer.php');
     exit;
 }
 
@@ -55,7 +77,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                         </div>
                     </div>
                     <hr>
-                    <!------
                     <div>
                         <a class="menu-toggle">Khách hàng</a>
                         <div class="sub-menu" style="display: none;">
@@ -63,7 +84,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                             <a class="list-group-item" href="admin-new-customer">Thêm khách hàng</a>
                         </div>
                     </div>
-                    ----->
             </div>
             <div class="content col p-5">
                 <?php
