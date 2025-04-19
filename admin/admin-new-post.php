@@ -1,11 +1,5 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['username-user'])) {
-        header('Location: admin-new-post.php');
-        exit;
-    }
-    $page = 
-
+    include '../includes/check-login.php';
     include '../partical/db_connect.php';
     include '../includes/functions.php';
 

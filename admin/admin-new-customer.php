@@ -3,23 +3,6 @@
     include '../partical/db_connect.php';
     include '../includes/functions.php';
 
-    if ($_GET['id-customer']) {
-        $id_customer = ($_GET['id-customer']);
-
-        $sql = "SELECT * FROM customer WHERE `id-customer` = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $id_customer); 
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $customer = $result->fetch_assoc();
-        } else {
-            $error_message = "Khách hàng không tồn tại";
-            exit;
-        }
-    }
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username_customer = $_POST['username-customer'];
         $password_customer = $_POST['password-customer'];
@@ -29,39 +12,47 @@
         $phone_customer = $_POST['phone-customer'];
         $avatar_customer = null;
 
-        if (isset($_FILES['avatar-customer']) && $_FILES['avatar-customer']['error'] == 0) {
-            include '../includes/check-image.php';
-        }
-        $sql = "UPDATE customer SET
-            `username-customer` = ?,
-            `password-customer` = ?,
-            `name-customer` = ?,
-            `birthday-customer` = ?,
-            `address-customer` = ?,
-            `phone-customer` = ?,
-            `avatar-customer` = ?
-        WHERE `id-customer` = ?";
+        include '../includes/check-image.php';
 
+        $sql = "SELECT * FROM customer WHERE `username-customer` = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssss",
-            $username_customer,
-            $password_customer,
-            $name_customer,
-            $birthday_customer,
-            $address_customer,
-            $phone_customer,
-            $avatar_customer,
-            $id_customer
-        );
+        $stmt->bind_param("s", $username_customer); 
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($stmt->execute()) {
-            header("Location: admin-edit-customer?id-customer=$id_customer");
-        exit();
-    } else {
-        echo 'Lỗi: ' . $stmt->error;
+        if ($result->num_rows > 0) {
+            $error_message = 'Tên đăng nhập đã tồn tại';
+        } else {
+            //$hashed_password = password_hash($password_customer, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO customer (
+                `username-customer`,
+                `password-customer`,
+                `name-customer`,
+                `birthday-customer`,
+                `address-customer`,
+                `phone-customer`,
+                `avatar-customer`
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssssss",
+                $username_customer,
+                $password_customer,
+                $name_customer,
+                $birthday_customer,
+                $address_customer,
+                $phone_customer,
+                $avatar_customer
+            );
+            if ($stmt->execute()) {
+                $id_customer = $conn->insert_id;
+                header("Location: admin-edit-customer?id-customer=$id_customer");
+                exit();
+            } else {
+                echo 'Lỗi: ' . $stmt->error;
+            }
+            $stmt->close();
+        }
     }
-    $stmt->close();
-}
 
 ?>
 
@@ -98,31 +89,31 @@
                     <div class="d-flex flex-column row-gap-2">
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="name-customer">Họ tên</label>
-                            <input type="text" name="name-customer" value="<?php echo htmlspecialchars($customer['name-customer']) ?>">
+                            <input type="text" name="name-customer"></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="username-customer">Tài khoản</label>
-                            <input type="text" id="username-customer" name="username-customer" required value="<?php echo htmlspecialchars($customer['username-customer']) ?>">
+                            <input type="text" id="username-customer" name="username-customer" require></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="password-customer">Mật khẩu</label>
-                            <input type="password" id="password-customer" name="password-customer">
+                            <input type="password" id="password-customer" name="password-customer" require></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="birthday-customer">Ngày tháng năm sinh</label>
-                            <input type="date" id="birthday-customer" name="birthday-customer" value="<?php echo htmlspecialchars($customer['birthday-customer']) ?>">
+                            <input type="date" id="birthday-customer" name="birthday-customer"></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="address-customer">Địa chỉ</label>
-                            <input type="text" id="address-customer" name="address-customer" value="<?php echo htmlspecialchars($customer['address-customer']) ?>">
+                            <input type="text" id="address-customer" name="address-customer"></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="phone-customer">Số điện thoại</label>
-                            <input type="number" id="phone-customer" name="phone-customer" value="<?php echo htmlspecialchars($customer['phone-customer']) ?>">
+                            <input type="number" id="phone-customer" name="phone-customer"></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="email-customer">Email</label>
-                            <input type="email" id="email-customer" name="email-customer" value="<?php echo htmlspecialchars($customer['email-customer']) ?>">
+                            <input type="email" id="email-customer" name="email-customer"></input>
                         </div>
                     </div>
                 </div>

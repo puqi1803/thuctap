@@ -1,12 +1,6 @@
 <?php
-session_start();
-
 include '../partical/db_connect.php';
-
-if (!isset($_SESSION['username-customer'])) {
-    header('Location: ../login.php');
-    exit;
-}
+include '../includes/check-login.php';
 
 $username_customer = $_SESSION['username-customer'];
 

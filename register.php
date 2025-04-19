@@ -68,6 +68,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label class="col-5 accent" for="confirm_password">Xác nhận mật khẩu:</label>
                 <input class="col p-2 border-round" type="password" id="confirm-password-customer" name="confirm-password-customer" required>
             </div>
+            <?php if (!empty($error_message)) : ?>
+                <p class="alert alert-danger"><?php echo htmlspecialchars($error_message); ?></p>
+            <?php endif; ?>
+            <?php if (!empty($success_message)) : ?>
+                <p class="alert alert-success"><?php echo htmlspecialchars($success_message); ?></p>
+            <?php endif; ?>
             <div class="text-center">
                 <button class="button-primary w-100 p-2"type="submit">Đăng ký</button>
             </div>

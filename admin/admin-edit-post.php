@@ -1,10 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['username-user'])) {
-    header('Location: ../login.php');
-    exit;
-}
-
+include '../partical/check-login.php';
 include '../partical/db_connect.php';
 include '../includes/functions.php';
 

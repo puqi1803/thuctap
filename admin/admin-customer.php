@@ -98,7 +98,7 @@ include '../includes/delete.php';
                             while ($customer = $result->fetch_assoc()) {
                                 echo '<tr class="text-center">';
                                     echo '<td><input type="checkbox" name="customers[]" value="' . htmlspecialchars($customer['id-customer']) . '" class="customer-select"></td>';
-                                    echo '<td>' . htmlspecialchars($customer['id-customer']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($customer['username-customer']) . '</td>';
                                     echo '<td><div class="text-start">';
                                         $title =  htmlspecialchars($customer['name-customer']);
                                         $shortTitle = truncateTitle($title);

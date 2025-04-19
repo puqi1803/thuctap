@@ -1,4 +1,5 @@
 <?php
+//Xoa tour
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-tour'])) {
     if (isset($_POST['tours'])) {
         $tours_to_delete = $_POST['tours'];
@@ -13,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-tour'])) {
     }
 }
 
+//Xoa bai viet
 if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-post'])) {
     if (isset($_POST['posts'])) {
         $posts_to_delete = $_POST['posts'];
@@ -27,4 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-post'])) {
     }
 }
 
+//Xoa customer
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-customer'])) {
+    if (isset($_POST['customers'])) {
+        $customers_to_delete = $_POST['customers'];
+        $customer_ids = implode(',', array_map('intval', $customers_to_delete));
+        $sql_delete = "DELETE FROM customer WHERE `id-customer` IN ($customer_ids)";
+        if ($conn->query($sql_delete) === TRUE) {
+            echo '<script>
+                alert("Xóa thành công");</script>';
+        } else {
+            echo 'Lỗi' . $conn->error;
+        }
+    }
+}
 ?>

@@ -438,17 +438,18 @@ footer .subscribe button {
 }
 .admin-new-tour input, .admin-edit-tour input,
 .admin-new-tour select, .admin-edit-tour select,
-.admin-new-post input, .admin-edit-post input  {
+.admin-new-post input, .admin-edit-post input,
+.admin-new-customer input, .admin-edit-customer input{
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;
     padding: 0.5rem;
     width: 100%;
 }
-.admin-new-tour label, .admin-edit-tour label, .admin-new-tour label, .admin-edit-tour label {
+.admin-new-tour label, .admin-edit-tour label, .admin-new-tour label, .admin-edit-tour label, .admin-new-customer label, .admin-edit-customer label {
     font-weight: 700;
 }
-.admin-new-tour textarea, .admin-edit-tour textarea, .admin-new-post textarea, .admin-edit-post textarea  {
+.admin-new-tour textarea, .admin-edit-tour textarea, .admin-new-post textarea, .admin-edit-post textarea, .admin-new-customer textarea, .admin-edit-customer textarea  {
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;
