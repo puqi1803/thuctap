@@ -22,27 +22,87 @@
 <body>
     <?php 
         include "header-main.php";
-        $results_per_page = 5;
 
+        //Phan trang
+        $results_per_page = 5;
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $start_from = ($page-1) * $results_per_page;
 
+        //Lay du lieu tu request
+        $rq_location = $_GET['location-tour'] ?? '';
+        $rq_start_date = $_GET['date-tour'] ?? date('Y-m-d');
+        $rq_budget = $_GET['budget'] ?? '';
+
+        //Xay dung truy van
+        $sql = "SELECT * FROM tour WHERE `status-tour` = 'Published'";
+        if ($rq_location) {
+            $sql .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
+        }
+        /*if ($rq_start_date) {
+            $sql .= " AND `date-tour` = '" . $conn->real_escape_string($rq_start_date) . "'";
+        }*/
+        if ($rq_budget) {
+            switch($rq_budget) {
+                case 'duoi-5-trieu':
+                    $sql .= " AND  `price-tour` < 5000000";
+                    break;
+                case '5-10-trieu':
+                    $sql .= " AND  `price-tour` >= 5000000 AND `price-tour` < 10000000";
+                    break;
+                case '10-20-trieu':
+                    $sql .= " AND  `price-tour` >= 10000000 AND `price-tour` < 20000000";
+                    break;
+                case 'tren-20-trieu':
+                    $sql .= " AND  `price-tour` >= 20000000";
+                    break;
+            }
+        }
+
+        //Phan trang
+        $sql .= " ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+
+        //Dem ket qua phan trang
         $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE `status-tour`='Published'";
+        if ($rq_location) {
+            $sql_count .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
+        }
+        /*if ($rq_start_date) {
+            $sql_count .= " AND `date-tour` = '" . $conn->real_escape_string($rq_start_date) . "'";
+        }*/
+        if ($rq_budget) {
+            switch($rq_budget) {
+                case 'duoi-5-trieu':
+                    $sql_count .= " AND  `price-tour` < 5000000";
+                    break;
+                case '5-10-trieu':
+                    $sql_count .= " AND  `price-tour` >= 5000000 AND `price-tour` < 10000000";
+                    break;
+                case '10-20-trieu':
+                    $sql_count .= " AND  `price-tour` >= 10000000 AND `price-tour` < 20000000";
+                    break;
+                case 'tren-20-trieu':
+                    $sql_count .= " AND  `price-tour` >= 20000000";
+                    break;
+            }
+        }
+
         $result_count = $conn->query($sql_count);
         $row_account = $result_count->fetch_assoc();
         $total_results = $row_account['total'];
         $total_pages = ceil($total_results/$results_per_page);
+        //$sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
 
-        $sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
+        //Thuc thi truy van
         $result = $conn->query($sql);
 
-        $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
+        //Lay danh sach dia diem cho bo loc
+        $sql_location = "SELECT `name-location`, `area-location` FROM `location` ORDER BY `area-location` ASC ";
         $result_location = $conn->query($sql_location);
     ?>
     <main class="tour container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb accent">
-                <li class="breadcrumb-item"><a href="/nienluan.com/">Trang Chủ</a>
+                <li class="breadcrumb-item"><a href="/nienluan.com/">Trang Chủ</a></li>
                 <li class="breadcrumb-item active" breadcrumb-item active="page"><?php echo htmlspecialchars($pageTitle); ?></li>
             </ol>
         </nav>
@@ -53,51 +113,80 @@
         <!---------------------------------- BO LOC --------------------------------------->
         <div class="filter col-3">
             <h5>BỘ LỌC TÌM KIẾM</h5>
+            <form action="tour.php" method="GET"> 
             <div class="filter-content d-flex flex-column mt-4 p-4 row-gap-4 border-round background-gray">
                 <div class="filter-criteria">
                     <h6>Địa điểm</h6>
                     <select id="location-tour" name="location-tour" class="w-100 p-2 border-round" >
-                    <?php
+                        <?php
+                        $location_by_area = [];
+                        //Nhom dia diem theo khu vuc
+                        if($result_location) {
+                            while( $location_tour = $result_location->fetch_assoc()) {
+                                $area_location = $location_tour['area-location'];
+                                $name_location = $location_tour['name-location'];
+                                //$selected_location = ($location_tour['name-location'] == $rq_location) ? 'selected' : '';
+                            
+                            if (!isset($location_by_area[$area_location])) {
+                                $location_by_area[$area_location] = [];
+                            }
+                            $location_by_area[$area_location][] = $name_location;
+                            }
+                        }
+                        //Hien thi dia diem theo khu vuc
+                        echo '<option value="all-tour">Tất cả</option>';
+                        foreach ($location_by_area as $area_location => $locations) {
+                            echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
+                            foreach ($locations as $location) {
+                                $selected_location = ($location == $rq_location) ? 'selected' : ''; 
+                                echo '<option value="' . htmlspecialchars($location) . '" ' . $selected_location . '>' . htmlspecialchars($location) . '</option>';
+                            }
+                            echo '</optgroup>';
+                        }
+                    /*
                     if ($result_location) {
                         if($result_location->num_rows > 0) {
                             while($location_tour = $result_location->fetch_assoc()) {
-                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '">'
+                                $selected_location = ($location_tour['name-location'] == $rq_location) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '"' . $selected_location . '>'
                                 . htmlspecialchars($location_tour['name-location']) . '</option>';
                             }
                         }
                     }
-                    ?>
+                    */
+                        ?>
                     </select>
                 </div>   
                 <div class="filter-criteria">
                     <h6>Ngân sách</h6>
                     <div class="options d-flex flex-row column-gap-2">
-                        <div class="p-1 w-50 text-center border-round background-white">
+                        <button class="p-1 w-50 text-center border-round background-white" data-value="duoi-5-trieu">
                             <p>Từ 5 triệu</p>
-                        </div>
-                        <div class="p-1 w-50 text-center border-round background-white">
+                        </button>
+                        <button class="p-1 w-50 text-center border-round background-white" data-value="5-10-trieu">
                             <p>Từ 5 - 10 triệu</p>
-                        </div>
+                        </button>
                     </div> 
                     <div class="options d-flex flex-row mt-2 column-gap-2">
-                        <div class="p-1 w-50 text-center border-round background-white">
+                        <button class="p-1 w-50 text-center border-round background-white" data-value="10-20-trieu">
                             <p>Từ 10 - 15 triệu</p>
-                        </div>
-                        <div class="p-1  w-50 text-center border-round background-white">
+                        </button>
+                        <button class="p-1  w-50 text-center border-round background-white" data-value="tren-20-trieu">
                             <p>Trên 20 triệu</p>
-                        </div>
+                        </button>
                     </div>
                 </div> 
                 <div class="filter-criteria">
                     <h6>Ngày khởi hành</h6>
-                    <input class="p-2 w-100 border-round background-white" type="date" value="<?php echo date('Y-m-d'); ?>">
+                    <input class="p-2 w-100 border-round background-white" type="date" value="<?php echo htmlspecialchars($rq_start_date); ?>" name="start-date">
                 </div>
                 <div>
                     <button class="button-light-background w-100 p-2">Làm mới</button>
-                    <button class="button-primary w-100 p-2 mt-2">Áp dụng</button>
+                    <button class="button-primary w-100 p-2 mt-2" type=submit>Áp dụng</button>
                 </div>
                 </div>
             </div>
+            </form>
         <!---------------------------------- KET QUA --------------------------------------->
         <div class="result col">
             <div class="d-flex flex-row justify-content-between align-items-center">
@@ -182,7 +271,7 @@
                     if ($page > 1) {
                         echo '<a href="?page=' . ($page - 1) . '">« Trang trước</a>';
                     } else {
-                        echo '<span class="disable">« Trang trước</span>';
+                        //echo '<span class="disable">« Trang trước</span>';
                     }
                     for ($i = 1; $i <= $total_pages; $i++) {
                         if ($i == $page) {
@@ -194,7 +283,7 @@
                     if ($page < $total_pages) {
                         echo '<a href="?page=' . ($page + 1) . '">Trang sau »</a>';
                     } else {
-                        echo '<span class="disable">« Trang trước</span>';
+                        //echo '<span class="disable">« Trang sau</span>';
                     }
                     echo '</div>';
                 ?>

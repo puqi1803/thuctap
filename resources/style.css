@@ -256,6 +256,9 @@ hr {
     color: var(--border)!important;
     border-top: 1px solid var(--border);
 }
+.border-none {
+    border: 0px solid;
+}
 
 /*Background*/
 .background-white {

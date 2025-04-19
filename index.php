@@ -27,8 +27,8 @@ include 'includes/functions.php';
         
         <!---------------------------------- TIM KIEM --------------------------------------->
         <div class="search container mx-auto my-5 p-5 border-round shadow-sm background-white">
-            <h6>Bạn muốn đi đâu?</h6>
-            <form action="" class="row column-gap-2 flex-nowrap">
+            <h5>Bạn muốn đi đâu?</h5>
+            <form action="tour.php" method="GET" class="row column-gap-2 flex-nowrap">
                 <!-- <input type="text" id="location-tour" name="location-tour" class="col p-3 border-round" placeholder="Nhập địa điểm..." list="location-list" autocomplete="off">
                 <datalist id="location-list">
                 </datalist> 
@@ -60,9 +60,10 @@ include 'includes/functions.php';
                     }
                 }
                 //Hiển thị địa điểm theo khu vực
-                echo '<select id="location-tour" name="location-tour" class="col p-3 border-round" >';
-                foreach ($location_by_area as $area => $locations) {
-                    echo '<optgroup label="' . htmlspecialchars($area) . '">';
+                echo '<select id="location-tour" name="location-tour" class="col p-3 border-round">';
+                echo '<option value="">Tất cả</option>';
+                foreach ($location_by_area as $area_location => $locations) {
+                    echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
                     foreach ($locations as $location ) {
                         echo '<option value="' . $location . '">' . $location . '</option>';
                     }
@@ -70,9 +71,13 @@ include 'includes/functions.php';
                 }
                 echo '</select>';
                 ?>
-                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="start-date">
-                <select class="col p-3 border-round" id="budget">
-                
+                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="date-tour" name="date-tour" placeholder="Ngày khởi hành">
+                <select class="col p-3 border-round" id="budget" name="budget">
+                    <option value="" disable selected>Ngân sách chuyến đi</option>
+                    <option value="duoi-5-trieu">Dưới 5 triệu</option>
+                    <option value="5-10-trieu">Từ 5 triệu - 10 triệu</option>
+                    <option value="10-20-trieu">Từ 10 triệu - 20 triệu</option>
+                    <option value="tren-20-trieu">Trên 20 triệu</option>
                 </select>
                 <button class="col-1 px button-primary p-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
