@@ -33,14 +33,17 @@
         $stmt_count = $conn->prepare($sql_count);
         $stmt_count->bind_param("s", $status_post);
         $stmt_count->execute();
-        $result_count = $stmt_count->get_results();
+        $result_count = $stmt_count->get_result();
         $row_account = $result_count->fetch_assoc();
         $total_results = $row_account['total'];
         $total_pages = ceil($total_results/$results_per_page);
         $stmt_count->close();
 
-        $sql = "SELECT * FROM post WHERE `status-post` = '$status_post' ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
-        $result = $conn->query($sql);
+        $sql = "SELECT * FROM post WHERE `status-post` = ? ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $status_post);
+        $stmt->execute();
+        $result = $stmt->get_result();
     ?>
     <main class="tin-tuc container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">

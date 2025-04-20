@@ -1,5 +1,5 @@
 <?php
-include '../partical/check-login.php';
+include '../includes/check-login.php';
 include '../partical/db_connect.php';
 include '../includes/functions.php';
 

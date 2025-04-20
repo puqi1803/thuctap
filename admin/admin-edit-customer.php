@@ -27,33 +27,59 @@
         $birthday_customer = $_POST['birthday-customer'];
         $address_customer = $_POST['address-customer'];
         $phone_customer = $_POST['phone-customer'];
+        $email_customer = $_POST['email-customer'];
         $avatar_customer = null;
 
         if (isset($_FILES['avatar-customer']) && $_FILES['avatar-customer']['error'] == 0) {
             include '../includes/check-image.php';
         }
-        $sql = "UPDATE customer SET
-            `username-customer` = ?,
-            `password-customer` = ?,
-            `name-customer` = ?,
-            `birthday-customer` = ?,
-            `address-customer` = ?,
-            `phone-customer` = ?,
-            `avatar-customer` = ?
-        WHERE `id-customer` = ?";
+        
+        if (empty($password_customer)) {
+            $sql = "UPDATE customer SET
+                `username-customer` = ?,
+                `name-customer` = ?,
+                `birthday-customer` = ?,
+                `address-customer` = ?,
+                `phone-customer` = ?,
+                `avatar-customer` = ?,
+                `email-customer` = ?
+            WHERE `id-customer` = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssssss",
+                $username_customer,
+                $name_customer,
+                $birthday_customer,
+                $address_customer,
+                $phone_customer,
+                $avatar_customer,
+                $email_customer,
+                $id_customer
+            );
+        } else {
+            $sql = "UPDATE customer SET
+                `username-customer` = ?,
+                `password-customer` = ?,
+                `name-customer` = ?,
+                `birthday-customer` = ?,
+                `address-customer` = ?,
+                `phone-customer` = ?,
+                `avatar-customer` = ?,
+                `email-customer` = ?
+            WHERE `id-customer` = ?";
 
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssss",
-            $username_customer,
-            $password_customer,
-            $name_customer,
-            $birthday_customer,
-            $address_customer,
-            $phone_customer,
-            $avatar_customer,
-            $id_customer
-        );
-
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssssssss",
+                $username_customer,
+                $password_customer,
+                $name_customer,
+                $birthday_customer,
+                $address_customer,
+                $phone_customer,
+                $avatar_customer,
+                $email_customer,
+                $id_customer
+            );
+        }
         if ($stmt->execute()) {
             header("Location: admin-edit-customer?id-customer=$id_customer");
         exit();
@@ -68,7 +94,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Thêm khách hàng</title>
+    <title>Sửa khách hàng</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
@@ -78,20 +104,20 @@
 <body>
     <?php include '../header-blank.php'; ?>
     <div class="container-fluid taskbar">
-    <div class="container d-flex flex-row py-2 px-4 justify-content-between">
-        <div class="d-flex flex-row column-gap-4">
-            <button class="button-none"
-                onclick= "if(confirm('Bạn sẽ rời khỏi trang này khi bài viết chưa được lưu. Bạn chắc chắn chứ?'))
-                {window.location.href='admin?page=admin-post';}">
-                <i class="icon fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Trở về
-            </button>
-        </div>
-        <div class="d-flex flex-row column-gap-4"> 
-            <a href="/nienluan.com/"><i class="icon fa-solid fa-house"></i>  Trang chủ</a>
+        <div class="container d-flex flex-row py-2 px-4 justify-content-between">
+            <div class="d-flex flex-row column-gap-4">
+                <button class="button-none"
+                    onclick= "if(confirm('Bạn sẽ rời khỏi trang này khi bài viết chưa được lưu. Bạn chắc chắn chứ?'))
+                    {window.location.href='admin?page=admin-customer';}">
+                    <i class="icon fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Trở về
+                </button>
+            </div>
+            <div class="d-flex flex-row column-gap-4"> 
+                <a href="/nienluan.com/"><i class="icon fa-solid fa-house"></i>  Trang chủ</a>
+            </div>
         </div>
     </div>
-    </div>
-    <main class="container admin-new-customer">
+    <main class="container admin-edit-customer">
         <form method="POST" enctype="multipart/form-data">
             <div class="row mt-5 column-gap-4">
                 <div class="col-8 d-flex flex-column mt-4 row-gap-4">
@@ -129,6 +155,9 @@
                 <div class="col d-flex flex-column mt-4 row-gap-4">
                     <div class="d-flex flex-column row-gap-2">
                         <label for="avatar-customer">Ảnh đại diện</label>
+                        <?php if (!empty($customer['avatar-customer'])) : ?>
+                            <img id="old-image" src="../resources/uploads/<?php echo htmlspecialchars($customer['avatar-customer']);?>" alt="<?php echo htmlspecialchars($customer['avatar-customer']); ?>">
+                        <?php endif; ?>
                         <div id="image-preview"></div>
                         <input type="file" id="avatar-customer" name="avatar-customer" accept="image/*" onchange="previewImage(event)">
                     </div>

@@ -463,7 +463,7 @@ footer .subscribe button {
 .admin-edit-tour button.delete-img:hover, .admin-edit-post button.delete-img:hover  {
     color: var(--note);
 }
-.admin-edit-tour #old-image, .admin-edit-post #old-image {
+.admin-edit-tour #old-image, .admin-edit-post #old-image, .admin-edit-customer #old-image {
     max-width: 200px;
     max-height: 150px;
     object-fit: cover;

@@ -88,7 +88,7 @@ include '../includes/delete.php';
                         <th scope="col" class="col">Số điện thoại</th>
                         <th scope="col" class="col">Phân loại</th>
                         <th scope="col" class="col">Đơn hàng</th>
-                        <th scope="col" class="col">Tổng cộng</th>
+                        <!--<th scope="col" class="col">Tổng cộng</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -98,12 +98,13 @@ include '../includes/delete.php';
                             while ($customer = $result->fetch_assoc()) {
                                 echo '<tr class="text-center">';
                                     echo '<td><input type="checkbox" name="customers[]" value="' . htmlspecialchars($customer['id-customer']) . '" class="customer-select"></td>';
-                                    echo '<td>' . htmlspecialchars($customer['username-customer']) . '</td>';
-                                    echo '<td><div class="text-start">';
-                                        $title =  htmlspecialchars($customer['name-customer']);
-                                        $shortTitle = truncateTitle($title);
-                                        echo '<a class="accent link" href="admin-edit-customer?id-customer=' .htmlspecialchars($customer['id-customer']) . '">' . $shortTitle . '  </a>';
-                                    echo '</td></div>';
+                                    echo '<td><div>
+                                        <a class="accent link" href="admin-edit-customer?id-customer=' . htmlspecialchars($customer['id-customer']) . '">'
+                                        . htmlspecialchars($customer['username-customer']) . '</a>
+                                    </div></td>';
+                                    $title =  htmlspecialchars($customer['name-customer']);
+                                    $shortTitle = truncateTitle($title);
+                                    echo '<td><div>' . $shortTitle . '</td></div>';
                                     echo '<td>' . htmlspecialchars($customer['phone-customer']) . '</td>';
                                     echo '<td>' . (($customer['role-customer'] !== 0) ? 'customer' : 'admin') . '</td>';
                                     echo '<td><div></div></td>';

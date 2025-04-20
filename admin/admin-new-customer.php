@@ -73,7 +73,7 @@
         <div class="d-flex flex-row column-gap-4">
             <button class="button-none"
                 onclick= "if(confirm('Bạn sẽ rời khỏi trang này khi bài viết chưa được lưu. Bạn chắc chắn chứ?'))
-                {window.location.href='admin?page=admin-post';}">
+                {window.location.href='admin?page=admin-customer';}">
                 <i class="icon fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Trở về
             </button>
         </div>

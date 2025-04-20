@@ -18,6 +18,53 @@ include '../includes/delete.php';
     <?php
         include '../header-blank.php';
 
+        //Truy van loc
+        $rq_location = $_GET['location-tour'] ?? '';
+        $rq_budget = $_GET['budget'] ?? '';
+        $rq_date = $_GET['date'] ?? '';
+        $sort =  $_GET['sort'] ?? '';
+        $order_by = 'ORDER BY `created-at` DESC';
+        $status_tour = $_GET['status-tour'] ?? '';
+
+        //Xay dung truy van
+        $sql = "SELECT * FROM tour WHERE 1=1";
+        if ($rq_location) {
+            $sql .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
+        }
+        /*if ($rq_start_date) {
+            $sql .= " AND `date-tour` = '" . $conn->real_escape_string($rq_start_date) . '";
+        }*/
+        if ($rq_budget) {
+            switch ($rq_budget) {
+                case 'duoi-5-trieu':
+                    $sql .= " AND `price-tour` < 5000000";
+                    break;
+                case '5-10-trieu':
+                    $sql .= " AND  `price-tour` >= 5000000 AND `price-tour` < 10000000";
+                    break;
+                case '10-20-trieu':
+                    $sql .= " AND  `price-tour` >= 10000000 AND `price-tour` < 20000000";
+                    break;
+                case 'tren-20-trieu':
+                    $sql .= " AND  `price-tour` >= 20000000";
+                    break;
+            }
+        }
+        if ($sort) {
+            switch($sort) {
+                case 'gia-thap-den-cao':
+                    $order_by = 'ORDER BY `price-tour` ASC';
+                    break;
+                case 'gia-cao-den-thap':
+                    $order_by = 'ORDER BY `price-tour` DESC';
+                    break;
+            }
+        }
+        if ($status_tour) {
+            $sql .= " AND `status-tour` = '" . $conn->real_escape_string($status_tour) . "'";
+        }
+
+        //Phan trang
         $results_per_page = 10;
 
         $page = isset($_GET['tour-page']) ? (int)$_GET['tour-page'] : 1;
@@ -26,32 +73,125 @@ include '../includes/delete.php';
         }
         $start_form = ($page - 1) * $results_per_page;
 
-        $sql_count = "SELECT COUNT(*) AS total FROM tour";
+        $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE 1=1";
+        if ($rq_location) {
+            $sql_count .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
+        }
+        /*if ($rq_start_date) {
+            $sql .= " AND `date-tour` = '" . $conn->real_escape_string($rq_start_date) . "'";
+        }*/
+        if ($rq_budget) {
+            switch ($rq_budget) {
+                case 'duoi-5-trieu':
+                    $sql_count .= " AND `price-tour` < 5000000";
+                    break;
+                case '5-10-trieu':
+                    $sql_count .= " AND  `price-tour` >= 5000000 AND `price-tour` < 10000000";
+                    break;
+                case '10-20-trieu':
+                    $sql_count .= " AND  `price-tour` >= 10000000 AND `price-tour` < 20000000";
+                    break;
+                case 'tren-20-trieu':
+                    $sql_count .= " AND  `price-tour` >= 20000000";
+                    break;
+            }
+        }
+        if ($status_tour) {
+            $sql_count .= " AND `status-tour` = '" . $conn->real_escape_string($status_tour);
+        }
         $result_count = $conn->query($sql_count);
         $row_count = $result_count->fetch_assoc();
         $total_results = $row_count['total'];
         $total_pages = ceil($total_results/$results_per_page);
 
-        $sql = "SELECT * FROM tour ORDER BY `created-at` DESC LIMIT $start_form, $results_per_page";
+        $sql .= " " . $order_by . " LIMIT $start_form, $results_per_page";
         $result = $conn->query($sql);
+
+        $sql_location = "SELECT `name-location`, `area-location` FROM location ORDER BY `area-location` ASC;";
+        $result_location = $conn->query($sql_location);
     ?>            
     <main class="admin-tour">
         <h3 class="title-page">Tour</h3>
+        <!--- Function delete, add new --->
         <div class="row justify-content-between mt-4">
             <div class="col d-flex flex-row column-gap-2 align-items-center">
-                <button class="button-light-background p-2 w-25" onclick="window.open('admin-new-tour', '_blank')">Thêm mới</button>
-                <button class="button-light-background p-2 w-25" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
+                <button class="button-light-background p-2 px-4" onclick="window.open('admin-new-tour', '_blank')">Thêm mới</button>
+                <button class="button-light-background p-2 px-4" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
             </div>
-            <div class="col d-flex flex-row column-gap-2 align-items-center justify-content-end">
+            <div class="col-3 d-flex flex-row column-gap-2 align-items-center justify-content-end">
                 <form method="POST" action="../admin-tour.php">
                     <input class="p-2 border-round" type="text">
                     <button class="button-light-background p-2" type="submit">Tìm</button>
                 </form>
             </div>
         </div>
-        <div class="row justify-content-between mt-2">
-            
-
+        <!--- Filter --->
+        <div class="row justify-content-between mt-4">
+            <div class="col-9 d-flex flex-row column-gap-2 align-items-center">
+                <form method="GET" action="admin.php">
+                    <input type="hidden" name="page" value="admin-tour">
+                    <input type="hidden" name="location-tour" value="<?php echo htmlspecialchars($rq_location); ?>">
+                    <input type="hidden" name="date-tour" value="<?php echo htmlspecialchars($rq_date); ?>">
+                    <input type="hidden" name="budget" value="<?php echo htmlspecialchars($rq_budget); ?>">
+                    <?php
+                    $location_by_area=[];
+                    if ($result_location) {
+                        while ($location_tour=$result_location->fetch_assoc()) {
+                             $area_location = $location_tour['area-location'];
+                            $name_location = htmlspecialchars($location_tour['name-location']);
+                            if (!isset($location_by_area[$area_location])) {
+                                $location_by_area[$area_location]=[];
+                            }
+                            $location_by_area[$area_location][] = $name_location;
+                        }
+                    }
+                    echo '<select id="location-tour" name="location-tour" class="col p-2 border-round">';
+                        echo '<option value="">Lọc theo địa điểm</option>';
+                        foreach ($location_by_area as $area_location => $locations) {
+                            echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
+                            foreach ($locations as $location ) {
+                                $selected_location = ($location === $rq_location) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($location) . '" ' . $selected_location . '>' . htmlspecialchars($location) . '</option>';
+                            }
+                            echo '</optgroup>';
+                        }
+                    echo '</select>';
+                    ?>
+                    <input class="col p-2 border-round" type="date" value="" id="date-tour" name="date-tour"></input>
+                    <select class="col p-2 border-round" id="budget" name="budget">
+                        <option value="">Ngân sách chuyến đi</option>
+                        <option value="duoi-5-trieu" <?php echo($rq_budget === 'duoi-5-trieu') ? 'selected' : '';?>>Dưới 5 triệu</option>
+                        <option value="5-10-trieu" <?php echo($rq_budget === '5-10-trieu') ? 'selected' : '';?>>Từ 5 triệu - 10 triệu</option>
+                        <option value="10-20-trieu" <?php echo($rq_budget === '10-20-trieu') ? 'selected' : '';?>>Từ 10 triệu - 20 triệu</option>
+                        <option value="tren-20-trieu" <?php echo($rq_budget === 'tren-20-trieu') ? 'selected' : '';?>>Trên 20 triệu</option>
+                    </select>
+                    <!--
+                    <select id="status-tour" name="status-tour" class="px-2 py-2 border-accent">
+                        <option value="">Trạng thái</option>
+                        <?php /*
+                        if($result) {
+                            if($result->num_rows > 0) {
+                                while ($tour = $result->fetch_assoc()) {
+                                    echo '<option value="' . htmlspecialchars($tour['status-tour']) . '">'
+                                     . htmlspecialchars($tour['status-tour'])
+                                     . '</option>';
+                                }
+                            }
+                        }*/
+                        ?>
+                    </select> -->
+                    <select id="sort" name="sort" class="px-2 py-2 border-accent">
+                        <option value="">Sắp xếp</option>
+                        <option value="gia-thap-den-cao"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-thap-den-cao') ? 'selected' : ''; ?>>Giá từ thấp đến cao
+                        </option>
+                        <option value="gia-cao-den-thap"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-cao-den-thap') ? 'selected' : ''; ?>>Giá từ cao đến thấp
+                        </option>    
+                    </select>
+                    <button class="px-4 button-light-background p-2" type="submit">Lọc</button>
+                </form>
+            </div>
         </div>
         <?php
         //Phan trang

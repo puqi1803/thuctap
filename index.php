@@ -29,21 +29,6 @@ include 'includes/functions.php';
         <div class="search container mx-auto my-5 p-5 border-round shadow-sm background-white">
             <h5>Bạn muốn đi đâu?</h5>
             <form action="tour.php" method="GET" class="row column-gap-2 flex-nowrap">
-                <!-- <input type="text" id="location-tour" name="location-tour" class="col p-3 border-round" placeholder="Nhập địa điểm..." list="location-list" autocomplete="off">
-                <datalist id="location-list">
-                </datalist> 
-                <select id="location-tour" name="location-tour" class="col p-3 border-round" >
-                    <?php
-                    /*if ($result_location) {
-                        if($result_location->num_rows > 0) {
-                            while($location_tour = $result_location->fetch_assoc()) {
-                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '">'
-                                . htmlspecialchars($location_tour['name-location']) . '</option>';
-                            }
-                        }
-                    }*/
-                    ?>
-                </select>-->
                 <?php
                 $location_by_area=[];
 
@@ -52,7 +37,7 @@ include 'includes/functions.php';
                     while($location_tour = $result_location->fetch_assoc()) {
                         $area_location = $location_tour['area-location'];
                         $name_location = htmlspecialchars($location_tour['name-location']);
-                        
+
                         if(!isset($location_by_area[$area_location])) {
                             $location_by_area[$area_location] = [];
                         }
@@ -61,19 +46,19 @@ include 'includes/functions.php';
                 }
                 //Hiển thị địa điểm theo khu vực
                 echo '<select id="location-tour" name="location-tour" class="col p-3 border-round">';
-                echo '<option value="">Tất cả</option>';
-                foreach ($location_by_area as $area_location => $locations) {
-                    echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
-                    foreach ($locations as $location ) {
-                        echo '<option value="' . $location . '">' . $location . '</option>';
+                    echo '<option value="">Tất cả</option>';
+                    foreach ($location_by_area as $area_location => $locations) {
+                        echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
+                        foreach ($locations as $location ) {
+                            echo '<option value="' . $location . '">' . $location . '</option>';
+                        }
+                        echo '</optgroup>';
                     }
-                    echo '</optgroup>';
-                }
                 echo '</select>';
                 ?>
                 <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="date-tour" name="date-tour">
                 <select class="col p-3 border-round" id="budget" name="budget">
-                    <option value="" disable selected>Ngân sách chuyến đi</option>
+                    <option value="">Ngân sách chuyến đi</option>
                     <option value="duoi-5-trieu">Dưới 5 triệu</option>
                     <option value="5-10-trieu">Từ 5 triệu - 10 triệu</option>
                     <option value="10-20-trieu">Từ 10 triệu - 20 triệu</option>

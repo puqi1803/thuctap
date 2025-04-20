@@ -33,9 +33,9 @@
         $start_from = ($page-1) * $results_per_page;
 
         //Lay du lieu tu request
-        $rq_location = $_GET['location-tour'] ?? '';
+        $rq_location = isset($_GET['location-tour']) ? $_GET['location-tour'] : '';
         $rq_start_date = $_GET['date-tour'] ?? date('Y-m-d');
-        $rq_budget = $_GET['budget'] ?? '';
+        $rq_budget = $_GET['budget'] ? $_GET['budget'] : '';
 
         //Xay dung truy van
         $sql = "SELECT * FROM tour WHERE `status-tour`=?";
@@ -111,9 +111,7 @@
         $total_pages = ceil($total_results/$results_per_page);
         $stmt_count->close();
         
-
         //Thuc thi truy van
-        //$sql = "SELECT * FROM tour WHERE `status-tour` = 'Published' ORDER BY `created-at` DESC LIMIT $start_from, $results_per_page";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $status_tour);
         $stmt->execute();
@@ -168,39 +166,11 @@
                             }
                             echo '</optgroup>';
                         }
-                    /*
-                    if ($result_location) {
-                        if($result_location->num_rows > 0) {
-                            while($location_tour = $result_location->fetch_assoc()) {
-                                $selected_location = ($location_tour['name-location'] == $rq_location) ? 'selected' : '';
-                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '"' . $selected_location . '>'
-                                . htmlspecialchars($location_tour['name-location']) . '</option>';
-                            }
-                        }
-                    }
-                    */
                         ?>
                     </select>
                 </div>   
                 <div class="filter-criteria">
                     <h6>Ngân sách</h6>
-                    <!---- <div class="options d-flex flex-row column-gap-2">
-                        <button class="p-1 w-50 text-center border-round background-white" data-value="duoi-5-trieu">
-                            <p>Từ 5 triệu</p>
-                        </button>
-                        <button class="p-1 w-50 text-center border-round background-white" data-value="5-10-trieu">
-                            <p>Từ 5 - 10 triệu</p>
-                        </button>
-                    </div> 
-                    <div class="options d-flex flex-row mt-2 column-gap-2">
-                        <button class="p-1 w-50 text-center border-round background-white" data-value="10-20-trieu">
-                            <p>Từ 10 - 15 triệu</p>
-                        </button>
-                        <button class="p-1  w-50 text-center border-round background-white" data-value="tren-20-trieu">
-                            <p>Trên 20 triệu</p>
-                        </button>
-                    </div> ---->
-                    
                     <select class="col w-100 p-2 border-round" id="budget" name="budget">
                         <option value="">Tất cả</option>
                         <option value="duoi-5-trieu" <?php echo ($rq_budget === 'duoi-5-trieu') ? 'selected' : ''; ?>>Dưới 5 triệu</option>
@@ -208,7 +178,6 @@
                         <option value="10-20-trieu" <?php echo ($rq_budget === '10-20-trieu') ? 'selected' : ''; ?>>Từ 10 triệu - 20 triệu</option>
                         <option value="tren-20-trieu" <?php echo ($rq_budget === 'tren-20-trieu') ? 'selected' : ''; ?>>Trên 20 triệu</option>
                     </select>
-
                 </div> 
                 <div class="filter-criteria">
                     <h6>Ngày khởi hành</h6>
