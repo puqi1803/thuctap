@@ -37,15 +37,53 @@ include '../includes/delete.php';
     ?>
     <main class="admin-post">
         <h3 class="title-page">Bài viết</h3>
+        <!--- Function delete, add new --->
         <div class="row justify-content-between mt-4">
             <div class="col d-flex flex-row column-gap-2 align-items-center">
-                <button class="button-light-background p-2 w-25" onclick="window.open('admin-new-post', '_blank')">Thêm mới</button>
-                <button class="button-light-background p-2 w-25" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
+                <button class="button-light-background p-2 px-4" onclick="window.open('admin-new-post', '_blank')">Thêm mới</button>
+                <button class="button-light-background p-2 px-4" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
             </div>
             <div class="col d-flex flex-row column-gap-2 align-items-center justify-content-end">
                 <form>
                     <input class="p-2 border-round" type="text">
                     <button class="button-light-background p-2" type="submit">Tìm</button>
+                </form>
+            </div>
+        </div>
+        <!--- Filter --->
+        <div class="row justify-content-between mt-4">
+            <div class="col-9 d-flex flex-row column-gap-2 align-items-center">
+                <form method="GET" action="admin.php">
+                    <input type="hidden" name="page" value="admin-post">
+                    <input type="hidden" name="category-post" value="<?php echo htmlspecialchars($rq_category_post); ?>">
+                    <input type="hidden" name="date-post" value="<?php echo htmlspecialchars($rq_date); ?>">
+                    <input class="col p-2 border-round" type="date" value="" id="date-tour" name="date-tour"></input>
+                    <?php 
+                    echo '<select id="category-post" name="category-post" class="px-2 py-2 border-accent">';
+                    echo '<option value="">Chuyên mục</option>';
+                        $sql_category= "SELECT * FROM `category-post`;";
+                        $result_name_category = $conn->query($sql_category);
+                        if ($result_name_category) {
+                            if ($result_name_category->num_rows > 0) {
+                                while ($category_post = $result_name_category->fetch_assoc()) {
+                                    echo '<option value="' . htmlspecialchars($category_post['name-category']) . '">'
+                                        . htmlspecialchars($category_post['name-category'])
+                                        . '</option>';
+                                }
+                            }
+                        }
+                    echo '</select>';
+                    ?>
+                    <select id="sort" name="sort" class="px-2 py-2 border-accent">
+                        <option value="">Sắp xếp</option>
+                        <option value="gia-thap-den-cao"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-thap-den-cao') ? 'selected' : ''; ?>>Giá từ thấp đến cao
+                        </option>
+                        <option value="gia-cao-den-thap"
+                            <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-cao-den-thap') ? 'selected' : ''; ?>>Giá từ cao đến thấp
+                        </option>    
+                    </select>
+                    <button class="px-4 button-light-background p-2" type="submit">Lọc</button>
                 </form>
             </div>
         </div>

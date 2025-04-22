@@ -61,7 +61,13 @@ include '../includes/delete.php';
             }
         }
         if ($status_tour) {
-            $sql .= " AND `status-tour` = '" . $conn->real_escape_string($status_tour) . "'";
+            $sql_id_status_tour = "SELECT `id-status` FROM `status` WHERE `name-status` = '" . $conn->real_escape_string($status_tour) . "'";
+            $result_id_status_tour = $conn->query($sql_id_status_tour);
+            if ($result_id_status_tour && $result_id_status_tour->num_rows > 0) {
+                $row = $result_id_status_tour->fetch_assoc();
+                $id_status_tour = $row['id-status'];
+            }
+            $sql .= " AND `id-status-tour` = $id_status_tour";
         }
 
         //Phan trang
@@ -97,7 +103,7 @@ include '../includes/delete.php';
             }
         }
         if ($status_tour) {
-            $sql_count .= " AND `status-tour` = '" . $conn->real_escape_string($status_tour);
+            $sql_count .= " AND `id-status-tour` = '" . $conn->real_escape_string($id_status_tour) . "'";
         }
         $result_count = $conn->query($sql_count);
         $row_count = $result_count->fetch_assoc();
@@ -114,11 +120,11 @@ include '../includes/delete.php';
         <h3 class="title-page">Tour</h3>
         <!--- Function delete, add new --->
         <div class="row justify-content-between mt-4">
-            <div class="col d-flex flex-row column-gap-2 align-items-center">
+            <div class="col-5 d-flex flex-row column-gap-2 align-items-center">
                 <button class="button-light-background p-2 px-4" onclick="window.open('admin-new-tour', '_blank')">Thêm mới</button>
                 <button class="button-light-background p-2 px-4" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
             </div>
-            <div class="col-3 d-flex flex-row column-gap-2 align-items-center justify-content-end">
+            <div class="col-5 d-flex flex-row column-gap-2 align-items-center justify-content-end">
                 <form method="POST" action="../admin-tour.php">
                     <input class="p-2 border-round" type="text">
                     <button class="button-light-background p-2" type="submit">Tìm</button>
@@ -127,7 +133,7 @@ include '../includes/delete.php';
         </div>
         <!--- Filter --->
         <div class="row justify-content-between mt-4">
-            <div class="col-9 d-flex flex-row column-gap-2 align-items-center">
+            <!--- <div class="d-flex flex-row column-gap-2 align-items-center">--->
                 <form method="GET" action="admin.php">
                     <input type="hidden" name="page" value="admin-tour">
                     <input type="hidden" name="location-tour" value="<?php echo htmlspecialchars($rq_location); ?>">
@@ -165,21 +171,23 @@ include '../includes/delete.php';
                         <option value="10-20-trieu" <?php echo($rq_budget === '10-20-trieu') ? 'selected' : '';?>>Từ 10 triệu - 20 triệu</option>
                         <option value="tren-20-trieu" <?php echo($rq_budget === 'tren-20-trieu') ? 'selected' : '';?>>Trên 20 triệu</option>
                     </select>
-                    <!--
-                    <select id="status-tour" name="status-tour" class="px-2 py-2 border-accent">
-                        <option value="">Trạng thái</option>
-                        <?php /*
-                        if($result) {
-                            if($result->num_rows > 0) {
-                                while ($tour = $result->fetch_assoc()) {
-                                    echo '<option value="' . htmlspecialchars($tour['status-tour']) . '">'
-                                     . htmlspecialchars($tour['status-tour'])
-                                     . '</option>';
-                                }
+                    <?php
+                    echo '<select id="status-tour" name="status-tour" class="px-2 py-2 border-accent">';
+                    echo '<option value="">Trạng thái</option>';
+                    $sql_status = "SELECT * FROM `status`;";
+                    $result_name_status = $conn->query($sql_status);
+                    if ($result_name_status) {
+                        if ($result_name_status->num_rows > 0) {
+                            while ($name_status = $result_name_status->fetch_assoc()) {
+                                $selected_status = ($name_status['name-status']===$status_tour) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($name_status['name-status']) . '"' . $selected_status . '>'
+                                    . htmlspecialchars($name_status['name-status'])
+                                    . '</option>';
                             }
-                        }*/
-                        ?>
-                    </select> -->
+                        }
+                    }
+                    echo '</select>';
+                    ?>
                     <select id="sort" name="sort" class="px-2 py-2 border-accent">
                         <option value="">Sắp xếp</option>
                         <option value="gia-thap-den-cao"
@@ -192,7 +200,7 @@ include '../includes/delete.php';
                     <button class="px-4 button-light-background p-2" type="submit">Lọc</button>
                 </form>
             </div>
-        </div>
+        <!---</div>--->
         <?php
         //Phan trang
         echo '<div class="d-flex flex-row mt-5 column-gap-5 justify-content-between">';
@@ -253,7 +261,13 @@ include '../includes/delete.php';
                                     echo '<td>' . number_format($tour['price-tour']) . '</td>';
                                     echo '<td>' . formatDate($tour['date-tour']) . '</td>';
                                     echo '<td class="text-start">' . htmlspecialchars($tour['starting-gate']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($tour['status-tour']) . '</td>';
+                                    $sql_name_status = "SELECT * FROM `status` WHERE `id-status` = " . intval($tour['id-status-tour']) . ";";
+                                    $result_status = $conn->query($sql_name_status);
+                                    if($result_status && $result_status->num_rows > 0) {
+                                        $name_status_for_tour = $result_status->fetch_assoc();
+                                        echo '<td>' . htmlspecialchars($name_status_for_tour['name-status']) . '</td>';
+                                    }
+                                    //echo '<td>' . htmlspecialchars($tour['status-tour']) . '</td>';
                                 echo '</tr>';
                             }
                         } else {

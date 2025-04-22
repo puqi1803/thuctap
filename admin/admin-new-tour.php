@@ -19,10 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description_tour = $_POST['description-tour'];
     $location_tour = $_POST['location-tour'];
     $img_tour = null;
+    $id_status_tour = $_POST['id-status-tour'];
 
     include '../includes/check-image.php';
 
-    $status_tour = (isset($_POST['Draft']) && $_POST['Draft'] === 'true') ? 'Draft' : 'Published';
+    //$status_tour = (isset($_POST['Draft']) && $_POST['Draft'] === 'true') ? 'Draft' : 'Published';
 
     $sql = "INSERT INTO tour (
         `id-tour`,
@@ -39,12 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         `duration-tour`, 
         `timeline-tour`, 
         `description-tour`,
-        `status-tour`,
+        `id-status-tour`,
         `location-tour`
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssiiisiissssss",
+    $stmt->bind_param("ssssiiisiissssis",
         $id_tour,
         $title_tour, 
         $date_tour, 
@@ -59,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $duration_tour, 
         $timeline_tour, 
         $description_tour,
-        $status_tour,
+        $id_status_tour,
         $location_tour
     );
 
@@ -215,13 +216,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>   
                     </div>
-                    <div class="d-flex flex-row column-gap-4 justify-content-end"> 
+                    <!--- <div class="d-flex flex-row column-gap-4 justify-content-end"> 
                         <button class="button-light-background px-3 py-2" type="submit" name="Draft" value="true">
                             <i class="icon fa-solid fa-file-alt"></i>&nbsp;&nbsp;Lưu nháp
                         </button>
                         <button class="button-primary px-3 py-2" type="submit" name="submit">
                             <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Phát hành
                         </button>
+                    </div> -->
+                    <div class="row justify-content-between mt-5">
+                        <div class="col-8">
+                            <select id="id-status-tour" name="id-status-tour">
+                                <option value="3">Phát hành</option>
+                                <option value="2">Chờ duyệt</option>
+                                <option value="1">Nháp</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button class="button-primary px-3 py-2 w-100" type="submit" name="submit">
+                                <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Lưu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

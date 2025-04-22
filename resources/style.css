@@ -428,7 +428,7 @@ footer .subscribe button {
     min-height: 100vh;
 }
 .admin .sidebar .sub-menu .list-group-item {
-    margin: 10px 0px 0px 20px;
+    margin: 5px 0px 0px 5px;
 }
 .admin .sidebar .menu-toggle {
     text-transform: uppercase;
