@@ -10,7 +10,7 @@
         $expert_post = $_POST['expert-post'];
         $content_post = $_POST['content-post'];
         $img_post = null;
-        $category_post = $_POST['category-post'];
+        $id_categories = $_POST['id-category-post'];
         $id_status_post = $_POST['id-status-post'];
 
     include '../includes/check-image.php';
@@ -23,42 +23,44 @@
         `date-post`,
         `slug-post`,
         `author-post`,
-        `id-category-post`,
         `expert-post`,
         `content-post`,
         `id-status-post`
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    if ($category_post) {
-        $sql_id_category_post = "SELECT `id-category-post` FROM `category-post` WHERE `name-category-post` = '" . $conn->real_escape_string($category_post) . "'";
-        $result_id_category_post = $conn->query($sql_id_category_post);
-        if ($result_id_category_post && $result_id_category_post->num_rows > 0) {
-            $row = $result_id_category_post->fetch_assoc();
-            $id_category_post = $row['id-category-post'];
-        }
-    }
-
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssissi",
+    $stmt->bind_param("ssssssi",
         $title_post,
         $img_post,
         $date_post,
         $slug_post,
-        $author_post,
-        $id_category_post,
         $expert_post,
         $content_post,
         $id_status_post
         );
 
-    if ($stmt->execute()) {
-        $id_post = $conn->insert_id;
-        header("Location: admin-edit-post?id-post= $id_post");
-        exit();
-    } else {
-        echo 'Lỗi: ' . $stmt->error;
-    }
-    $stmt->close();
+        
+        if ($stmt->execute()) {
+            $id_post = $conn->insert_id;
+
+            $sql_category = "INSERT INTO `detail-category-post` (`id-post`, `id-category-post`) VALUES (?, ?)";
+            $stmt_category = $conn->prepare($sql_category);
+
+            foreach ($id_categories as $id_category_post) {
+                $stmt_category->bind_param("ii",
+                    $id_post,
+                    $id_category_post
+                );
+                $stmt_category->execute();
+            }
+            $stmt_category->close();
+
+            header("Location: admin-edit-post?id-post= $id_post");
+            exit();
+        } else {
+            echo 'Lỗi: ' . $stmt->error;
+        }
+        $stmt->close();
     }
 ?>
 
@@ -122,24 +124,25 @@
                             <label for="slug-post">Liên kết</label>
                             <input type="text" id="slug-post" name="slug-post">
                         </div>
-                        <div class="d-flex flex-column row-gap-2">
-                        <label for="category-post">Chuyên mục</label>
-                        <?php 
-                        echo '<select id="category-post" name="category-post" class="px-2 py-2 border-accent">';
-                            $sql_category= "SELECT * FROM `category-post`;";
-                            $result_name_category = $conn->query($sql_category);
-                            if ($result_name_category) {
-                                if ($result_name_category->num_rows > 0) {
-                                    while ($name_category_post = $result_name_category->fetch_assoc()) {
-                                        echo '<option value="' . htmlspecialchars($name_category_post['name-category-post']) . '">'
-                                        . htmlspecialchars($name_category_post['name-category-post'])
-                                        . '</option>';
-                                    }
+                        <div class="d-flex flex-column row-gap-2"> 
+                            <label for="img-post">Chuyên mục</label>
+                            <div style="overflow-x: auto; max-height: 200px;" class="border-round p-2">
+                            <?php
+                            $sql_name_category = "SELECT * FROM `category-post`";
+                            $result_category_post = $conn->query($sql_name_category);
+                            if($result_category_post && $result_category_post->num_rows > 0) {
+                                while($name_category = $result_category_post->fetch_assoc()) {
+                                    echo '<div class="d-flex flex-row mt-2 column-gap-2">';
+                                    echo '<input style="width: 10%" type="checkbox" id="id-category-post-' . htmlspecialchars($name_category['id-category-post'])
+                                        . '" name="id-category-post[]" value="' . htmlspecialchars($name_category['id-category-post']) . '">';
+                                    echo '<label for="id-category-post-' . htmlspecialchars($name_category['id-category-post']) . '">'
+                                        . htmlspecialchars($name_category['name-category-post']) . '<label>';
+                                    echo '</div>';
                                 }
                             }
-                        echo '</select>';
-                        ?>
-                    </div>
+                            ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="row justify-content-between mt-4">
                         <div class="col-8">

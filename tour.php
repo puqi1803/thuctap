@@ -25,7 +25,6 @@
         
         //Khoi tao bien mac dinh
         $order_by = 'ORDER BY `created-at` DESC';
-        $status_tour = 'Published';
 
         //Phan trang
         $results_per_page = 5;
@@ -35,10 +34,17 @@
         //Lay du lieu tu request
         $rq_location = isset($_GET['location-tour']) ? $_GET['location-tour'] : '';
         $rq_start_date = $_GET['date-tour'] ?? date('Y-m-d');
-        $rq_budget = $_GET['budget'] ? $_GET['budget'] : '';
+        $rq_budget = isset($_GET['budget']) ? $_GET['budget'] : '';
 
         //Xay dung truy van
-        $sql = "SELECT * FROM tour WHERE `status-tour`=?";
+        $sql_id_status = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+        $result_id_status = $conn->query($sql_id_status);
+        if ($result_id_status && $result_id_status->num_rows > 0) {
+            $name_status = $result_id_status->fetch_assoc();
+            $id_status = $name_status['id-status'];
+        }
+
+        $sql = "SELECT * FROM tour WHERE `id-status-tour`=?";
         if ($rq_location) {
             $sql .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
         }
@@ -61,7 +67,6 @@
                     break;
             }
         }
-
         //Sap xep theo gia
         if (isset($_GET['sort'])) {
             switch($_GET['sort']) {
@@ -73,12 +78,11 @@
                     break;
             }
         }
-
         //Phan trang
         $sql .= " " . $order_by . " LIMIT $start_from, $results_per_page";
 
         //Dem ket qua phan trang
-        $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE `status-tour`=?";
+        $sql_count = "SELECT COUNT(*) AS total FROM tour WHERE `id-status-tour`=?";
         if ($rq_location) {
             $sql_count .= " AND `location-tour` = '" . $conn->real_escape_string($rq_location) . "'";
         }
@@ -103,7 +107,7 @@
         }
 
         $stmt_count = $conn->prepare($sql_count);
-        $stmt_count->bind_param("s", $status_tour);
+        $stmt_count->bind_param("i", $id_status);
         $stmt_count->execute();
         $result_count = $stmt_count->get_result();
         $row_account = $result_count->fetch_assoc();
@@ -113,7 +117,7 @@
         
         //Thuc thi truy van
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $status_tour);
+        $stmt->bind_param("i", $id_status);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

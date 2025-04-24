@@ -18,6 +18,38 @@ include '../includes/delete.php';
     <?php
         include '../header-blank.php';
 
+        //Truy van loc
+        $category_post = $_GET['category-post'] ?? '';
+        $rq_date = $_GET['date-post'] ?? '';
+        $order_by = 'ORDER BY `created-at` DESC';
+        $status_post = $_GET['status-post'] ?? '';
+
+        //Xay dung truy van
+        $sql = "SELECT * FROM post WHERE 1=1"
+        ;
+        /*if ($rq_date) {
+            $sql .= " AND `date-post` = '" . $conn->real_escape_string($rq_date) . '";
+        }*/
+        if ($category_post) {
+            $sql_id_category_post = "SELECT `id-category-post` FROM `category-post` WHERE `name-category-post` = '" . $conn->real_escape_string($category_post) . "'";
+            $result_id_category_post = $conn->query($sql_id_category_post);
+            if ($result_id_category_post && $result_id_category_post->num_rows > 0) {
+                $row = $result_id_category_post->fetch_assoc();
+                $id_category_post = $row['id-category-post'];
+            }
+            $sql .= " AND `id-category-post` = $id_category_post";
+        }
+        if ($status_post) {
+            $sql_id_status_post = "SELECT `id-status` FROM `status` WHERE `name-status` = '" . $conn->real_escape_string($status_post) . "'";
+            $result_id_status_post = $conn->query($sql_id_status_post);
+            if ($result_id_status_post && $result_id_status_post->num_rows > 0) {
+                $row = $result_id_status_post->fetch_assoc();
+                $id_status_post = $row['id-status'];
+            }
+            $sql .= " AND `id-status-post` = $id_status_post";
+        }
+
+        //Phan trang
         $results_per_page = 10;
 
         $page = isset($_GET['post-page']) ? (int)($_GET['post-page']) : 1;
@@ -26,13 +58,20 @@ include '../includes/delete.php';
         }
         $start_form = ($page-1) * $results_per_page;
 
-        $sql_count = "SELECT COUNT(*) AS total FROM post";
+        $sql_count = "SELECT COUNT(*) AS total FROM post WHERE 1=1";
+        if ($category_post) {
+            $sql_count .= " AND `id-category-post` = $id_category_post";
+        }
+        if ($status_post) {
+            $sql_count .= " AND `id-status-post` = $id_status_post";
+        }
+
         $result_count = $conn->query($sql_count);
         $row_count = $result_count->fetch_assoc();
         $total_results =$row_count['total'];
         $total_pages = ceil($total_results/$results_per_page);
 
-        $sql = "SELECT * FROM post ORDER BY `id-post` DESC LIMIT $start_form, $results_per_page";
+        $sql .= " ORDER BY `id-post` DESC LIMIT $start_form, $results_per_page";
         $result = $conn->query($sql);
     ?>
     <main class="admin-post">
@@ -57,7 +96,6 @@ include '../includes/delete.php';
                     <input type="hidden" name="page" value="admin-post">
                     <input type="hidden" name="category-post" value="<?php echo htmlspecialchars($rq_category_post); ?>">
                     <input type="hidden" name="date-post" value="<?php echo htmlspecialchars($rq_date); ?>">
-                    <input class="col p-2 border-round" type="date" value="" id="date-tour" name="date-tour"></input>
                     <?php 
                     echo '<select id="category-post" name="category-post" class="px-2 py-2 border-accent">';
                     echo '<option value="">Chuyên mục</option>';
@@ -65,24 +103,34 @@ include '../includes/delete.php';
                         $result_name_category = $conn->query($sql_category);
                         if ($result_name_category) {
                             if ($result_name_category->num_rows > 0) {
-                                while ($category_post = $result_name_category->fetch_assoc()) {
-                                    echo '<option value="' . htmlspecialchars($category_post['name-category']) . '">'
-                                        . htmlspecialchars($category_post['name-category'])
-                                        . '</option>';
+                                while ($name_category_post = $result_name_category->fetch_assoc()) {
+                                    $selected_category_post = ($name_category_post['name-category-post']===$category_post) ? 'selected' : '';
+                                    echo '<option value="' . htmlspecialchars($name_category_post['name-category-post']) . '"' . $selected_category_post . '>'
+                                    . htmlspecialchars($name_category_post['name-category-post'])
+                                    . '</option>';
                                 }
                             }
                         }
                     echo '</select>';
                     ?>
-                    <select id="sort" name="sort" class="px-2 py-2 border-accent">
-                        <option value="">Sắp xếp</option>
-                        <option value="gia-thap-den-cao"
-                            <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-thap-den-cao') ? 'selected' : ''; ?>>Giá từ thấp đến cao
-                        </option>
-                        <option value="gia-cao-den-thap"
-                            <?php echo (isset($_GET['sort']) && $_GET['sort']==='gia-cao-den-thap') ? 'selected' : ''; ?>>Giá từ cao đến thấp
-                        </option>    
-                    </select>
+                    <input class="col p-2 border-round" type="date" value="" id="date-post" name="date-post"></input>
+                    <?php
+                    echo '<select id="status-post" name="status-post" class="px-2 py-2 border-accent">';
+                    echo '<option value="">Trạng thái</option>';
+                    $sql_status = "SELECT * FROM `status`;";
+                    $result_name_status = $conn->query($sql_status);
+                    if ($result_name_status) {
+                        if ($result_name_status->num_rows > 0) {
+                            while ($name_status = $result_name_status->fetch_assoc()) {
+                                $selected_status = ($name_status['name-status']===$status_post) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($name_status['name-status']) . '"' . $selected_status . '>'
+                                . htmlspecialchars($name_status['name-status'])
+                                . '</option>';
+                            }
+                        }
+                    }
+                    echo '</select>';
+                    ?>
                     <button class="px-4 button-light-background p-2" type="submit">Lọc</button>
                 </form>
             </div>
@@ -121,6 +169,7 @@ include '../includes/delete.php';
                     <tr class="text-center text-uppercase">
                         <th scope="col" class="col"><input type="checkbox" id="select-all"></th>
                         <th scope="col" class="col-3">Tên bài viết</th>
+                        <th scope="col" class="col">Chuyên mục</th>
                         <th scope="col" class="col">Ngày phát hành</th>
                         <th scope="col" class="col-3">Mô tả</th>
                         <th scope="col" class="col">Trạng thái</th>
@@ -133,24 +182,46 @@ include '../includes/delete.php';
                         while ($post = $result->fetch_assoc()) {
                             echo '<tr class="text-center">';
                                 echo '<td><input type="checkbox" name="posts[]" value="' . htmlspecialchars($post['id-post']) . '" class="post-select"></td>';
-                                echo '<td><div class="text-start">';
-                                    $title = htmlspecialchars($post['title-post']);
-                                    $shortTitle = truncateTitle($title);
-                                    echo '<a class="accent link" href="admin-edit-post?id-post=' . htmlspecialchars($post['id-post']) . '">' . $shortTitle . '  </a>';
-                                    echo '<a href="../single-post?slug-post=' . htmlspecialchars($post['slug-post']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
-                                echo '</td></div>'; 
-                                echo '<td>' . formatDate($post['date-post']) . '</td>';
+                                if (!empty($post['title-post'])) {
+                                    echo '<td><div class="text-start">';
+                                        $title = htmlspecialchars($post['title-post']);
+                                        $shortTitle = truncateTitle($title);
+                                        echo '<a class="accent link" href="admin-edit-post?id-post=' . htmlspecialchars($post['id-post']) . '">' . $shortTitle . '  </a>';
+                                        echo '<a href="../single-post?slug-post=' . htmlspecialchars($post['slug-post']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
+                                    echo '</div>';
+                                    echo '</td>';
+                                } else {
+                                    echo '<td></td>';
+                                }
+                                $sql_name_category = "SELECT * FROM `category-post` WHERE `id-category-post` = " . intval($post['id-category-post']) . ";";
+                                $result_category_post = $conn->query($sql_name_category);
+                                if($result_category_post && $result_category_post->num_rows > 0) {
+                                    $name_category = $result_category_post->fetch_assoc();
+                                    echo '<td>' . htmlspecialchars($name_category['name-category-post']) . '</td>';
+                                }
+                                else {
+                                    echo '<td></td>';
+                                }
+                                echo '<td>' . (!empty($post['date-post']) ? formatDate($post['date-post']) : '') . '</td>'; 
                                 $expert = htmlspecialchars($post['expert-post']);
                                 $shortExpert = truncateExpertShort($expert);
-                                echo '<td>' . htmlspecialchars($shortExpert) . '</td>';
-                                echo '<td>' . htmlspecialchars($post['status-post']) . '</td>';
+                                echo '<td>' . (!empty($post['expert-post']) ? htmlspecialchars($shortExpert) : '') . '</td>';
+                                $sql_name_status = "SELECT * FROM `status` WHERE `id-status` = " . intval($post['id-status-post']) . ";";
+                                    $result_status = $conn->query($sql_name_status);
+                                    if($result_status && $result_status->num_rows > 0) {
+                                        $name_status_for_post = $result_status->fetch_assoc();
+                                        echo '<td>' . htmlspecialchars($name_status_for_post['name-status']) . '</td>';
+                                    } else {
+                                        echo '<td></td>';
+                                    }
+                                //echo '<td>' . htmlspecialchars($post['id-status-post']) . '</td>';
                             echo '</tr>';
                             }
                         } else {
-                            echo '<tr><td colspan="5">Không tìm thấy kết quả phù hợp</td></tr>';
+                            echo '<tr><td colspan="6">Không tìm thấy kết quả phù hợp</td></tr>';
                         }
                     } else {
-                        echo '<tr><td colspan="5">Lỗi: ' . $conn->error . '</td></tr>'; 
+                        echo '<tr><td colspan="6">Lỗi: ' . $conn->error . '</td></tr>'; 
                     }
                     ?>
                 </tbody>

@@ -3,11 +3,17 @@ include 'partical/db_connect.php';
 include 'includes/functions.php';
 
 $slug = isset($_GET['id-tour']) ? $_GET['id-tour'] : '';
-$status_tour = "Published";
 
-$sql = "SELECT * FROM tour WHERE `id-tour` = ? AND `status-tour`=?";
+$sql_id_status = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+$result_id_status = $conn->query($sql_id_status);
+if ($result_id_status && $result_id_status->num_rows > 0) {
+    $name_status = $result_id_status->fetch_assoc();
+    $id_status = $name_status['id-status'];
+}
+
+$sql = "SELECT * FROM tour WHERE `id-tour` = ? AND `id-status-tour`=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $slug, $status_tour);
+$stmt->bind_param("si", $slug, $id_status);
 $stmt->execute();
 $result = $stmt->get_result();
 $tour = $result->fetch_assoc();
@@ -140,7 +146,7 @@ $stmt->close();
                 <div class="other-tours mt-5">
                     <h3 class="title-page">TOUR TƯƠNG TỰ</h3> 
                     <?php
-                    $sql = "SELECT * FROM tour WHERE `status-tour`='Published' ORDER BY  `created-at` DESC LIMIT 4";
+                    //$sql .= "SELECT * FROM tour WHERE `id-tour` = ? AND `id-status-tour` = ? ORDER BY `created-at` DESC LIMIT 4";
                     $result = $conn->query($sql);
                     if ($result) {
                         if ($result->num_rows > 0) {

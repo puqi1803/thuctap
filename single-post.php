@@ -3,14 +3,20 @@ include 'partical/db_connect.php';
 include 'includes/functions.php';
 
 $slug = isset($_GET['slug-post']) ? $_GET['slug-post'] : '';
-$status_post = 'Published';
+$sql_id_status = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+$result_id_status = $conn->query($sql_id_status);
+if ($result_id_status && $result_id_status->num_rows > 0) {
+    $name_status = $result_id_status->fetch_assoc();
+    $id_status = $name_status['id-status'];
+}
 
-$sql = "SELECT * FROM post WHERE `slug-post` = ? AND `status-post` = ?"; 
+$sql = "SELECT * FROM `post` WHERE `slug-post` = ? AND `id-status-post` = ?";             
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $slug, $status_post);
+$stmt->bind_param("si", $slug, $id_status);
 $stmt->execute();
 $result = $stmt->get_result();
 $post = $result->fetch_assoc();
+$id_category_post = $post['id-category-post'];  
 $stmt->close();
 
 ?>  
@@ -32,11 +38,24 @@ $stmt->close();
 <body>
     <?php include "header-main.php" ?>
     <main class="single-post container">
+        <?php echo $id_category_post; ?>
         <?php if ($post) : ?>
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb accent">
                     <li class="breadcrumb-item"><a href="/nienluan.com/">Trang Chủ</a>
-                    <li class="breadcrumb-item"><a href="/nienluan.com/tin-tuc">Tin Tức</a>
+                    <?php
+                    $sql = "SELECT * FROM `category-post` WHERE `id-category-post` = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $id_category_post);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if ($result && $result->num_rows > 0) {
+                        $category = $result->fetch_assoc();
+                        $name_category = htmlspecialchars($category['name-category-post']);
+                        $slug_category = htmlspecialchars($category['slug-category-post']);
+                    }
+                    echo '<li class="breadcrumb-item"><a href="/nienluan.com/' . $slug_category . '">' . $name_category . '</a></li>';
+                    ?>
                     <li class="breadcrumb-item active" breadcrumb-item active="page"><?php echo htmlspecialchars($post['title-post']); ?></li>
                 </ol>
             </nav>
@@ -60,11 +79,11 @@ $stmt->close();
             <h3 class="title-page">CÁC TIN KHÁC</h3> 
             <div class="row mt-4">
             <?php
-            $sql_posts = "SELECT * FROM post WHERE `status-post`=? AND `slug-post`!=? ORDER BY `id-post` ASC LIMIT 4";
+            $sql_posts = "SELECT * FROM post WHERE `id-status-post`=? AND `slug-post`!=? ORDER BY `id-post` ASC LIMIT 4";
                 $stmt_post = $conn->prepare($sql_posts);
 
                 if($stmt_post) {
-                    $stmt_post->bind_param("ss", $status_post, $slug);
+                    $stmt_post->bind_param("is", $id_status, $slug);
                     $stmt_post->execute();
                 }
 

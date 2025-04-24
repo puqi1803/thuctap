@@ -439,7 +439,9 @@ footer .subscribe button {
 .admin-new-tour input, .admin-edit-tour input,
 .admin-new-tour select, .admin-edit-tour select,
 .admin-new-post input, .admin-edit-post input,
-.admin-new-customer input, .admin-edit-customer input{
+.admin-new-post select, .admin-edit-post select,
+.admin-new-customer input, .admin-edit-customer input,
+.admin-new-customer select, .admin-edit-customer select {
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;

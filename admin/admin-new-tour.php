@@ -224,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Phát hành
                         </button>
                     </div> -->
-                    <div class="row justify-content-between mt-5">
+                    <div class="row justify-content-between mt-2">
                         <div class="col-8">
                             <select id="id-status-tour" name="id-status-tour">
                                 <option value="3">Phát hành</option>

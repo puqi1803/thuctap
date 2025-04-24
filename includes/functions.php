@@ -33,7 +33,7 @@ function formatDate ($date) {
     }
 }
 
-function truncateTitle($title, $maxWords = 10) {
+function truncateTitle($title, $maxWords = 13) {
     $words = explode(' ', $title);
     if (count($words) > $maxWords) {
         $truncated = array_slice($words, 0, $maxWords);

@@ -113,7 +113,7 @@ include '../includes/delete.php';
         $sql .= " " . $order_by . " LIMIT $start_form, $results_per_page";
         $result = $conn->query($sql);
 
-        $sql_location = "SELECT `name-location`, `area-location` FROM location ORDER BY `area-location` ASC;";
+        $sql_location = "SELECT `name-location`, `area-location` FROM `location` ORDER BY `area-location` ASC;";
         $result_location = $conn->query($sql_location);
     ?>            
     <main class="admin-tour">
@@ -250,17 +250,23 @@ include '../includes/delete.php';
                             while ($tour = $result->fetch_assoc()) {
                                 echo '<tr class="text-center">';
                                     echo '<td><input type="checkbox" name="tours[]" value="' . htmlspecialchars($tour['id-tour']) . '" class="tour-select"></td>';
-                                    echo '<td><div class="text-start">';
-                                        $title =  htmlspecialchars($tour['title-tour']);
-                                        $shortTitle = truncateTitle($title);
-                                        echo '<a class="accent link" href="admin-edit-tour?id-tour=' .htmlspecialchars($tour['id-tour']) . '">' . $shortTitle . '  </a>';
-                                        echo '<a href="../single-tour?id-tour=' . htmlspecialchars($tour['id-tour']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
-                                    echo '</td></div>';
-                                    echo '<td>' . htmlspecialchars($tour['id-tour']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($tour['location-tour']) . '</td>';
-                                    echo '<td>' . number_format($tour['price-tour']) . '</td>';
-                                    echo '<td>' . formatDate($tour['date-tour']) . '</td>';
-                                    echo '<td class="text-start">' . htmlspecialchars($tour['starting-gate']) . '</td>';
+                                    if (!empty($tour['title-tour'])) {
+                                        echo '<td><div class="text-start">';
+                                            $title =  htmlspecialchars($tour['title-tour']);
+                                            $shortTitle = truncateTitle($title);
+                                            echo '<a class="accent link" href="admin-edit-tour?id-tour=' .htmlspecialchars($tour['id-tour']) . '">' . $shortTitle . '  </a>';
+                                            echo '<a href="../single-tour?id-tour=' . htmlspecialchars($tour['id-tour']) . '" target="_blank"><i class="icon fa-solid fa-eye"></i></a>';
+                                            echo '</div>';
+                                            echo '</td>';
+                                        } else {
+                                        echo '<td></td>';
+                                    }
+                                    
+                                    echo '<td>' . (!empty($tour['id-tour']) ? htmlspecialchars($tour['id-tour']) : '') . '</td>';
+                                    echo '<td>' . (!empty($tour['location-tour']) ? htmlspecialchars($tour['location-tour']) : '') . '</td>';
+                                    echo '<td>' . (!empty($tour['price-tour']) ? number_format($tour['price-tour']) : '') . '</td>';
+                                    echo '<td>' . (!empty($tour['date-tour']) ? formatDate($tour['date-tour']) : '') . '</td>';
+                                    echo '<td class="text-start">' . (!empty($tour['starting-gate']) ? htmlspecialchars($tour['starting-gate']) : '') . '</td>';
                                     $sql_name_status = "SELECT * FROM `status` WHERE `id-status` = " . intval($tour['id-status-tour']) . ";";
                                     $result_status = $conn->query($sql_name_status);
                                     if($result_status && $result_status->num_rows > 0) {
@@ -271,10 +277,10 @@ include '../includes/delete.php';
                                 echo '</tr>';
                             }
                         } else {
-                            echo '<tr><td colspan="7">Không tìm thấy kết quả phù hợp</td></tr>';
+                            echo '<tr><td colspan="8">Không tìm thấy kết quả phù hợp</td></tr>';
                         }
                     } else {
-                        echo '<tr><td colspan="7">Lỗi: ' . $conn->error . '</td></tr>'; 
+                        echo '<tr><td colspan="8">Lỗi: ' . $conn->error . '</td></tr>'; 
                     }
                     ?>
                 </tbody>

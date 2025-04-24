@@ -74,7 +74,13 @@ include 'includes/functions.php';
             <a href="tour"><h2 class="title-page text-center">TOUR NỔI BẬT</h2></a>
             <h6 class="mt-2 text-center">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
-            $sql = "SELECT * FROM tour WHERE `status-tour`='Published' ORDER BY  `created-at` DESC LIMIT 4";
+            $sql_id_status_tour = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+            $result_id_status_tour = $conn->query($sql_id_status_tour);
+            if ($result_id_status_tour && $result_id_status_tour->num_rows > 0) {
+                $name_status_tour = $result_id_status_tour->fetch_assoc();
+                $id_status_tour = $name_status_tour['id-status'];
+            }
+            $sql = "SELECT * FROM tour WHERE `id-status-tour`=$id_status_tour ORDER BY  `created-at` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
@@ -133,11 +139,18 @@ include 'includes/functions.php';
             <div class="post-content row mt-4">
             <?php
             //Post column 1
-            $sql = "SELECT * FROM post WHERE `status-post` = 'Published' ORDER BY `id-post` DESC LIMIT 1";
+            $sql_id_status_post = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+            $result_id_status_post = $conn->query($sql_id_status_post);
+            if ($result_id_status_post && $result_id_status_post->num_rows > 0) {
+                $name_status_post = $result_id_status_post->fetch_assoc();
+                $id_status_post = $name_status_post['id-status'];
+            }
+            $sql = "SELECT * FROM post WHERE `id-status-post` = $id_status_post ORDER BY `id-post` DESC LIMIT 1";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        $id_post_most_recent = $row['id-post'];
                         echo '<div class="post-column-1 col-5">';
                             echo '<div class="d-flex flex-column border-round shadow-sm">';
                                 echo '<img class="post-img object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-post"]) . '">'; 
@@ -164,7 +177,8 @@ include 'includes/functions.php';
             <?php
             //Post column 2
             $sql = "SELECT * FROM `post`
-            WHERE `status-post` = 'Published' AND `id-post` <> (SELECT `id-post` FROM `post` ORDER BY `id-post` DESC LIMIT 1)
+            WHERE `id-status-post` = $id_status_post
+            AND `id-post` <> $id_post_most_recent
             ORDER BY `id-post` DESC LIMIT 3";
             $result = $conn->query($sql);
             if ($result) {

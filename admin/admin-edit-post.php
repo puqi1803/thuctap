@@ -5,7 +5,6 @@ include '../includes/functions.php';
 
 if (isset($_GET['id-post'])) {
     $id_post = $_GET['id-post'];
-
     $sql = "SELECT * FROM post WHERE `id-post` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_post);
@@ -14,46 +13,69 @@ if (isset($_GET['id-post'])) {
 
     if ($result->num_rows > 0 ) {
         $post = $result->fetch_assoc();
+        $id_status_post = $post['id-status-post'];
+        $id_category_post = $post['id-category-post'];
+        
+        $sql_current_category = "SELECT `name-category-post` FROM `category-post` WHERE `id-category-post` = ?";
+        $stmt_cat = $conn->prepare($sql_current_category);
+        $stmt_cat->bind_param("i", $id_category_post);
+        $stmt_cat->execute();
+        $result_cat = $stmt_cat->get_result();
+        if ($result_cat && $result_cat->num_rows > 0) {
+        $row_cat = $result_cat->fetch_assoc();
+        $category_post = $row_cat['name-category-post'];
+    }
     } else {
         echo 'Bài viết không tồn tại.';
         exit;
     }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title_post = $_POST['title-post'];
-    $date_post = $_POST['date-post'];
-    $slug_post = $_POST['slug-post'];
-    $expert_post = $_POST['expert-post'];
-    $content_post = $_POST['content-post'];
-    $img_post = $post['img-post'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title_post = $_POST['title-post'];
+        $date_post = $_POST['date-post'];
+        $slug_post = $_POST['slug-post'];
+        $expert_post = $_POST['expert-post'];
+        $content_post = $_POST['content-post'];
+        $img_post = $post['img-post'];
+        $id_status_post = $_POST['id-status-post'];
+        $category_post = $_POST['category-post'];
 
-    if (isset($_FILES['img-post']) && $_FILES['img-post']['error'] == 0) {
-        include '../includes/check-image.php';
-    }
+        if (isset($_FILES['img-post']) && $_FILES['img-post']['error'] == 0) {
+            include '../includes/check-image.php';
+        }
 
-    $status_post = (isset($_POST['Draft']) && $_POST['Draft'] === 'true') ? 'Draft' : 'Published';
+        //$status_post = (isset($_POST['Draft']) && $_POST['Draft'] === 'true') ? 'Draft' : 'Published';
 
-    $sql = "UPDATE post SET
-        `title-post` = ?,
-        `img-post` = ?,
-        `date-post` = ?,
-        `slug-post` = ?,
-        `expert-post` = ?,
-        `content-post` = ?,
-        `status-post` = ?
-    WHERE `id-post` = ?";
-    }
+        $sql = "UPDATE post SET
+            `title-post` = ?,
+            `img-post` = ?,
+            `date-post` = ?,
+            `slug-post` = ?,
+            `expert-post` = ?,
+            `content-post` = ?,
+            `id-status-post` = ?,
+            `id-category-post`= ?
+        WHERE `id-post` = ?";
 
-    $stmt = $conn->prepare($sql);
-    if (isset($title_post, $date_post, $slug_post, $expert_post, $content_post, $id_post)) {
-        $stmt->bind_param("sssssssi",
+        if ($category_post) {
+            $sql_id_category_post = "SELECT `id-category-post` FROM `category-post` WHERE `name-category-post` = '" . $conn->real_escape_string($category_post) . "'";
+            $result_id_category_post = $conn->query($sql_id_category_post);
+            if ($result_id_category_post && $result_id_category_post->num_rows > 0) {
+                $row = $result_id_category_post->fetch_assoc();
+                $id_category_post = $row['id-category-post'];
+            }
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssiii",
             $title_post,
             $img_post,
             $date_post,
             $slug_post,
             $expert_post,
             $content_post,
-            $status_post,
+            $id_status_post,
+            $id_category_post,
             $id_post
         );
 
@@ -133,14 +155,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div>
                             <a class="note link" href="../single-post?slug-post=<?php echo htmlspecialchars($post['slug-post']);?>">nienluan.com/single-post?slug-post=<?php echo htmlspecialchars($post['slug-post']); ?></a>
                         </div>
+                        <div class="d-flex flex-column row-gap-2">
+                        <label for="category-post">Chuyên mục</label>
+                        <?php 
+                        echo '<select id="category-post" name="category-post" class="px-2 py-2 border-accent">';
+                            $sql_category= "SELECT * FROM `category-post`;";
+                            $result_name_category = $conn->query($sql_category);
+                            if ($result_name_category) {
+                                if ($result_name_category->num_rows > 0) {
+                                    while ($name_category_post = $result_name_category->fetch_assoc()) {
+                                        $selected_category_post = ($name_category_post['name-category-post']===$category_post) ? 'selected' : '';
+                                        echo '<option value="' . htmlspecialchars($name_category_post['name-category-post']) . '"' . $selected_category_post . '>'
+                                        . htmlspecialchars($name_category_post['name-category-post'])
+                                        . '</option>';
+                                    }
+                                }
+                            }
+                        echo '</select>';
+                        ?>
                     </div>
-                    <div class="d-flex flex-row column-gap-4 justify-content-end"> 
-                        <button class="button-light-background px-3 py-2" type="submit" name="Draft" value="true">
-                            <i class="icon fa-solid fa-file-alt"></i>&nbsp;&nbsp;Lưu nháp
-                        </button>
-                        <button class="button-primary px-3 py-2" type="submit" name="submit">
-                            <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Phát hành
-                        </button>
+                    </div>
+                    <div class="row justify-content-between mt-4">
+                        <div class="col-8">
+                            <select id="id-status-post" name="id-status-post">
+                                <option value=3 <?php echo (intval($id_status_post) === 3) ? 'selected' : '' ?>>Phát hành</option>
+                                <option value=2 <?php echo (intval($id_status_post) === 2) ? 'selected' : '' ?>>Chờ duyệt</option>
+                                <option value=1 <?php echo (intval($id_status_post) === 1) ? 'selected' : '' ?>>Nháp</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <button class="button-primary px-3 py-2 w-100" type="submit" name="submit">
+                                <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Lưu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
