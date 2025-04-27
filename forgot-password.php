@@ -52,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Đăng ký</title>
+    <title>Khôi phục mật khẩu</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <main class="container forgot-password d-flex flex-column my-5 align-items-center">
-        <h2 class="title-page text-center">Đăng ký</h2>
+        <h2 class="title-page text-center">Khôi phục mật khẩu</h2>
         <form class=" forgot-password-content d-flex flex-column mt-4 row-gap-4 border-round p-5" action="forgot-password.php" method="post">
             <div class="d-flex flex-row align-items-cente">
                 <label class="col-5 accent" for="username-customer">Tên đăng nhập:</label>

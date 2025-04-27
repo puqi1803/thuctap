@@ -41,8 +41,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         `timeline-tour`, 
         `description-tour`,
         `id-status-tour`,
-        `location-tour`
+        `id-location-tour`
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $sql_location = "SELECT * FROM `location` ORDER BY `id-area-location` ASC;";
+    $result_location = $conn->query($sql_location);
+    $location_by_area=[];
+    if ($result_location && $result_location->num_rows > 0) {
+        while ($location = $result_location->fetch_assoc()) {
+            if ($location['name-location'] == $_POST['location-tour']) {
+                $id_location_tour = $location['id-location'];
+            }
+        }
+    }
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssiiisiissssis",
@@ -61,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $timeline_tour, 
         $description_tour,
         $id_status_tour,
-        $location_tour
+        $id_location_tour
     );
 
     if ($stmt->execute()) {

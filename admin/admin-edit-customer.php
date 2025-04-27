@@ -128,7 +128,7 @@
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="username-customer">Tài khoản</label>
-                            <input type="text" id="username-customer" name="username-customer" required value="<?php echo htmlspecialchars($customer['username-customer']) ?>">
+                            <input type="text" id="username-customer" name="username-customer" required value="<?php echo htmlspecialchars($customer['username-customer']) ?>" readonly>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
                             <label class="w-25" for="password-customer">Mật khẩu</label>

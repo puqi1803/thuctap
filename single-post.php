@@ -53,7 +53,7 @@ $stmt->close();
                         $name_category = htmlspecialchars($category['name-category-post']);
                         $slug_category = htmlspecialchars($category['slug-category-post']);
                     }
-                    echo '<li class="breadcrumb-item"><a href="/nienluan.com/' . $slug_category . '">' . $name_category . '</a></li>';
+                    echo '<li class="breadcrumb-item"><a href="/nienluan.com/tin-tuc">' . $name_category . '</a></li>';
                     ?>
                     <li class="breadcrumb-item active" breadcrumb-item active="page"><?php echo htmlspecialchars($post['title-post']); ?></li>
                 </ol>

@@ -114,9 +114,10 @@ include '../includes/delete.php';
                         echo '</select>';
                     echo '</div>';
                     ?>
+                     <!--- 
                     <div>
                         <input class="col p-2 border-round" type="date" value="" id="date-post" name="date-post"></input>
-                    </div>
+                    </div>--->
                     <?php
                     echo '<div class="col-2">';
                         echo '<select id="status-post" name="status-post" class="px-2 py-2 border-accent">';

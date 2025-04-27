@@ -69,6 +69,9 @@ if (isset($_GET['id-category-post'])) {
                     <i class="icon fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Trở về
                 </button>
             </div>
+            <div class="d-flex flex-row column-gap-4"> 
+            <a href="/nienluan.com/"><i class="icon fa-solid fa-house"></i>  Trang chủ</a>
+        </div>
         </div>
     </div>
     <main class="container admin-edit-category-post" style="max-width: 700px; padding: 40px 0px">
