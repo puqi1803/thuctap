@@ -436,6 +436,7 @@ footer .subscribe button {
 .admin-tour td, .admin-tour a.accent.link, .admin-post td, .admin-post a.accent.link {
     font-size: 0.9rem;
 }
+/*
 .admin-new-tour input, .admin-edit-tour input,
 .admin-new-tour select, .admin-edit-tour select,
 .admin-new-post input, .admin-edit-post input,
@@ -447,11 +448,8 @@ footer .subscribe button {
     outline: none;
     padding: 0.5rem;
     width: 100%;
-}
-.admin-new-tour label, .admin-edit-tour label, .admin-new-tour label, .admin-edit-tour label, .admin-new-customer label, .admin-edit-customer label {
-    font-weight: 700;
-}
-.admin-new-tour textarea, .admin-edit-tour textarea, .admin-new-post textarea, .admin-edit-post textarea, .admin-new-customer textarea, .admin-edit-customer textarea  {
+}*/
+input, select {
     border: 1px solid var(--border);
     border-radius: 5px;
     outline: none;
@@ -459,9 +457,38 @@ footer .subscribe button {
     width: 100%;
     overflow-y: auto;
 }
-.admin-new-tour .title-tour input, .admin-edit-tour .title-tour input, .admin-new-post .title-post input, .admin-edit-post .title-post input {
+/*
+.admin-new-tour label, .admin-edit-tour label,
+.admin-new-tour label, .admin-edit-tour label,
+.admin-new-customer label, .admin-edit-customer label {
+    font-weight: 700;
+}*/
+label {
+    font-weight: 700;
+}
+/*
+.admin-new-tour textarea, .admin-edit-tour textarea,
+.admin-new-post textarea, .admin-edit-post textarea,
+.admin-new-customer textarea, .admin-edit-customer textarea  {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    outline: none;
+    padding: 0.5rem;
+    width: 100%;
+    overflow-y: auto;
+}*/
+textarea  {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    outline: none;
+    padding: 0.5rem;
+    width: 100%;
     overflow-y: auto;
 }
+/*
+.admin-new-tour .title-tour input, .admin-edit-tour .title-tour input, .admin-new-post .title-post input, .admin-edit-post .title-post input {
+    overflow-y: auto;
+}*/
 .admin-edit-tour button.delete-img:hover, .admin-edit-post button.delete-img:hover  {
     color: var(--note);
 }

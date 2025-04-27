@@ -43,12 +43,13 @@ include '../includes/delete.php';
                 <button class="button-light-background p-2 w-25" onclick="window.open('admin-new-customer', '_blank')">Thêm mới</button>
                 <button class="button-light-background p-2 w-25" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
             </div>
-            <div class="col d-flex flex-row column-gap-2 align-items-center justify-content-end">
-                <form>
-                    <input class="p-2 border-round" type="text">
+            <!---
+            <div class="col justify-content-end">
+                <form class="d-flex flex-row column-gap-2 align-items-center justify-content-end">
+                    <input class="p-2 border-round w-25" type="text">
                     <button class="button-light-background p-2" type="submit">Tìm</button>
                 </form>
-            </div>
+            </div> --->
         </div>
         <?php
         //Phan trang

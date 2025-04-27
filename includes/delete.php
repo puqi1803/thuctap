@@ -43,4 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-customer'])) 
         }
     }
 }
+
+//Xoa category-post
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['deleted-category-post'])) {
+    if (isset($_POST['categories_post'])) {
+        $customers_to_delete = $_POST['categories_post'];
+        $customer_ids = implode(',', array_map('intval', $customers_to_delete));
+        $sql_delete = "DELETE FROM `category-post` WHERE `id-category-post` IN ($customer_ids)";
+        if ($conn->query($sql_delete) === TRUE) {
+            echo '<script>
+                alert("Xóa thành công");</script>';
+        } else {
+            echo 'Lỗi' . $conn->error;
+        }
+        header("Location: ../admin?page=admin-category-post");
+    }
+}
 ?>

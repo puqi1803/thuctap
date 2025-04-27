@@ -57,13 +57,11 @@ if (isset($_GET['id-post'])) {
             `id-category-post`= ?
         WHERE `id-post` = ?";
 
-        if ($category_post) {
-            $sql_id_category_post = "SELECT `id-category-post` FROM `category-post` WHERE `name-category-post` = '" . $conn->real_escape_string($category_post) . "'";
-            $result_id_category_post = $conn->query($sql_id_category_post);
-            if ($result_id_category_post && $result_id_category_post->num_rows > 0) {
-                $row = $result_id_category_post->fetch_assoc();
-                $id_category_post = $row['id-category-post'];
-            }
+        $sql_id_category_post = "SELECT `id-category-post` FROM `category-post` WHERE `name-category-post` = '" . $conn->real_escape_string($category_post) . "'";
+        $result_id_category_post = $conn->query($sql_id_category_post);
+        if ($result_id_category_post && $result_id_category_post->num_rows > 0) {
+            $row = $result_id_category_post->fetch_assoc();
+            $id_category_post = $row['id-category-post'];
         }
 
         $stmt = $conn->prepare($sql);

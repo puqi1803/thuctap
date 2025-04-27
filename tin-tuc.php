@@ -1,6 +1,35 @@
 <?php
-    include 'partical/db_connect.php';
-    include 'includes/functions.php';
+include 'partical/db_connect.php';
+include 'includes/functions.php';
+
+$results_per_page = 6;
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start_from = ($page-1) * $results_per_page;
+
+$slug = isset($_GET['slug-post']) ? $_GET['slug-post'] : '';
+$sql_id_status = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+$result_id_status = $conn->query($sql_id_status);
+if ($result_id_status && $result_id_status->num_rows > 0) {
+    $name_status = $result_id_status->fetch_assoc();
+    $id_status = $name_status['id-status'];
+}
+
+$sql_count = "SELECT COUNT(*) AS total FROM post WHERE `id-status-post`=?";
+$stmt_count = $conn->prepare($sql_count);
+$stmt_count->bind_param("i", $id_status);
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$row_account = $result_count->fetch_assoc();
+$total_results = $row_account['total'];
+$total_pages = ceil($total_results/$results_per_page);
+$stmt_count->close();
+
+$sql = "SELECT * FROM post WHERE `id-status-post` = ? ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_status);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -23,34 +52,6 @@
 <body>
     <?php 
         include "header-main.php";
-        $results_per_page = 6;
-
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $start_from = ($page-1) * $results_per_page;
-
-        $slug = isset($_GET['slug-post']) ? $_GET['slug-post'] : '';
-        $sql_id_status = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
-        $result_id_status = $conn->query($sql_id_status);
-        if ($result_id_status && $result_id_status->num_rows > 0) {
-            $name_status = $result_id_status->fetch_assoc();
-            $id_status = $name_status['id-status'];
-        }
-
-        $sql_count = "SELECT COUNT(*) AS total FROM post WHERE `id-status-post`=?";
-        $stmt_count = $conn->prepare($sql_count);
-        $stmt_count->bind_param("i", $id_status);
-        $stmt_count->execute();
-        $result_count = $stmt_count->get_result();
-        $row_account = $result_count->fetch_assoc();
-        $total_results = $row_account['total'];
-        $total_pages = ceil($total_results/$results_per_page);
-        $stmt_count->close();
-
-        $sql = "SELECT * FROM post WHERE `id-status-post` = ? ORDER BY `id-post` DESC LIMIT $start_from, $results_per_page";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id_status);
-        $stmt->execute();
-        $result = $stmt->get_result();
     ?>
     <main class="tin-tuc container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">

@@ -78,25 +78,26 @@ include '../includes/delete.php';
         <h3 class="title-page">Bài viết</h3>
         <!--- Function delete, add new --->
         <div class="row justify-content-between mt-4">
-            <div class="col d-flex flex-row column-gap-2 align-items-center">
+            <div class="col-5 d-flex flex-row column-gap-2 align-items-center">
                 <button class="button-light-background p-2 px-4" onclick="window.open('admin-new-post', '_blank')">Thêm mới</button>
                 <button class="button-light-background p-2 px-4" type="submit" form="delete-form" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</button>
             </div>
-            <div class="col d-flex flex-row column-gap-2 align-items-center justify-content-end">
-                <form>
-                    <input class="p-2 border-round" type="text">
-                    <button class="button-light-background p-2" type="submit">Tìm</button>
+            <!---
+            <div class="col-3">
+                <form class="d-flex flex-row column-gap-2 align-items-center justify-content-end">
+                    <input class="col p-2 border-round" type="text">
+                    <button class="col-2 button-light-background p-2" type="submit">Tìm</button>
                 </form>
-            </div>
+            </div>--->
         </div>
         <!--- Filter --->
-        <div class="row justify-content-between mt-4">
-            <div class="col-9 d-flex flex-row column-gap-2 align-items-center">
-                <form method="GET" action="admin.php">
-                    <input type="hidden" name="page" value="admin-post">
-                    <input type="hidden" name="category-post" value="<?php echo htmlspecialchars($rq_category_post); ?>">
-                    <input type="hidden" name="date-post" value="<?php echo htmlspecialchars($rq_date); ?>">
-                    <?php 
+        <div class="row">
+            <form method="GET" action="admin.php" class="d-flex flex-row column-gap-2 mt-4 align-items-center">
+                <input type="hidden" name="page" value="admin-post">
+                <input type="hidden" name="category-post" value="<?php echo htmlspecialchars($rq_category_post); ?>">
+                <input type="hidden" name="date-post" value="<?php echo htmlspecialchars($rq_date); ?>">
+                <?php 
+                echo '<div class="col-2">';
                     echo '<select id="category-post" name="category-post" class="px-2 py-2 border-accent">';
                     echo '<option value="">Chuyên mục</option>';
                         $sql_category= "SELECT * FROM `category-post`;";
@@ -104,36 +105,39 @@ include '../includes/delete.php';
                         if ($result_name_category) {
                             if ($result_name_category->num_rows > 0) {
                                 while ($name_category_post = $result_name_category->fetch_assoc()) {
-                                    $selected_category_post = ($name_category_post['name-category-post']===$category_post) ? 'selected' : '';
-                                    echo '<option value="' . htmlspecialchars($name_category_post['name-category-post']) . '"' . $selected_category_post . '>'
-                                    . htmlspecialchars($name_category_post['name-category-post'])
+                                    $selected_category_post = ($name_category_post['name-category-post']===$category_post) ? 'selected' : '';                                        echo '<option value="' . htmlspecialchars($name_category_post['name-category-post']) . '"' . $selected_category_post . '>'
+                                        . htmlspecialchars($name_category_post['name-category-post'])
+                                        . '</option>';
+                                    }
+                                }
+                            }
+                        echo '</select>';
+                    echo '</div>';
+                    ?>
+                    <div>
+                        <input class="col p-2 border-round" type="date" value="" id="date-post" name="date-post"></input>
+                    </div>
+                    <?php
+                    echo '<div class="col-2">';
+                        echo '<select id="status-post" name="status-post" class="px-2 py-2 border-accent">';
+                        echo '<option value="">Trạng thái</option>';
+                        $sql_status = "SELECT * FROM `status`;";
+                        $result_name_status = $conn->query($sql_status);
+                        if ($result_name_status) {
+                            if ($result_name_status->num_rows > 0) {
+                                while ($name_status = $result_name_status->fetch_assoc()) {
+                                    $selected_status = ($name_status['name-status']===$status_post) ? 'selected' : '';
+                                    echo '<option value="' . htmlspecialchars($name_status['name-status']) . '"' . $selected_status . '>'
+                                    . htmlspecialchars($name_status['name-status'])
                                     . '</option>';
                                 }
                             }
                         }
-                    echo '</select>';
+                        echo '</select>';
+                    echo '</div>';
                     ?>
-                    <input class="col p-2 border-round" type="date" value="" id="date-post" name="date-post"></input>
-                    <?php
-                    echo '<select id="status-post" name="status-post" class="px-2 py-2 border-accent">';
-                    echo '<option value="">Trạng thái</option>';
-                    $sql_status = "SELECT * FROM `status`;";
-                    $result_name_status = $conn->query($sql_status);
-                    if ($result_name_status) {
-                        if ($result_name_status->num_rows > 0) {
-                            while ($name_status = $result_name_status->fetch_assoc()) {
-                                $selected_status = ($name_status['name-status']===$status_post) ? 'selected' : '';
-                                echo '<option value="' . htmlspecialchars($name_status['name-status']) . '"' . $selected_status . '>'
-                                . htmlspecialchars($name_status['name-status'])
-                                . '</option>';
-                            }
-                        }
-                    }
-                    echo '</select>';
-                    ?>
-                    <button class="px-4 button-light-background p-2" type="submit">Lọc</button>
-                </form>
-            </div>
+                <button class="px-4 button-light-background p-2" type="submit">Lọc</button>
+            </form>
         </div>
         <?php 
         //Phan trang
@@ -142,11 +146,11 @@ include '../includes/delete.php';
             echo '<div class="pagination-admin d-flex flex-row column-gap-4">';
                 if ($page > 1) {
                     echo '<a href="?page=admin-post&post-page=' . ($page - 1) . '">«</a>';
-                } else {
-                    echo '<span class="disable">«</span>';
                 }
                 for ($i = 1; $i <= $total_pages; $i++) {
-                    if ($i == $page) {
+                    if ($total_pages == 1) {
+                        echo '<p>' . $total_pages . '</p>';
+                    } else if ($i == $page) {
                         echo '<span class="accent">' . $i .'</span>';
                     } else {
                         echo '<a class="number" href="?page=admin-post&post-page=' . $i . '">' . $i . '</a>';
@@ -154,8 +158,6 @@ include '../includes/delete.php';
                 }
                 if ($page < $total_pages) {
                     echo '<a href="?page=admin-post&post-page=' . ($page + 1) . '">»</a>';
-                } else {
-                    echo '<span class="disable">»</span>';
                 }
             echo '</div>';
         echo '</div>';  
@@ -236,11 +238,11 @@ include '../includes/delete.php';
             echo '<div class="pagination-admin d-flex flex-row column-gap-4">';
                 if ($page > 1) {
                     echo '<a href="?page=admin-post&post-page=' . ($page - 1) . '">«</a>';
-                } else {
-                    echo '<span class="disable">«</span>';
                 }
                 for ($i = 1; $i <= $total_pages; $i++) {
-                    if ($i == $page) {
+                    if ($total_pages == 1) {
+                        echo '<p>' . $total_pages . '</p>';
+                    } else if ($i == $page) {
                         echo '<span class="accent">' . $i .'</span>';
                     } else {
                         echo '<a class="number" href="?page=admin-post&post-page=' . $i . '">' . $i . '</a>';
@@ -248,8 +250,6 @@ include '../includes/delete.php';
                 }
                 if ($page < $total_pages) {
                     echo '<a href="?page=admin-post&post-page=' . ($page + 1) . '">»</a>';
-                } else {
-                    echo '<span class="disable">»</span>';
                 }
             echo '</div>';
         echo '</div>';  

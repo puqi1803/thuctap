@@ -92,7 +92,7 @@
                             <input type="text" name="name-customer"></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">
-                            <label class="w-25" for="username-customer">Tài khoản</label>
+                            <label class="w-25" for="username-customer">Tên đăng nhập</label>
                             <input type="text" id="username-customer" name="username-customer" require></input>
                         </div>
                         <div class="d-flex flex-row column-gap-2 align-items-center">

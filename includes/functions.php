@@ -49,4 +49,20 @@ function createSlug($title) {
     $slug = preg_replace('/[\s-]+/', '-', $slug);
     return trim($slug, '-');
 }
+
+function createSlugCategory($name_category_post) {
+    $name_category_post = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name_category_post);
+    $slug_category = strtolower($name_category_post);
+    $slug_category = preg_replace('/[^a-z0-9\s-]/', '', $slug_category);
+    $slug_category = preg_replace('/[\s-]+/', '-', $slug_category);
+    return trim($slug_category, '-');
+}
+
+function createSlugLocation($name_location) {
+    $name_location = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name_location);
+    $slug_location = strtolower($name_location);
+    $slug_location = preg_replace('/[^a-z0-9\s-]/', '', $slug_location);
+    $slug_location = preg_replace('/[\s-]+/', '-', $slug_location);
+    return trim($slug_location, '-');
+}
 ?>

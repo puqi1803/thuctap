@@ -3,6 +3,10 @@ include '../includes/check-login.php';
 include '../partical/db_connect.php';
 include '../includes/functions.php';
 
+$locations = [];
+$area_locations = [];
+$starting_gates = [];
+
 if (isset($_GET['id-tour'])) {
     $id_tour = $_GET['id-tour'];
     $sql = "SELECT * FROM tour WHERE `id-tour` = ?";
@@ -14,9 +18,44 @@ if (isset($_GET['id-tour'])) {
     if ($result->num_rows > 0 ) {
         $tour = $result->fetch_assoc();
         $id_status_tour = $tour['id-status-tour'];
+        $id_location_tour = $tour['id-location-tour'];
+
+        $sql_id_location_tour = "SELECT * FROM `location` WHERE `id-location` = '" . $conn->real_escape_string($id_location_tour) . "'";
+        $result_id_location_tour = $conn->query($sql_id_location_tour);
+        if ($result_id_location_tour && $result_id_location_tour->num_rows > 0) {
+            $row = $result_id_location_tour->fetch_assoc();
+            $name_location_tour = $row['name-location'];
+        }
+
     } else {
         echo 'Tour không tồn tại.';
         exit;
+    }
+}
+
+$sql_location = "SELECT * FROM `location` ORDER BY `id-area-location` ASC;";
+$result_location = $conn->query($sql_location);
+$location_by_area=[];
+if ($result_location && $result_location->num_rows > 0) {
+    while ($row_location = $result_location->fetch_assoc()) {
+        $locations[] = $row_location;
+    }
+}   
+
+$sql_area_location = "SELECT * FROM `area-location`";
+$result_area_location = [];
+$result_area_location = $conn->query($sql_area_location);
+if ($result_area_location && $result_area_location->num_rows > 0) {
+    while ($row_area_location = $result_area_location->fetch_assoc()) {
+        $area_locations[] = $row_area_location;
+    }
+}
+
+$sql_starting_gate = "SELECT `name-starting-gate` FROM `starting-gate`  ORDER BY `name-starting-gate` ASC ";
+$result_starting_gate = $conn->query($sql_starting_gate);
+if ($result_starting_gate && $result_starting_gate->num_rows > 0) {
+    while ($row_starting_gate = $result_starting_gate->fetch_assoc()) {
+        $starting_gates[] = $row_starting_gate;
     }
 }
 
@@ -40,7 +79,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['img-tour']) && $_FILES['img-tour']['error'] == 0) {
         include '../includes/check-image.php';
     }
-    //$status_tour = (isset($_POST['Draft']) && $_POST['Draft'] === 'true') ? 'Draft' : 'Published';
+
+    $sql_id_location_tour = "SELECT * FROM `location` WHERE `name-location` = '" . $conn->real_escape_string($location_tour) . "'";
+    $result_id_location_tour = $conn->query($sql_id_location_tour);
+    if ($result_id_location_tour && $result_id_location_tour->num_rows > 0) {
+        $row = $result_id_location_tour->fetch_assoc();
+        $id_location_tour = $row['id-location'];
+    }
+
 
     $sql = "UPDATE tour SET
     `title-tour` = ?, 
@@ -56,12 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     `duration-tour` = ?, 
     `timeline-tour` = ?, 
     `description-tour` = ?,
-    `id-status-tour`= ?,
-    `location-tour`= ?
-    WHERE `id-tour` = ?"; 
+    `id-status-tour` = ?,
+    `id-location-tour` = ?
+    WHERE `id-tour` = ?";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssiiisiissssiss",
+    $stmt->bind_param("sssiiisiissssiis",
         $title_tour, 
         $date_tour, 
         $img_tour,
@@ -76,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $timeline_tour, 
         $description_tour,
         $id_status_tour,
-        $location_tour,
+        $id_location_tour,
         $id_tour
     );
 
@@ -104,12 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php  
         include '../header-blank.php';
-
-        $sql_starting_gate = "SELECT `name-starting-gate` FROM `starting-gate`  ORDER BY `name-starting-gate` ASC ";
-        $result_starting_gate = $conn->query($sql_starting_gate);
-
-        $sql_location = "SELECT `name-location` FROM `location`  ORDER BY `name-location` ASC ";
-        $result_location = $conn->query($sql_location);
     ?>
     
     <div class="container-fluid taskbar">
@@ -176,16 +216,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label for="starting-gate">Khởi hành</label>
                                 <select id="starting-gate" name="starting-gate">
                                     <?php
-                                    if ($result_starting_gate) {
-                                        if ($result_starting_gate->num_rows > 0) {
-                                            while ($starting_gate = $result_starting_gate->fetch_assoc()) {
-                                                echo '<option value="' . htmlspecialchars($starting_gate['name-starting-gate']) . '"';
-                                                if ($starting_gate['name-starting-gate'] == $tour['starting-gate']) {
-                                                    echo ' selected';
-                                                }
-                                                echo '>' . htmlspecialchars($starting_gate['name-starting-gate']) . '</option>';
-                                            }
+                                    foreach ($starting_gates as $starting_gate) {
+                                        echo '<option value="' . htmlspecialchars($starting_gate['name-starting-gate']) . '"';
+                                        if ($starting_gate['name-starting-gate'] == $tour['starting-gate']) {
+                                            echo ' selected';
                                         }
+                                        echo '>' . htmlspecialchars($starting_gate['name-starting-gate']) . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -201,23 +237,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="number" id="participators" name="participators" value="<?php echo number_format($tour['participators']);?>">     
                             </div>
                             <div class="col-6">
-                                <label for="location-tour">Địa điểm</label>
-                                <select id="location-tour" name="location-tour">
-                                    <?php
-                                    if ($result_location) {
-                                        if($result_location->num_rows > 0) {
-                                            while($location_tour = $result_location->fetch_assoc()) {
-                                                echo '<option value="' . htmlspecialchars($location_tour['name-location']) . '"';
-                                                if ($location_tour['name-location'] == $tour['location-tour']) {
-                                                    echo ' selected';
-                                                }    
-                                                echo '>' . htmlspecialchars($location_tour['name-location']) . '</option>';
-                                            }
-                                        }
+                            <?php
+                            echo '<label for="location-tour">Địa điểm</label>';
+                            $locations_by_area_name = [];
+                            foreach ($locations as $location) {
+                                $id_area_location = $location['id-area-location'];
+                                $name_location = htmlspecialchars($location['name-location']);
+                                $area_name = '';
+
+                                foreach ($area_locations as $area_location_item) {
+                                    if ($area_location_item['id-area-location'] == $id_area_location) {
+                                        $area_name = $area_location_item['name-area-location'];
+                                        break;
                                     }
-                                    ?>
-                                </select>
-                            </div>
+                                }
+                                if (!isset($locations_by_area_name[$area_name])) {
+                                    $locations_by_area_name[$area_name] = [];
+                                }
+                                $locations_by_area_name[$area_name][] = $name_location;
+                            }
+                            echo '<div class="col">';
+                                echo '<select id="location-tour" name="location-tour" class="col p-2 border-round">';
+                                foreach ($locations_by_area_name as $area_name => $locations_list) {
+                                    echo '<optgroup label="' . htmlspecialchars($area_name) . '">';
+                                    foreach ($locations_list as $location_name) {
+                                        $selected_location = ($location_name === $name_location_tour) ? 'selected' : '';
+                                        echo '<option value="' . htmlspecialchars($location_name) . '" ' . $selected_location . '>'
+                                            . htmlspecialchars($location_name) . '</option>';
+                                    }
+                                    echo '</optgroup>';
+                                }
+                                echo '</select>';
+                            echo '</div>';
+                            ?>
                         </div>             
                     </div>
                     <div class="d-flex flex-column row-gap-2">

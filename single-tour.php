@@ -4,7 +4,7 @@ include 'includes/functions.php';
 
 $slug = isset($_GET['id-tour']) ? $_GET['id-tour'] : '';
 
-$sql_id_status = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
+$sql_id_status = "SELECT * FROM `status` WHERE `name-status` = 'Phát hành'";
 $result_id_status = $conn->query($sql_id_status);
 if ($result_id_status && $result_id_status->num_rows > 0) {
     $name_status = $result_id_status->fetch_assoc();
@@ -17,7 +17,40 @@ $stmt->bind_param("si", $slug, $id_status);
 $stmt->execute();
 $result = $stmt->get_result();
 $tour = $result->fetch_assoc();
+if ($tour) {
+    $id_location_tour = $tour['id-location-tour'];
+} else {
+    $id_location_tour = null;
+    echo 'Tour không tồn tại';
+}
+
 $stmt->close();
+
+$sql_location = "SELECT * FROM `location` WHERE `id-location` = $id_location_tour";
+$result_id_location = $conn->query($sql_location);
+if ($result_id_location && $result_id_location->num_rows > 0) {
+    $locations = $result_id_location->fetch_assoc();
+    $name_location = $locations['name-location'];
+}
+
+$sql_tour = "SELECT * FROM tour WHERE `id-status-tour`=? AND `id-tour` != ? ORDER BY `id-tour` ASC LIMIT 4";
+$stmt_tour = $conn->prepare($sql_tour);
+$stmt_tour->bind_param("is", $id_status, $slug);
+$stmt_tour->execute();
+$tours_list = [];
+$result_tour = $stmt_tour->get_result();
+if ($result_tour) {
+    if ($result_tour->num_rows > 0) {
+        while ($row = $result_tour->fetch_assoc()) {
+        $tours_list[] = $row;
+        }
+    } else {
+        $error_message = 'Không tìm thấy kết quả phù hợp';
+    }
+} else {
+    $error_message = 'Lỗi: ' . $conn->error . ''; 
+}
+
 
 ?>  
 <!DOCTYPE html>
@@ -49,7 +82,7 @@ $stmt->close();
                 <div class="title-page mt-5 text-center">
                     <h3><?php echo htmlspecialchars($tour['title-tour']); ?></h3>
                 </div>
-                <div class="row mt-5 mb-3">
+                <div class="row mt-5 mb-3 no-wrap">
                     <div class="col-8 d-flex flex-column row-gap-5">
                         <div class="d-flex flex-row column-gap-4">
                             <div class="d-flex flex-column w-25 row-gap-2">
@@ -121,7 +154,7 @@ $stmt->close();
                             <div class="d-flex flex-row column-gap-2 align-items-center">
                                 <i class="icon fa-solid fa-location-dot"></i>
                                 <p>Địa điểm:</p>
-                                <p class="id-tour accent"><?php echo htmlspecialchars($tour["location-tour"]) ?></p>
+                                <p class="id-tour accent"><?php echo htmlspecialchars($name_location) ?></p>
                             </div>
                             <div class="d-flex flex-row column-gap-2 align-items-center">
                                 <i class="icon fa-solid fa-calendar-days"></i>
@@ -146,41 +179,29 @@ $stmt->close();
                 <div class="other-tours mt-5">
                     <h3 class="title-page">TOUR TƯƠNG TỰ</h3> 
                     <?php
-                    //$sql .= "SELECT * FROM tour WHERE `id-tour` = ? AND `id-status-tour` = ? ORDER BY `created-at` DESC LIMIT 4";
-                    $result = $conn->query($sql);
-                    if ($result) {
-                        if ($result->num_rows > 0) {
-                            echo '<div class="tour-container row mt-4 justify-content-between">';
-                                //Tour item
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<div class="col-3">';
-                                        echo '<div class="tour-item d-flex flex-column pb-2 text-left border-round shadow-sm">';
-                                            echo '<img class="tour-img w-100 object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
-                                            echo '<div class="tour-content d-flex flex-column p-3 row-gap-3 text-left">';
-                                                echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
-                                                <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
-                                                echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
-                                                    <i class="icon fa-solid fa-location-dot"></i>
-                                                    <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p>
-                                                    </div>';
-                                                echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
-                                                    <i class="icon fa-solid fa-calendar-days"></i>
-                                                    <p> Ngày khởi hành: '. formatDate($row["date-tour"]) . '</p>
-                                                    </div>';
-                                                echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
-                                                echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
-                                            echo '</div>';
-                                        echo '</div>';
-                                    echo '</div>';
-                                }
+                    echo '<div class="tour-container row mt-4 justify-content-between no-wrap">';
+                    foreach ($tours_list as $tour) {
+                        echo '<div class="col-3">';
+                            echo '<div class="tour-item d-flex flex-column pb-2 text-left border-round shadow-sm">';
+                                echo '<img class="tour-img w-100 object-fit-cover" src="resources/uploads/' . htmlspecialchars($tour["img-tour"]) . '">';
+                                echo '<div class="tour-content d-flex flex-column p-3 row-gap-3 text-left">';
+                                    echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($tour["id-tour"]) . '">
+                                    <h6>' . htmlspecialchars($tour["title-tour"]) . '</h6></a>';
+                                    echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
+                                        <i class="icon fa-solid fa-location-dot"></i>
+                                        <p> Khởi hành: '. htmlspecialchars($tour["starting-gate"]) . '</p>
+                                        </div>';
+                                    echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
+                                        <i class="icon fa-solid fa-calendar-days"></i>
+                                        <p> Ngày khởi hành: '. formatDate($tour["date-tour"]) . '</p>
+                                        </div>';
+                                    echo '<div class="highlight tour-price">' . number_format($tour["price-tour"], 0, ',', '.') . ' đ</div>';
+                                    echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
+                                echo '</div>';
                             echo '</div>';
-                            } else {
-                                echo 'Không tìm thấy tour phù hợp';
-                            }
-                            echo '</div>';
-                        } else {
-                            echo 'Lỗi truy vấn: ' . $conn->error;
-                        }
+                        echo '</div>';
+                    }
+                    echo '</div>';    
                     ?>
                     </div>
                 </div>

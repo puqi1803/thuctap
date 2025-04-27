@@ -58,23 +58,25 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                     <div>
                         <a class="menu-toggle">Bài viết</a>
                         <div class="sub-menu" style="display: none;">
-                            <a class="list-group-item" href="?page=admin-post">Tất cả bài viết</a>
+                            <a class="list-group-item" href="?page=admin-post">Tất cả</a>
                             <a class="list-group-item" href="admin-new-post">Thêm bài viết</a>
+                            <a class="list-group-item" href="?page=admin-category-post">Chuyên mục</a>
                         </div>
                     </div>
                     <hr>
                     <div>
                         <a class="menu-toggle">Tour</a>
                         <div class="sub-menu" style="display: none;">
-                            <a class="list-group-item" href="?page=admin-tour">Tất cả  tour</a>
+                            <a class="list-group-item" href="?page=admin-tour">Tất cả</a>
                             <a class="list-group-item" href="admin-new-tour">Thêm tour</a>
+                            <a class="list-group-item" href="?page=admin-location">Địa điểm</a>
                         </div>
                     </div>
                     <hr>
                     <div>
                         <a class="menu-toggle">Khách hàng</a>
                         <div class="sub-menu" style="display: none;">
-                            <a class="list-group-item" href="?page=admin-customer">Tất cả khách hàng</a>
+                            <a class="list-group-item" href="?page=admin-customer">Tất cả</a>
                             <a class="list-group-item" href="admin-new-customer">Thêm khách hàng</a>
                         </div>
                     </div>
@@ -87,12 +89,18 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                         break;
                     case 'admin-new-post':
                         include 'admin-new-post.php';
-                        break;                        
+                        break;
+                    case 'admin-category-post':
+                        include 'admin-category-post.php';
+                        break;               
                     case 'admin-tour':
                         include 'admin-tour.php';
                         break;
                     case 'admin-new-tour':
                         include 'admin-new-tour.php';
+                        break;
+                    case 'admin-location':
+                        include 'admin-location.php';
                         break;
                     case 'admin-customer':
                         include 'admin-customer.php';

@@ -86,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button class="button-primary w-100 p-2" type="submit">Đăng nhập</button>
             </div>
             <div class="note">
+                <a href="forgot-password.php">Quên mật khẩu</a>
                 <p>Bạn chưa có tài khoản? <a href="register.php">Đăng ký ngay</a></p>
             </div>
         </form>

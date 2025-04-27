@@ -1,6 +1,38 @@
 <?php
 include 'partical/db_connect.php';
 include 'includes/functions.php';
+
+//Lay danh sach dia diem cho bo loc
+$sql_location = "SELECT * FROM `location` ORDER BY `id-area-location` ASC;";
+$result_location = $conn->query($sql_location);
+$location_by_area=[];
+if ($result_location && $result_location->num_rows > 0) {
+    while ($row_location = $result_location->fetch_assoc()) {
+        $locations[] = $row_location;
+    }
+} 
+
+$sql_area_location = "SELECT * FROM `area-location`";
+$result_area_location = [];
+$result_area_location = $conn->query($sql_area_location);
+if ($result_area_location && $result_area_location->num_rows > 0) {
+    while ($row_area_location = $result_area_location->fetch_assoc()) {
+        $area_locations[] = $row_area_location;
+    }
+}
+
+$sql_status = "SELECT * FROM `status` WHERE `name-status` = 'Phát hành'";
+$result_status = $conn->query($sql_status);
+$status_list = [];
+if ($result_status && $result_status->num_rows > 0) {
+    while ($row_status = $result_status->fetch_assoc()) {
+        $status_list[] = $row_status;
+    }
+}
+foreach ($status_list as $status) {
+    $id_status = $status['id-status'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +47,6 @@ include 'includes/functions.php';
 
 <body>
     <?php include 'header-banner.php'; 
-    $sql_location = "SELECT `name-location`, `area-location` FROM `location` ORDER BY `area-location` ASC;";
-    $result_location = $conn->query($sql_location);
     ?>
     <main class="index">
         <!---------------------------------- 
@@ -30,33 +60,39 @@ include 'includes/functions.php';
             <h5>Bạn muốn đi đâu?</h5>
             <form action="tour.php" method="GET" class="row column-gap-2 flex-nowrap">
                 <?php
-                $location_by_area=[];
+                $locations_by_area_name = [];
+                foreach ($locations as $location) {
+                    $id_area_location = $location['id-area-location'];
+                    $name_location = htmlspecialchars($location['name-location']);
+                    $area_name = '';
 
-                //Nhóm địa điểm theo khu vực
-                if($result_location) {
-                    while($location_tour = $result_location->fetch_assoc()) {
-                        $area_location = $location_tour['area-location'];
-                        $name_location = htmlspecialchars($location_tour['name-location']);
-
-                        if(!isset($location_by_area[$area_location])) {
-                            $location_by_area[$area_location] = [];
+                    foreach ($area_locations as $area_location_item) {
+                        if ($area_location_item['id-area-location'] == $id_area_location) {
+                            $area_name = $area_location_item['name-area-location'];
+                            break;
                         }
-                        $location_by_area[$area_location][] = $name_location;
                     }
+                    if (!isset($locations_by_area_name[$area_name])) {
+                        $locations_by_area_name[$area_name] = [];
+                    }
+                    $locations_by_area_name[$area_name][] = $name_location;
                 }
-                //Hiển thị địa điểm theo khu vực
+
+                //Hien thi dia diem theo khu vuc
                 echo '<select id="location-tour" name="location-tour" class="col p-3 border-round">';
-                    echo '<option value="">Tất cả</option>';
-                    foreach ($location_by_area as $area_location => $locations) {
-                        echo '<optgroup label="' . htmlspecialchars($area_location) . '">';
-                        foreach ($locations as $location ) {
-                            echo '<option value="' . $location . '">' . $location . '</option>';
-                        }
-                        echo '</optgroup>';
+                echo '<option value="">Tất cả</option>';
+                foreach ($locations_by_area_name as $area_name => $locations_list) {
+                    echo '<optgroup label="' . htmlspecialchars($area_name) . '">';
+                    foreach ($locations_list as $location_name) {
+                        $selected_location = ($location_name === $rq_location) ? 'selected' : '';
+                        echo '<option value="' . htmlspecialchars($location_name) . '" ' . $selected_location . '>'
+                            . htmlspecialchars($location_name) . '</option>';
                     }
+                    echo '</optgroup>';
+                }
                 echo '</select>';
                 ?>
-                <input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="date-tour" name="date-tour">
+                <!--<input class="col p-3 border-round" type="date" value="<?php echo date('Y-m-d');?>" id="date-tour" name="date-tour">--->
                 <select class="col p-3 border-round" id="budget" name="budget">
                     <option value="">Ngân sách chuyến đi</option>
                     <option value="duoi-5-trieu">Dưới 5 triệu</option>
@@ -74,50 +110,44 @@ include 'includes/functions.php';
             <a href="tour"><h2 class="title-page text-center">TOUR NỔI BẬT</h2></a>
             <h6 class="mt-2 text-center">Nhanh tay nắm bắt cơ hội giảm giá cuối cùng. Đặt ngay để không bỏ lỡ!</h6>
             <?php
-            $sql_id_status_tour = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
-            $result_id_status_tour = $conn->query($sql_id_status_tour);
-            if ($result_id_status_tour && $result_id_status_tour->num_rows > 0) {
-                $name_status_tour = $result_id_status_tour->fetch_assoc();
-                $id_status_tour = $name_status_tour['id-status'];
-            }
-            $sql = "SELECT * FROM tour WHERE `id-status-tour`=$id_status_tour ORDER BY  `created-at` DESC LIMIT 4";
+            echo '<div class="tour-container row mt-4 justify-content-between">';
+            $sql = "SELECT * FROM tour WHERE `id-status-tour` = $id_status ORDER BY `created-at` DESC LIMIT 4";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
-                    echo '<div class="tour-container row mt-4 justify-content-between">';
+                    while ($row = $result->fetch_assoc()) {
                         //Tour item
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<div class="col-3">';
-                                echo '<div class="tour-item d-flex flex-column pb-2 text-left border-round shadow-sm">';
-                                    echo '<img class="tour-img w-100 object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
-                                    echo '<div class="tour-content d-flex flex-column p-3 row-gap-3 text-left">';
-                                        echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
-                                        <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
-                                        echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
-                                            <i class="icon fa-solid fa-location-dot"></i>
-                                            <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p>
-                                            </div>';
-                                        echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
-                                            <i class="icon fa-solid fa-calendar-days"></i>
-                                            <p> Ngày khởi hành: '. formatDate($row["date-tour"]) . '</p>
-                                            </div>';
-                                        echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
-                                        echo '<button class="button-primary w-full py-2 px-2">Đặt tour</button>';
+                        echo '<div class="col-3">';
+                            echo '<div class="tour-item d-flex flex-column pb-2 text-left border-round shadow-sm">';
+                                echo '<img class="tour-img w-100 object-fit-cover" src="resources/uploads/' . htmlspecialchars($row["img-tour"]) . '">';
+                                echo '<div class="tour-content d-flex flex-column p-3 row-gap-3 text-left">';
+                                    echo '<a href="single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '">
+                                    <h6>' . htmlspecialchars($row["title-tour"]) . '</h6></a>';
+                                    echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
+                                        <i class="icon fa-solid fa-location-dot"></i>
+                                        <p> Khởi hành: '. htmlspecialchars($row["starting-gate"]) . '</p>
+                                        </div>';
+                                    echo '<div class="d-flex flex-row column-gap-2 justify-space-center">
+                                        <i class="icon fa-solid fa-calendar-days"></i>
+                                        <p> Ngày khởi hành: '. formatDate($row["date-tour"]) . '</p>
+                                        </div>';
+                                    echo '<div class="highlight tour-price">' . number_format($row["price-tour"], 0, ',', '.') . ' đ</div>';
+                                    echo '<button class="button-primary w-full py-2 px-2"
+                                    onclick="window.open(\'single-tour.php?id-tour=' . htmlspecialchars($row["id-tour"]) . '\', \'_blank\')">Xem chi tiết</button>';
                                     echo '</div>';
-                                echo '</div>';
                             echo '</div>';
-                        }
-                    echo '</div>';
-                    echo '<div class="d-flex justify-content-center mt-4">';
-                        echo '<a href="tour"><button class="button-light-background py-2 px-4">Tất cả tour</button></a>';
-                    echo '</div>';
-                    } else {
-                        echo 'Không tìm thấy tour phù hợp';
+                        echo '</div>';
                     }
-                    echo '</div>';
+            echo '</div>';
                 } else {
-                    echo 'Lỗi truy vấn: ' . $conn->error;
+                    echo 'Không tìm thấy bài viết phù hợp.';
                 }
+            } else {
+                echo 'Lỗi truy vấn: '. $conn->error;
+            }
+            echo '<div class="d-flex justify-content-center mt-4">';
+                echo '<a href="tour"><button class="button-light-background py-2 px-4">Tất cả tour</button></a>';
+            echo '</div>';
             ?>
         </div>
         <!---------------------------------- BAI VIET MOI NHAT 
@@ -139,13 +169,7 @@ include 'includes/functions.php';
             <div class="post-content row mt-4">
             <?php
             //Post column 1
-            $sql_id_status_post = "SELECT `id-status` FROM `status` WHERE `name-status` = 'Phát hành'";
-            $result_id_status_post = $conn->query($sql_id_status_post);
-            if ($result_id_status_post && $result_id_status_post->num_rows > 0) {
-                $name_status_post = $result_id_status_post->fetch_assoc();
-                $id_status_post = $name_status_post['id-status'];
-            }
-            $sql = "SELECT * FROM post WHERE `id-status-post` = $id_status_post ORDER BY `id-post` DESC LIMIT 1";
+            $sql = "SELECT * FROM post WHERE `id-status-post` = $id_status ORDER BY `id-post` DESC LIMIT 1";
             $result = $conn->query($sql);
             if ($result) {
                 if ($result->num_rows > 0) {
@@ -177,7 +201,7 @@ include 'includes/functions.php';
             <?php
             //Post column 2
             $sql = "SELECT * FROM `post`
-            WHERE `id-status-post` = $id_status_post
+            WHERE `id-status-post` = $id_status
             AND `id-post` <> $id_post_most_recent
             ORDER BY `id-post` DESC LIMIT 3";
             $result = $conn->query($sql);
