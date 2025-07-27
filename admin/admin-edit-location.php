@@ -16,7 +16,7 @@ if (isset($_GET['id-location'])) {
         $location = $result->fetch_assoc();
         }
     } else {
-        echo 'Bài viết không tồn tại.';
+        echo 'Lỗi, không tồn tại.';
         exit;
     }
 

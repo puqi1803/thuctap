@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Quản lý website - Quản lý chung</title>
+    <title>Quản lý hệ thống - Quản lý chung</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
@@ -21,8 +21,8 @@
             $username = "Khách";
         };
         ?>
-    <p>Bạn đang đăng nhập bằng tài khoản <span class="accent"><?php echo htmlspecialchars($username)?></span></p>
-    <p>Bạn muốn sử dụng tài khoản khác? <a class="link" href="../logout">Đăng xuất</a></p>
+    <p>Bạn đang đăng nhập bằng tài khoản <span class="accent"><?php echo htmlspecialchars($username_user)?></span></p>
+    <p>Bạn muốn sử dụng tài khoản khác? <a class="link" href="../logout"    >Đăng xuất</a></p>
     </main>
 </body>
 </html>

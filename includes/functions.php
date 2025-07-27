@@ -33,7 +33,7 @@ function formatDate ($date) {
     }
 }
 
-function truncateTitle($title, $maxWords = 13) {
+function truncateTitle($title, $maxWords = 10) {
     $words = explode(' ', $title);
     if (count($words) > $maxWords) {
         $truncated = array_slice($words, 0, $maxWords);
@@ -65,4 +65,27 @@ function createSlugLocation($name_location) {
     $slug_location = preg_replace('/[\s-]+/', '-', $slug_location);
     return trim($slug_location, '-');
 }
+
+function getTourTitle($conn, $index) {
+    $res = $conn->query("SELECT `title-tour` FROM `tour` WHERE `index-tour` = $index");
+    if ($res && $res->num_rows > 0) {
+        return $res->fetch_assoc()['title-tour'];
+    }
+    return '';
+}
+function getCollaboratorName($conn, $id) {
+    $res = $conn->query("SELECT `name-collaborator` FROM `collaborator` WHERE `id-collaborator` = $id");
+    if ($res && $res->num_rows > 0) {
+        return $res->fetch_assoc()['name-collaborator'];
+    }
+    return '';
+}
+function getContractTypeName($conn, $id) {
+    $res = $conn->query("SELECT `name-contract-type` FROM `contract-type` WHERE `id-contract-type` = $id");
+    if ($res && $res->num_rows > 0) {
+        return $res->fetch_assoc()['name-contract-type'];
+    }
+    return '';
+}
 ?>
+

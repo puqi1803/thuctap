@@ -15,32 +15,21 @@ if(isset($_SESSION['error_message'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include 'partical/db_connect.php';
 
-    /*$username = isset($_POST['username']) ? $_POST['username'] : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $username_user = isset($_POST['username-user']) ? $_POST['username-user'] : '';
+    $password_user = isset($_POST['password-user']) ? $_POST['password-user'] : '';
 
-    $sql = "SELECT `password-user` FROM user WHERE `username-user` = ?";
-    
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();*/
-
-    $username_customer = isset($_POST['username-customer']) ? $_POST['username-customer'] : '';
-    $password_customer = isset($_POST['password-customer']) ? $_POST['password-customer'] : '';
-
-    $sql = "SELECT  `password-customer`, `role-customer` FROM customer WHERE `username-customer` = ?";
+    $sql = "SELECT  `password-user`, `role-user` FROM user WHERE `username-user` = ?";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username_customer);
+    $stmt->bind_param("s", $username_user);
     $stmt->execute();
     $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        //if (password_verify($password_customer, $row['password-customer'])) {
-        if ($password_customer === $row['password-customer']) {
-            $_SESSION['username-customer'] = $username_customer;
-            header("Location: " . ($row['role-customer'] === 0 ? "admin/admin.php" : "customer.php"));
+        if ($password_user === $row['password-user']) {
+            $_SESSION['username-user'] = $username_user;
+            header("Location: " . ($row['role-user'] === 0 ? "admin/admin.php" : "user.php"));
             exit;
         } else {
             $error_message = 'Mật khẩu không chính xác.';
@@ -69,12 +58,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2 class="title-page text-center">Đăng nhập</h2>
         <form class="login-content d-flex flex-column mt-4 row-gap-4 border-round p-5" action="login.php" method="post">
             <div class="d-flex flex-row align-items-center">
-                <label class="col-4 accent" for="username-customer">Tên đăng nhập:</label>
-                <input class="col p-2 border-round" type="text" id="username-customer" name="username-customer" required>
+                <label class="col-4 accent" for="username-user">Tên đăng nhập:</label>
+                <input class="col p-2 border-round" type="text" id="username-user" name="username-user" required>
             </div>
             <div class="d-flex flex-row align-items-center">
-                <label class="col-4 accent" for="password-customer">Mật khẩu:</label>
-                <input class="col p-2 border-round" type="password" id="password-customer" name="password-customer" required>
+                <label class="col-4 accent" for="password-user">Mật khẩu:</label>
+                <input class="col p-2 border-round" type="password" id="password-user" name="password-user" required>
             </div>
             <?php if (!empty($error_message)) : ?>
                 <p class="alert alert-danger"><?php echo htmlspecialchars($error_message); ?></p>

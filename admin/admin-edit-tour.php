@@ -28,7 +28,7 @@ if (isset($_GET['id-tour'])) {
         }
 
     } else {
-        echo 'Tour không tồn tại.';
+        echo 'Lỗi, không tồn tại.';
         exit;
     }
 }
