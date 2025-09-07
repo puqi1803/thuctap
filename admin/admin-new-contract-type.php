@@ -7,18 +7,21 @@
         $name_contract_type = $_POST['name-contract-type'];
         $template_contract_type = $_POST['template-contract-type'];
         $description_contract_type = $_POST['description-contract-type'];
+        $templateID_contract_type = $_POST['templateID-contract-type'];
 
     $sql = "INSERT INTO `contract-type` (
         `name-contract-type`,
         `template-contract-type`,
-        `description-contract-type`
-        ) VALUES (?, ?, ?)";
+        `description-contract-type`,
+        `templateID-contract-type`
+        ) VALUES (?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss",
+    $stmt->bind_param("ssss",
         $name_contract_type,
         $template_contract_type,
-        $description_contract_type
+        $description_contract_type,
+        $templateID_contract_type
     );
 
     if ($stmt->execute()) {
@@ -71,7 +74,11 @@
                 </div>
                 <div class="d-flex flex-row column-gap-2 align-items-center">
                     <label class="w-25" for="template-contract-type">Mẫu</label>
-                    <input type="template" id="template-contract-type" name="template-contract-type">
+                    <input type="text" id="template-contract-type" name="template-contract-type">
+                </div>
+                <div class="d-flex flex-row column-gap-2 align-items-center">
+                    <label class="w-25" for="templateID-contract-type">ID</label>
+                    <input type="text" id="templateID-contract-type" name="templateID-contract-type">
                 </div>
                 <div class="">
                 <?php if (!empty($error_message)) : ?>

@@ -87,5 +87,50 @@ function getContractTypeName($conn, $id) {
     }
     return '';
 }
+
+use Google\Service\Drive;
+use Google\Service\Docs;
+use Google\Service\Docs\Request;
+use Google\Service\Docs\BatchUpdateDocumentRequest;
+function createContractFromTemplate($templateId, $replacements, $newTitle) {
+    $client = getGoogleClient();
+
+    $driveService = new Google_Service_Drive($client);
+    $docsService  = new Google_Service_Docs($client);
+
+    // 1. Copy template
+    $copy = new Google_Service_Drive_DriveFile([
+        'name' => $newTitle,
+        'mimeType' => 'application/vnd.google-apps.document',
+        'parents' => ['1yAFe2YO_bA6PGdi8EUBdXMSS0uHptEtF'],
+    ]);
+    $newFile = $driveService->files->copy($templateId, $copy);
+    $documentId = $newFile->id;
+
+    // 2. Chuẩn bị batch replace
+    $requests = [];
+    foreach ($replacements as $key => $value) {
+        $requests[] = new Google_Service_Docs_Request([
+            'replaceAllText' => [
+                'containsText' => [
+                    'text' => '{{' . $key . '}}', // placeholder dạng {{name-collaborator}}
+                    'matchCase' => true,
+                ],
+                'replaceText' => $value
+            ]
+        ]);
+    }
+
+    // 3. Gửi request update vào Docs
+    $batchUpdateRequest = new Google_Service_Docs_BatchUpdateDocumentRequest([
+        'requests' => $requests
+    ]);
+
+    $docsService->documents->batchUpdate($documentId, $batchUpdateRequest);
+
+    // 4. Tạo link mới
+    return "https://docs.google.com/document/d/$documentId/edit";       
+};
+
 ?>
 

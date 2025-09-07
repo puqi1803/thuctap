@@ -23,18 +23,21 @@ if (isset($_GET['id-contract-type'])) {
         $name_contract_type = $_POST['name-contract-type'];
         $template_contract_type = $_POST['template-contract-type'];
         $description_contract_type = $_POST['description-contract-type'];
+        $templateID_contract_type = $_POST['templateID-contract-type'];
 
         $sql = "UPDATE `contract-type` SET
             `name-contract-type` = ?,
             `description-contract-type` = ?,
-            `template-contract-type` = ?
+            `template-contract-type` = ?,
+            `templateID-contract-type` = ?
             WHERE `id-contract-type` = ?";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi",
+        $stmt->bind_param("ssssi",
             $name_contract_type,
             $description_contract_type,
             $template_contract_type,
+            $templateID_contract_type,
             $id_contract_type
             );
 
@@ -87,8 +90,13 @@ if (isset($_GET['id-contract-type'])) {
             </div>
             <div>
                 <label class="w-25" for="template-contract_type">Mẫu</label>
-                <input type="template" id="template-contract_type" name="template-contract-type"
+                <input type="text" id="template-contract_type" name="template-contract-type"
                 value="<?php echo htmlspecialchars($contract_type['template-contract-type']) ?>"> 
+            </div>
+            <div>
+                <label class="w-25" for="templateID-contract_type">ID</label>
+                <input type="text" id="templateID-contract_type" name="templateID-contract-type"
+                value="<?php echo htmlspecialchars($contract_type['templateID-contract-type']) ?>"> 
             </div>
             <div class="d-flex justify-content-end">
                 <button class="button-primary px-3 py-2" type="submit" name="submit">

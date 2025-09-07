@@ -54,16 +54,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'admin';
                     </div>
                     <hr>
                     <div>
-                        <a class="menu-toggle">Dịch vụ</a>
-                        <div class="sub-menu" style="display: none;">
-                            <a class="list-group-item" href="?page=admin-service">Tất cả</a>
-                            <a class="list-group-item" href="admin-new-service">Thêm dịch vụ</a>
-                            <a class="list-group-item" href="?page=admin-location-service">Khu vực</a>
-                            <a class="list-group-item" href="?page=admin-category-service">Loại hình</a>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
                         <a class="menu-toggle">Hợp đồng</a>
                         <div class="sub-menu" style="display: none;">
                             <a class="list-group-item" href="?page=admin-contract">Tất cả</a>

@@ -1,0 +1,453 @@
+[2025-08-06 17:13:45] ===== START createContractFromTemplate | templateId=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 17:13:45] Fetching template metadata...
+[2025-08-06 17:13:47] Template meta: id=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 name=HD HAU CAN - NGUYEN VAN HAI HOANG  mime=application/vnd.google-apps.document
+[2025-08-06 17:13:47] Preparing copy metadata (isDocs=yes) ...
+[2025-08-06 17:13:47] Attempting to copy/convert file...
+[2025-08-06 17:13:49] Google Service Exception: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:13:49] Errors: Array
+(
+    [0] => Array
+        (
+            [message] => The user's Drive storage quota has been exceeded.
+            [domain] => usageLimits
+            [reason] => storageQuotaExceeded
+        )
+
+)
+
+[2025-08-06 17:13:49] #0 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(107): Google\Http\REST::decodeHttpResponse(Object(GuzzleHttp\Psr7\Response), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#1 [internal function]: Google\Http\REST::doExecute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#2 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Task\Runner.php(187): call_user_func_array(Array, Array)
+#3 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(66): Google\Task\Runner->run()
+#4 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Client.php(917): Google\Http\REST::execute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...', Array, NULL)
+#5 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Service\Resource.php(238): Google\Client->execute(Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#6 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient-services\src\Drive\Resource\Files.php(72): Google\Service\Resource->call('copy', Array, 'Google\\Service\\...')
+#7 D:\Programs\Xampp\htdocs\thuctap.com\includes\functions.php(325): Google\Service\Drive\Resource\Files->copy('1YNBQOqzXfFfyU2...', Object(Google\Service\Drive\DriveFile), Array)
+#8 D:\Programs\Xampp\htdocs\thuctap.com\admin\admin-new-contract.php(112): createContractFromTemplate('1YNBQOqzXfFfyU2...', Array, 'HD - Tr\xE1\xBA\xA7n V\xC4\x83...')
+#9 {main}
+[2025-08-06 17:15:47] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 17:15:47] Fetch template meta...
+[2025-08-06 17:15:48] Template: id=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 name=HD HAU CAN - NGUYEN VAN HAI HOANG  mime=application/vnd.google-apps.document
+[2025-08-06 17:15:48] Attempting copy INTO target folder 1yAFe2YO_bA6PGdi8EUBdXMSS0uHptEtF ...
+[2025-08-06 17:15:50] Copy-into-folder failed: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:15:50] Fallback: copying into service account Drive (no parents) ...
+[2025-08-06 17:15:52] Google Service Exception: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:15:52] Errors: Array
+(
+    [0] => Array
+        (
+            [message] => The user's Drive storage quota has been exceeded.
+            [domain] => usageLimits
+            [reason] => storageQuotaExceeded
+        )
+
+)
+
+[2025-08-06 17:15:52] #0 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(107): Google\Http\REST::decodeHttpResponse(Object(GuzzleHttp\Psr7\Response), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#1 [internal function]: Google\Http\REST::doExecute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#2 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Task\Runner.php(187): call_user_func_array(Array, Array)
+#3 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(66): Google\Task\Runner->run()
+#4 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Client.php(917): Google\Http\REST::execute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...', Array, NULL)
+#5 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Service\Resource.php(238): Google\Client->execute(Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#6 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient-services\src\Drive\Resource\Files.php(72): Google\Service\Resource->call('copy', Array, 'Google\\Service\\...')
+#7 D:\Programs\Xampp\htdocs\thuctap.com\includes\functions.php(334): Google\Service\Drive\Resource\Files->copy('1YNBQOqzXfFfyU2...', Object(Google\Service\Drive\DriveFile), Array)
+#8 D:\Programs\Xampp\htdocs\thuctap.com\admin\admin-new-contract.php(112): createContractFromTemplate('1YNBQOqzXfFfyU2...', Array, 'HD - Tr\xE1\xBA\xA7n V\xC4\x83...')
+#9 {main}
+[2025-08-06 17:36:54] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 17:36:54] Fetch template meta...
+[2025-08-06 17:36:57] Template: id=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 name=HD HAU CAN - NGUYEN VAN HAI HOANG  mime=application/vnd.google-apps.document
+[2025-08-06 17:36:57] Attempting copy INTO target folder 1yAFe2YO_bA6PGdi8EUBdXMSS0uHptEtF ...
+[2025-08-06 17:36:59] Copy-into-folder failed: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:36:59] Fallback: copying into service account Drive (no parents) ...
+[2025-08-06 17:37:01] Google Service Exception: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:37:01] Errors: Array
+(
+    [0] => Array
+        (
+            [message] => The user's Drive storage quota has been exceeded.
+            [domain] => usageLimits
+            [reason] => storageQuotaExceeded
+        )
+
+)
+
+[2025-08-06 17:37:01] #0 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(107): Google\Http\REST::decodeHttpResponse(Object(GuzzleHttp\Psr7\Response), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#1 [internal function]: Google\Http\REST::doExecute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#2 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Task\Runner.php(187): call_user_func_array(Array, Array)
+#3 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(66): Google\Task\Runner->run()
+#4 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Client.php(917): Google\Http\REST::execute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...', Array, NULL)
+#5 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Service\Resource.php(238): Google\Client->execute(Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#6 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient-services\src\Drive\Resource\Files.php(72): Google\Service\Resource->call('copy', Array, 'Google\\Service\\...')
+#7 D:\Programs\Xampp\htdocs\thuctap.com\includes\functions.php(334): Google\Service\Drive\Resource\Files->copy('1YNBQOqzXfFfyU2...', Object(Google\Service\Drive\DriveFile), Array)
+#8 D:\Programs\Xampp\htdocs\thuctap.com\admin\admin-new-contract.php(112): createContractFromTemplate('1YNBQOqzXfFfyU2...', Array, 'HD - Tr\xE1\xBA\xA7n V\xC4\x83...')
+#9 {main}
+[2025-08-06 17:37:42] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 17:37:42] Fetch template meta...
+[2025-08-06 17:37:43] Template: id=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 name=HD HAU CAN - NGUYEN VAN HAI HOANG  mime=application/vnd.google-apps.document
+[2025-08-06 17:37:43] Attempting copy INTO target folder 1yAFe2YO_bA6PGdi8EUBdXMSS0uHptEtF ...
+[2025-08-06 17:37:46] Copy-into-folder failed: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:37:46] Fallback: copying into service account Drive (no parents) ...
+[2025-08-06 17:37:48] Google Service Exception: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:37:48] Errors: Array
+(
+    [0] => Array
+        (
+            [message] => The user's Drive storage quota has been exceeded.
+            [domain] => usageLimits
+            [reason] => storageQuotaExceeded
+        )
+
+)
+
+[2025-08-06 17:37:48] #0 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(107): Google\Http\REST::decodeHttpResponse(Object(GuzzleHttp\Psr7\Response), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#1 [internal function]: Google\Http\REST::doExecute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#2 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Task\Runner.php(187): call_user_func_array(Array, Array)
+#3 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(66): Google\Task\Runner->run()
+#4 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Client.php(917): Google\Http\REST::execute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...', Array, NULL)
+#5 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Service\Resource.php(238): Google\Client->execute(Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#6 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient-services\src\Drive\Resource\Files.php(72): Google\Service\Resource->call('copy', Array, 'Google\\Service\\...')
+#7 D:\Programs\Xampp\htdocs\thuctap.com\includes\functions.php(334): Google\Service\Drive\Resource\Files->copy('1YNBQOqzXfFfyU2...', Object(Google\Service\Drive\DriveFile), Array)
+#8 D:\Programs\Xampp\htdocs\thuctap.com\admin\admin-new-contract.php(112): createContractFromTemplate('1YNBQOqzXfFfyU2...', Array, 'HD - Tr\xE1\xBA\xA7n V\xC4\x83...')
+#9 {main}
+[2025-08-06 17:39:08] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 17:39:08] Fetch template meta...
+[2025-08-06 17:39:09] Template: id=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 name=HD HAU CAN - NGUYEN VAN HAI HOANG  mime=application/vnd.google-apps.document
+[2025-08-06 17:39:09] Attempting copy INTO target folder 1yAFe2YO_bA6PGdi8EUBdXMSS0uHptEtF ...
+[2025-08-06 17:39:12] Copy-into-folder failed: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:39:12] Fallback: copying into service account Drive (no parents) ...
+[2025-08-06 17:39:15] Google Service Exception: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 17:39:15] Errors: Array
+(
+    [0] => Array
+        (
+            [message] => The user's Drive storage quota has been exceeded.
+            [domain] => usageLimits
+            [reason] => storageQuotaExceeded
+        )
+
+)
+
+[2025-08-06 17:39:15] #0 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(107): Google\Http\REST::decodeHttpResponse(Object(GuzzleHttp\Psr7\Response), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#1 [internal function]: Google\Http\REST::doExecute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#2 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Task\Runner.php(187): call_user_func_array(Array, Array)
+#3 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(66): Google\Task\Runner->run()
+#4 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Client.php(917): Google\Http\REST::execute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...', Array, NULL)
+#5 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Service\Resource.php(238): Google\Client->execute(Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#6 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient-services\src\Drive\Resource\Files.php(72): Google\Service\Resource->call('copy', Array, 'Google\\Service\\...')
+#7 D:\Programs\Xampp\htdocs\thuctap.com\includes\functions.php(334): Google\Service\Drive\Resource\Files->copy('1YNBQOqzXfFfyU2...', Object(Google\Service\Drive\DriveFile), Array)
+#8 D:\Programs\Xampp\htdocs\thuctap.com\admin\admin-new-contract.php(112): createContractFromTemplate('1YNBQOqzXfFfyU2...', Array, 'HD - Tr\xE1\xBA\xA7n V\xC4\x83...')
+#9 {main}
+[2025-08-06 18:56:00] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 18:56:00] Fetch template meta...
+[2025-08-06 18:56:01] Template: id=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 name=HD HAU CAN - NGUYEN VAN HAI HOANG  mime=application/vnd.google-apps.document
+[2025-08-06 18:56:01] Attempting copy INTO target folder 1yAFe2YO_bA6PGdi8EUBdXMSS0uHptEtF ...
+[2025-08-06 18:56:04] Copy-into-folder failed: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 18:56:04] Fallback: copying into service account Drive (no parents) ...
+[2025-08-06 18:56:06] Google Service Exception: {
+  "error": {
+    "code": 403,
+    "message": "The user's Drive storage quota has been exceeded.",
+    "errors": [
+      {
+        "message": "The user's Drive storage quota has been exceeded.",
+        "domain": "usageLimits",
+        "reason": "storageQuotaExceeded"
+      }
+    ]
+  }
+}
+
+[2025-08-06 18:56:06] Errors: Array
+(
+    [0] => Array
+        (
+            [message] => The user's Drive storage quota has been exceeded.
+            [domain] => usageLimits
+            [reason] => storageQuotaExceeded
+        )
+
+)
+
+[2025-08-06 18:56:06] #0 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(107): Google\Http\REST::decodeHttpResponse(Object(GuzzleHttp\Psr7\Response), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#1 [internal function]: Google\Http\REST::doExecute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#2 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Task\Runner.php(187): call_user_func_array(Array, Array)
+#3 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Http\REST.php(66): Google\Task\Runner->run()
+#4 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Client.php(917): Google\Http\REST::execute(Object(GuzzleHttp\Client), Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...', Array, NULL)
+#5 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient\src\Service\Resource.php(238): Google\Client->execute(Object(GuzzleHttp\Psr7\Request), 'Google\\Service\\...')
+#6 D:\Programs\Xampp\htdocs\thuctap.com\vendor\google\apiclient-services\src\Drive\Resource\Files.php(72): Google\Service\Resource->call('copy', Array, 'Google\\Service\\...')
+#7 D:\Programs\Xampp\htdocs\thuctap.com\includes\functions.php(334): Google\Service\Drive\Resource\Files->copy('1YNBQOqzXfFfyU2...', Object(Google\Service\Drive\DriveFile), Array)
+#8 D:\Programs\Xampp\htdocs\thuctap.com\admin\admin-new-contract.php(112): createContractFromTemplate('1YNBQOqzXfFfyU2...', Array, 'HD - Tr\xE1\xBA\xA7n V\xC4\x83...')
+#9 {main}
+[2025-08-06 19:46:51] ===== START createContractFromTemplate | template=1plMRPsrTAXfQLLLcN9bJiv6GLjnFmzB-t3jnreFse-8 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 19:46:51] Fetching template content...
+[2025-08-06 19:46:54] Creating empty doc for new contract...
+[2025-08-06 19:46:55] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-06 19:49:05] ===== START createContractFromTemplate | template=1plMRPsrTAXfQLLLcN9bJiv6GLjnFmzB-t3jnreFse-8 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 19:49:05] Fetching template content...
+[2025-08-06 19:49:06] Creating empty doc for new contract...
+[2025-08-06 19:49:07] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-06 19:51:00] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 19:51:00] Fetching template content...
+[2025-08-06 19:51:01] Creating empty doc for new contract...
+[2025-08-06 19:51:02] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-06 19:53:01] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 19:53:01] Fetching template content...
+[2025-08-06 19:53:02] Creating empty doc for new contract...
+[2025-08-06 19:53:03] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-06 19:53:40] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-06 19:53:40] Fetching template content...
+[2025-08-06 19:53:41] Creating empty doc for new contract...
+[2025-08-06 19:53:42] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-11 18:34:04] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-11 18:34:05] Fetching template content...
+[2025-08-11 18:34:12] Creating empty doc for new contract...
+[2025-08-11 18:34:13] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-18 17:11:06] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-18 17:11:07] Fetching template content...
+[2025-08-18 17:11:12] Creating empty doc for new contract...
+[2025-08-18 17:11:13] ERROR: {
+  "error": {
+    "code": 403,
+    "message": "The caller does not have permission",
+    "errors": [
+      {
+        "message": "The caller does not have permission",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ],
+    "status": "PERMISSION_DENIED"
+  }
+}
+
+[2025-08-18 19:51:30] ===== START createContractFromTemplate | template=1YNBQOqzXfFfyU2DUsMmdYJOiCDpt9TEKKNWCmUFquq0 | title=HD - Trần Văn A - DI SẢN BÊN DÒNG SÔNG [CẦN THƠ - BẾN TRE - TP. HỒ CHÍ MINH] =====
+[2025-08-18 19:51:30] Fetching template content...
+[2025-08-18 19:51:31] ERROR: {
+  "error": {
+    "code": 503,
+    "message": "The service is currently unavailable.",
+    "errors": [
+      {
+        "message": "The service is currently unavailable.",
+        "domain": "global",
+        "reason": "backendError"
+      }
+    ],
+    "status": "UNAVAILABLE"
+  }
+}
+

@@ -84,7 +84,8 @@ include '../includes/delete.php';
                 <thead>
                     <tr class="text-center text-uppercase">
                         <th scope="col" class="col"><input type="checkbox" id="select-all"></th>
-                        <th scope="col" class="col">Mã hợp đồng</th>
+                        <th scope="col" class="col">Mã</th>
+                        <th scope="col" class="col">Hợp đồng</th>
                         <th scope="col" class="col-4">Tour</th>
                         <th scope="col" class="col">Nhiệm vụ</th>
                         <th scope="col" class="col">Tên</th>
@@ -102,9 +103,11 @@ include '../includes/delete.php';
                                         <a class="accent link" href="admin-edit-contract?id-contract=' . intval($contract['id-contract']) . '">'
                                         . htmlspecialchars($contract['id-contract']) . '</a>
                                     </div></td>';
-
-                                    $sql_tour = "SELECT `title-tour`, `id-tour` FROM `tour` WHERE `index-tour` =" . htmlspecialchars($contract['index-tour']) .";";
-                                    $result_tour = $conn->query($sql_tour);
+                                     $title =  htmlspecialchars($contract['title-contract']);
+                                    $shortTitle = truncateTitle($title);
+                                    echo '<td><a href="admin-edit-contract?id-contract=' . $shortTitle . '">' . $shortTitle . '  </a></td>';
+                                    $sql_tour = "SELECT `title-tour`,`id-tour` FROM `tour` WHERE `index-tour` =" . htmlspecialchars($contract['index-tour']) .";";
+                                    $result_tour = $conn->query($sql_tour); 
                                     if($result_tour && $result_tour->num_rows > 0) {
                                         while($tour = $result_tour->fetch_assoc()) {
                                             $title =  htmlspecialchars($tour['title-tour']);
@@ -142,10 +145,10 @@ include '../includes/delete.php';
                                 echo '</tr>';
                             }
                         } else {
-                            echo '<tr><td colspan="6">Không tìm thấy kết quả phù hợp</td></tr>';
+                            echo '<tr><td colspan="7">Không tìm thấy kết quả phù hợp</td></tr>';
                         }
                     } else {
-                        echo '<tr><td colspan="6">Lỗi: ' . $conn->error . '</td></tr>'; 
+                        echo '<tr><td colspan="7">Lỗi: ' . $conn->error . '</td></tr>'; 
                     }
                     ?>
                 </tbody>

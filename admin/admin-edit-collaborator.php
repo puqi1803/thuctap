@@ -28,12 +28,16 @@
         $dob_collaborator = $_POST['dob-collaborator'];
         $sex_collaborator = $_POST['sex-collaborator'];
         $address_collaborator = $_POST['address-collaborator'];
+        $identify_collaborator = $_POST['identify-collaborator'];
         $poi_collaborator = $_POST['poi-collaborator'];
+        $doi_collaborator = $_POST['doi-collaborator'];
+        $tax_collaborator = $_POST['tax-collaborator'];
+        $bank_collaborator = $_POST['bank-collaborator'];
+        $number_bank_collaborator = $_POST['number-bank-collaborator'];
         $phone_collaborator = $_POST['phone-collaborator'];
         $nog_collaborator = $_POST['nog-collaborator'];
         $role_collaborator = $_POST['role-collaborator'];
-        $img_collaborator = $_POST['img-collaborator'];
-        $identify_collaborator = $_POST['identify-collaborator'];
+        $img_collaborator = $collaborator['img-collaborator'] ?? NULL;
         
         if (isset($_FILES['img-collaborator']) && $_FILES['img-collaborator']['error'] == 0) {
             include '../includes/check-image.php';
@@ -44,25 +48,34 @@
             `dob-collaborator` = ?,
             `sex-collaborator` = ?,
             `address-collaborator` = ?,
+            `identify-collaborator` = ?,
             `poi-collaborator` = ?,
+            `doi-collaborator` = ?,
+            `tax-collaborator` = ?,
+            `bank-collaborator` = ?,
+            `number-bank-collaborator` = ?,    
             `phone-collaborator` = ?,
             `nog-collaborator` = ?,
             `role-collaborator` = ?,
-            `img-collaborator` = ?,
-            `identify-collaborator` = ?
+            `img-collaborator` = ?
+            
         WHERE `id-collaborator` = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssssi",
+        $stmt->bind_param("ssssssssssssssi",
             $name_collaborator,
             $dob_collaborator,
             $sex_collaborator,
             $address_collaborator,
+            $identify_collaborator,
             $poi_collaborator,
+            $doi_collaborator,
+            $tax_collaborator,
+            $bank_collaborator,
+            $number_bank_collaborator,
             $phone_collaborator,
             $nog_collaborator,
             $role_collaborator,
             $img_collaborator,
-            $identify_collaborator,
             $id_collaborator
         );
         if ($stmt->execute()) {
@@ -104,7 +117,7 @@
     </div>
     <main class="container admin-edit-collaborator">
         <form method="POST" enctype="multipart/form-data">
-            <div class="row mt-5 column-gap-4">
+            <div class="row my-5 column-gap-4">
                 <div class="col-9 d-flex flex-column row-gap-2">
                     <div class="d-flex flex-row column-gap-2 align-items-center">
                         <label class="w-25" for="name-collaborator">Họ tên</label>
@@ -119,8 +132,8 @@
                         <?php $sex_collaborator = isset($collaborator['sex-collaborator']) ? $collaborator['sex-collaborator'] : ''; ?>
                         <select id="sex-collaborator" name="sex-collaborator">
                             <option value="" <?php echo ($sex_collaborator === '' || is_null($sex_collaborator)) ? 'selected' : ''; ?>>Chọn giới tính</option>
-                            <option value="Nam" <?php echo ($sex_collaborator === 'Nam') ? 'selected' : ''; ?>>Nam</option>
-                            <option value="Nữ" <?php echo ($sex_collaborator === 'Nữ') ? 'selected' : ''; ?>>Nữ</option>
+                            <option value="Ông" <?php echo ($sex_collaborator === 'Ông') ? 'selected' : ''; ?>>Nam</option>
+                            <option value="Bà" <?php echo ($sex_collaborator === 'Bà') ? 'selected' : ''; ?>>Nữ</option>
                         </select>
                     </div>
                     <div class="d-flex flex-row column-gap-2 align-items-center">
@@ -132,12 +145,28 @@
                         <input type="text" id="identify-collaborator" name="identify-collaborator" value="<?php echo htmlspecialchars($collaborator['identify-collaborator']) ?>">
                     </div>
                     <div class="d-flex flex-row column-gap-2 align-items-center">
+                        <label class="w-25" for="doi-collaborator">Ngày cấp</label>
+                        <input type="text" id="doi-collaborator" name="doi-collaborator" value="<?php echo htmlspecialchars($collaborator['doi-collaborator']) ?>">
+                    </div>
+                    <div class="d-flex flex-row column-gap-2 align-items-center">
                         <label class="w-25" for="poi-collaborator">Nơi cấp</label>
                         <input type="text" id="poi-collaborator" name="poi-collaborator" value="<?php echo htmlspecialchars($collaborator['poi-collaborator']) ?>">
                     </div>
                     <div class="d-flex flex-row column-gap-2 align-items-center">
                         <label class="w-25" for="nog-collaborator">Số thẻ HDV</label>
                         <input type="text" id="nog-collaborator" name="nog-collaborator" value="<?php echo htmlspecialchars($collaborator['nog-collaborator']) ?>">
+                    </div>
+                    <div class="d-flex flex-row column-gap-2 align-items-center">
+                        <label class="w-25" for="tax-collaborator">Mã số thuế cá nhân</label>
+                        <input type="text" id="tax-collaborator" name="tax-collaborator" value="<?php echo htmlspecialchars($collaborator['tax-collaborator']) ?>">
+                    </div>
+                    <div class="d-flex flex-row column-gap-2 align-items-center">
+                        <label class="w-25" for="number-bank-collaborator">Số tài khoản</label>
+                        <input type="text" id="number-bank-collaborator" name="number-bank-collaborator" value="<?php echo htmlspecialchars($collaborator['number-bank-collaborator']) ?>">
+                    </div>
+                    <div class="d-flex flex-row column-gap-2 align-items-center">
+                        <label class="w-25" for="bank-collaborator">Ngân hàng</label>
+                        <input type="text" id="bank-collaborator" name="bank-collaborator" value="<?php echo htmlspecialchars($collaborator['bank-collaborator']) ?>">
                     </div>
                     <div class="d-flex flex-row column-gap-2 align-items-center">
                         <label class="w-25" for="phone-collaborator">Số điện thoại</label>
@@ -164,12 +193,19 @@
                     </div>
                 </div>
                 <div class="col d-flex flex-column row-gap-2">
-                    <label for="img-post">Ảnh</label>
-                    <?php if (!empty($collaborator['img-collaborator'])) : ?>
-                        <img id="old-image" src="../resources/uploads/<?php echo htmlspecialchars($collaborator['img-collaborator']);?>" alt="<?php echo htmlspecialchars($collaborator['img-collaborator']); ?>">
-                    <?php endif; ?>
-                    <div id="image-preview"></div>
-                    <input type="file" id="img-collaborator" name="img-collaborator" accept="image/*" onchange="previewImage(event)">
+                    <div class="d-flex flex-column justify-content-end"> 
+                        <label for="img-post">Ảnh</label>
+                        <?php if (!empty($collaborator['img-collaborator'])) : ?>
+                            <img id="old-image" src="../resources/uploads/<?php echo htmlspecialchars($collaborator['img-collaborator']);?>" alt="<?php echo htmlspecialchars($collaborator['img-collaborator']); ?>">
+                        <?php endif; ?>
+                        <div id="image-preview"></div>
+                        <input type="file" id="img-collaborator" name="img-collaborator" accept="image/*" onchange="previewImage(event)">
+                    </div>
+                    <div class="d-flex flex-row column-gap-4 justify-content-end mt-2"> 
+                        <button class="button-primary px-3 py-2" type="submit" name="submit">
+                            <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Lưu
+                        </button>
+                    </div>
                 </div>
                 <div class="">
                     <?php if (!empty($error_message)) : ?>
@@ -178,11 +214,6 @@
                     <?php if (!empty($success_message)) : ?>
                         <p class="alert alert-success"><?php echo htmlspecialchars($success_message); ?></p>
                     <?php endif; ?>
-                    <div class="d-flex flex-row column-gap-4 justify-content-end"> 
-                        <button class="button-primary px-3 py-2" type="submit" name="submit">
-                            <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Lưu
-                        </button>
-                    </div>
                 </div>
             </div>
         </form>

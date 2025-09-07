@@ -83,7 +83,7 @@ include '../includes/delete.php';
                     <tr class="text-center text-uppercase">
                         <th scope="col" class="col"><input type="checkbox" id="select-all"></th>
                         <th scope="col" class="col">Tên</th>
-                        <th scope="col" class="col-5">Mẫu</th>
+                        <th scope="col" class="col-5">ID mẫu</th>
                         <th scope="col" class="col">Mô tả</th>
                     </tr>
                 </thead>
@@ -98,7 +98,7 @@ include '../includes/delete.php';
                                         <a class="accent link" href="admin-edit-contract-type?id-contract-type=' . htmlspecialchars($contract_type['id-contract-type']) . '">'
                                         . htmlspecialchars($contract_type['name-contract-type']) . '</a>
                                     </div></td>';
-                                    $title = htmlspecialchars($contract_type['template-contract-type']);
+                                    $title = htmlspecialchars($contract_type['templateID-contract-type']);
                                     $shortTitle = truncateTitle($title);
                                     if (filter_var($title, FILTER_VALIDATE_URL)) {
                                         echo '<td><a href="' . $title . '" target="_blank" title="' . $title . '">' . $shortTitle . '</a></td>';

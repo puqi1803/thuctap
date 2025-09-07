@@ -3,15 +3,21 @@
     include '../partical/db_connect.php';
     include '../includes/functions.php';
 
+    require_once '../vendor/autoload.php';
+    require_once '../partical/google-client.php';
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name_collaborator = $_POST['name-collaborator'];
         $name_contract_type = $_POST['name-contract-type'];
         $title_tour = $_POST['title-tour'];
-        $generated_file = $_POST['generated-file'];
+        $generated_file = '';
         $created_at = $_POST['created-at'];
         $subtotal_contract = $_POST['subtotal-contract'];
         $tax_contract = $_POST['tax-contract'];
         $total_contract = $_POST['total-contract'];
+        $aiw_contract = $_POST['aiw-contract'];
+        $timeline_tour= $_POST['timeline-tour'];
+        $title_contract = "HD - $name_collaborator - $title_tour";
 
     $sql = "INSERT INTO contract (
         `id-collaborator`,
@@ -21,8 +27,11 @@
         `created-at`,
         `subtotal-contract`,
         `tax-contract`,
-        `total-contract`
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        `total-contract`,
+        `aiw-contract`,
+        `timeline-tour`,
+        `title-contract`
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     if ($title_tour) {
         $sql_index_tour = "SELECT `index-tour` FROM `tour` WHERE `title-tour` = '" . $conn->real_escape_string($title_tour) . "'";
@@ -41,16 +50,76 @@
         }
     }
     if ($name_contract_type) {
-        $sql_id_contract_type = "SELECT `id-contract-type` FROM `contract-type` WHERE `name-contract-type` = '" . $conn->real_escape_string($name_contract_type) . "'";
+        $sql_id_contract_type = "SELECT `id-contract-type`, `templateID-contract-type` FROM `contract-type` WHERE `name-contract-type` = '" . $conn->real_escape_string($name_contract_type) . "'";
         $result_id_contract_type = $conn->query($sql_id_contract_type);
         if ($result_id_contract_type && $result_id_contract_type->num_rows > 0) {
             $row = $result_id_contract_type->fetch_assoc();
             $id_contract_type = $row['id-contract-type'];
+            $templateId = $row['templateID-contract-type'];
         }
     }
 
+    $sql_collaborator = "SELECT * FROM `collaborator` WHERE `name-collaborator` = '" . $conn->real_escape_string($name_collaborator) . "'";
+    $result_collaborator = $conn->query($sql_collaborator);
+    if ($result_collaborator && $result_collaborator->num_rows > 0) {
+        $row_collaborator = $result_collaborator->fetch_assoc();
+        $sex = $row_collaborator['sex-collaborator'];
+        $address = $row_collaborator['address-collaborator'];
+        $dob = $row_collaborator['dob-collaborator'];
+        $identify = $row_collaborator['identify-collaborator'];
+        $doi = $row_collaborator['doi-collaborator'];
+        $poi = $row_collaborator['poi-collaborator'];
+        $tax = $row_collaborator['tax-collaborator'];
+        $number_bank = $row_collaborator['number-bank-collaborator'];
+        $bank_collaborator = $row_collaborator['bank-collaborator'];
+    }
+
+    $sql_tour = "SELECT `starting-gate`, `id-location-tour` FROM `tour` WHERE `title-tour` = '" . $conn->real_escape_string($title_tour) . "'";
+    $result_tour = $conn->query($sql_tour);
+    if ($result_tour && $result_tour->num_rows > 0) {
+        $row_tour = $result_tour->fetch_assoc();
+        $starting_gate = $row_tour['starting-gate'];
+        $id_location_tour = $row_tour['id-location-tour'];
+    }
+    $sql_location = "SELECT `name-location` FROM `location` WHERE `id-location` = '" . $conn->real_escape_string($id_location_tour) . "'";
+    $result_location = $conn->query($sql_location);
+    if ($result_location && $result_location->num_rows > 0) {
+        $row_location = $result_location->fetch_assoc();
+        $location_tour = $row_location['name-location'];
+    }
+
+    $replacements = [
+        'NAME-COLLABORATOR' => $name_collaborator,
+        'sex-collaborator' => $sex,
+        'address-collaborator' => $address,
+        'dob-collaborator' => $dob,
+        'identify-collaborator' => $identify,
+        'doi-collaborator' => $doi,
+        'poi-collaborator' => $poi,
+        'tax-collaborator' => $tax,
+        'number-bank-collaborator' => $number_bank,
+        'bank-collaborator' => $bank_collaborator,
+        'starting-gate' => $starting_gate,
+        'location-tour' => $location_tour,
+        'timeline-tour' => $timeline_tour,
+        'total-contract' => $total_contract,
+        'subtotal-contract' => $subtotal_contract,
+        'tax-contract' => $tax_contract,
+        'aiw-contract' => $aiw_contract
+    ];
+
+    $generated_file = createContractFromTemplate($templateId, $replacements, $title_contract);
+
+    if (!$generated_file) {
+        echo "Không thể tạo hợp đồng Google Docs!<br>";
+        var_dump($replacements);
+        echo "<br>";
+        echo $title_contract;
+        exit();
+    }
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iiissiii",
+    $stmt->bind_param("iiissiiisss",
         $id_collaborator,
         $id_contract_type,
         $index_tour,
@@ -58,17 +127,21 @@
         $created_at,
         $subtotal_contract,
         $tax_contract,
-        $total_contract
+        $total_contract,
+        $aiw_contract,
+        $timeline_tour,
+        $title_contract
         );
 
         if ($stmt->execute()) {
             $id_contract = $conn->insert_id;
-            header("Location: admin-edit-contract?id-contract= $id_contract");
+            header("Location: admin-edit-contract?id-contract=$id_contract");
             exit();
         } else {
             echo 'Lỗi: ' . $stmt->error;
         }
         $stmt->close();
+
     }
 
     $sql_tour = "SELECT * FROM `tour`";
@@ -79,7 +152,6 @@
 
     $sql_contract_type = "SELECT * FROM `contract-type`";
     $result_contract_type= $conn->query($sql_contract_type);
-
 ?>
 
 <!DOCTYPE html>
@@ -158,9 +230,17 @@
                     <label for="tax-contract">Thuế TNCN</label>
                     <input type="number" id="tax-contract" name="tax-contract">
                 </div>
-                    <div>
+                <div>
                     <label for="total-contract">Giá trị hợp đồng</label>
                     <input type="number" id="total-contract" name="total-contract">
+                </div>
+                <div>
+                    <label for="aiw-contract">Số tiền viết bằng chữ</label>
+                    <input type="text" id="aiw-contract" name="aiw-contract">
+                </div>
+                <div>
+                    <label for="timeline-tour">Thời gian</label>
+                    <input type="text" id="timeline-tour" name="timeline-tour">
                 </div>
                 <div>
                     <label for="created-at">Ngày</label>
@@ -169,11 +249,6 @@
                 <div class="row justify-content-between my-4">
                     <div class="col">
                         <button class="button-primary px-3 py-2 w-100" name="submit">
-                            <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Cập nhật
-                        </button>
-                    </div>
-                    <div class="col">
-                        <button class="button-primary px-3 py-2 w-100" type="submit" name="submit">
                             <i class="icon fa-solid fa-floppy-disk"></i>&nbsp;&nbsp;Lưu
                         </button>
                     </div>
